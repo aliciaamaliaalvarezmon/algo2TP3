@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <set>
-
+//ESTE CONJUNTO NO PUEDE SER USADO EN TP3, ESTA ACA PARA EL DICCSTRING FUNQUE. DEBERIAMOS REEMPLAZARLO CON EL CONJ DE TIPOS BASICOS QUE NOS PASAN
 using namespace std;
 #hola
 template <class T>
