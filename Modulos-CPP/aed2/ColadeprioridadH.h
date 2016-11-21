@@ -70,66 +70,66 @@ class Coladeprioridad
     typename Coladeprioridad<T>::Nodo* izquierda = p2->hijoIzq;
     typename Coladeprioridad<T>::Nodo* anterior = p2->padre;
     if(hijoIzq != NULL){   
-    hijoIzq->padre = p2;
+    hijoIzq-> padre = p2;
     }
     if(hijoDer != NULL){
     hijoDer-> padre = p2;
     }   
-    p2->hijoIzq= hijoIzq;
-    p2->hijoDer = hijoDer;
+    p2-> hijoIzq = hijoIzq;
+    p2-> hijoDer = hijoDer;/*
     if(izquierda == this){
       hijoDer = derecha; 
       if(derecha != NULL){     
-      derecha->padre = this;
+      derecha-> padre = this;
     }
       hijoIzq = p2;
     }else{
       hijoIzq = izquierda;
       if(izquierda != NULL){
-      izquierda->padre = this;
+      izquierda-> padre = this;
     }
       hijoDer = p2;
     }
     if(anterior != NULL){
-    if(anterior->hijoIzq = p2){
-      anterior->hijoIzq = this;
+    if(anterior-> hijoIzq = p2){
+      anterior-> hijoIzq = this;
     }else{
-      anterior->hijoDer = this;
+      anterior-> hijoDer = this;
     }}   
    (p2->padre) = this;    
-   (padre) = anterior;
+   (padre) = anterior;*/
   }else{
-    typename Coladeprioridad<T>::Nodo* derecha = p2->hijoDer;
-    typename Coladeprioridad<T>::Nodo* izquierda = p2->hijoIzq;
-    typename Coladeprioridad<T>::Nodo* anterior = p2->padre;
+    typename Coladeprioridad<T>::Nodo* derecha = p2-> hijoDer;
+    typename Coladeprioridad<T>::Nodo* izquierda = p2-> hijoIzq;
+    typename Coladeprioridad<T>::Nodo* anterior = p2-> padre;
     if(hijoIzq != NULL){
-    hijoIzq->padre = p2;
+    hijoIzq-> padre = p2;
     }
     if(hijoDer != NULL){
     hijoDer-> padre = p2;
     }
-    if(padre->hijoIzq = this){  
-      padre->hijoIzq= p2;
+    if(padre-> hijoIzq = this){  
+      padre-> hijoIzq= p2;
     }else{
-      padre->hijoDer= p2;
+      padre-> hijoDer= p2;
     }
     if(anterior != NULL){
-    if(anterior->hijoIzq = p2){
-      anterior->hijoIzq = this;
+    if(anterior-> hijoIzq = p2){
+      anterior-> hijoIzq = this;
     }else{
-      anterior->hijoDer = this;
+      anterior-> hijoDer = this;
     }
     }
    // p2->hijoDer = p1->hijoIzq;
    // p2->hijoIzq = p1->hijoDer;
-    p2->hijoDer = hijoDer;
-    p2->hijoIzq = hijoIzq;
-    p2->padre = padre;
+    p2-> hijoDer = hijoDer;
+    p2-> hijoIzq = hijoIzq;
+    p2-> padre = padre;
     hijoIzq =   izquierda;
     hijoDer = derecha;
     padre = anterior;
-    izquierda->padre = this;
-    derecha->padre= this;
+    izquierda-> padre = this;
+    derecha-> padre= this;
 
     }
    }
@@ -555,19 +555,25 @@ template<class T>
   }
 
   (*ultimo) = new typename Coladeprioridad<T>::Nodo(elem);
-  //ultimo -> dato = elem;
-  //ultimo ->hijoIzq =NULL;
-  //ultimo-> hijoDer = NULL;
+  (*ultimo) -> dato = elem;
+  (*ultimo) -> hijoIzq = NULL;
+  (*ultimo) -> hijoDer = NULL;
   if(cantClaves_ == 1){
     heap_ = (*ultimo);    
   }else{
-  (*ultimo)->padre = *(recorrocamino(heap_, nivel_-1, (cantClaves_/2)-1));
+  	typename Coladeprioridad<T>::Nodo* ultpadre = *(recorrocamino(heap_, nivel_-1, (cantClaves_/2)-1));
+  (*ultimo)-> padre = ultpadre;
+  if(ultpadre-> hijoIzq != NULL){
+  	ultpadre -> hijoDer = (*ultimo);
+  }else{
+  	ultpadre -> hijoIzq = (*ultimo);
+  }
   if((*ultimo) -> padre != NULL){      
-  while(((*ultimo)->dato <((*ultimo)->padre->dato)) or ((*ultimo)->padre == NULL)){
-    if((*ultimo)->padre == NULL){
+  while(((*ultimo) -> dato < ( ultpadre -> dato)) or (ultpadre == NULL)){
+    if((*ultimo)-> padre == NULL){
       heap_ = (*ultimo);
-    }
-    (*(*ultimo)).swap((*ultimo)->padre);
+    }    
+    (*(*ultimo)).swap(ultpadre);
   }
 }
 }

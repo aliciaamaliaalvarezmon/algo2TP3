@@ -9,8 +9,8 @@ using namespace std;
 int main(){
 
 Coladeprioridad<int> hola;
-//Coladeprioridad<int>::Nodo nuevo(5);
-//Coladeprioridad<int>::Nodo segundo(9);
+Coladeprioridad<int>::Nodo nuevo(5);
+Coladeprioridad<int>::Nodo segundo(9);
 //Coladeprioridad<int>::Nodo tercero(10);
 //Coladeprioridad<int>::Nodo cuarto(12);
 //Coladeprioridad<int>::Nodo quinto(15);
@@ -19,10 +19,10 @@ Coladeprioridad<int> hola;
 //Coladeprioridad<int>::Nodo octavo(22);
 //Coladeprioridad<int>::Nodo noveno(23);
 
-//Coladeprioridad<int>::Nodo* dirnue = (&nuevo);
+Coladeprioridad<int>::Nodo* dirnue = (&nuevo);
 //hola.Encolarprueba(dirnue);
 
-//Coladeprioridad<int>::Nodo* dirseg = (&segundo);
+Coladeprioridad<int>::Nodo* dirseg = (&segundo);
 //hola.Encolarprueba(dirseg);
 //Coladeprioridad<int>::Nodo* dirter = (&tercero);
 //Coladeprioridad<int>::Nodo* dircuarto =(&cuarto);
@@ -31,7 +31,7 @@ Coladeprioridad<int> hola;
 //Coladeprioridad<int>::Nodo* dirseptimo =(&septimo);
 //Coladeprioridad<int>::Nodo* diroctavo =(&octavo);
 //Coladeprioridad<int>::Nodo* dirnoveno =(&noveno);
-//nuevo.HacerHijo(dirseg);
+nuevo.HacerHijo(dirseg);
 //nuevo.HacerHijo(dirter);
 //nuevo.HacerHijo(dirter);
 //segundo.HacerHijo(dircuarto);
@@ -49,6 +49,14 @@ cout << segundo.PADRE() << endl;
 
 cout<< "probando swap" << endl;
 
+*/
+cout << dirnue << endl;
+cout << nuevo.IZQUIERDA() << endl;
+cout << segundo.PADRE() << endl;
+segundo.swap(dirnue);
+cout << segundo.IZQUIERDA() << endl;
+cout << nuevo.PADRE() << endl;
+/*
 
 //cout << nuevo.PADRE() << endl;
 /*cout << nuevo.PADRE() << endl;
