@@ -25,11 +25,11 @@ class Coladeprioridad
 
   struct Nodo
     {
-      Nodo(const T& d) : dato(d), hijoIzq(NULL), hijoDer(NULL), padre(NULL){};
+      Nodo(const T& d) :  hijoDer(NULL), hijoIzq(NULL), dato(d), padre(NULL){};
       Nodo(const typename Coladeprioridad<T>::Nodo* otro) :
-                dato(otro->dato),  hijoIzq(NULL), hijoDer(NULL), padre(NULL) {};
+                  hijoDer(NULL), hijoIzq(NULL), dato(otro->dato), padre(NULL) {};
       Nodo& operator=(const typename Coladeprioridad<T>::Nodo& otro)
-       {dato(otro->dato), hijoIzq(otro->hijoIzq), hijoDer(otro->hijoDer), padre(otro->padre);}
+       { hijoIzq(otro->hijoDer), hijoDer(otro->hijoIzq),dato(otro->dato), padre(otro->padre);}
 
 
     
@@ -63,9 +63,8 @@ class Coladeprioridad
         } 
       }
 //CAMBIO
-    void swap(Nodo* p2){
-    if(padre == p2){
- 
+    void swap(Nodo* &p2){
+    if(padre == p2){ 
     typename Coladeprioridad<T>::Nodo* derecha = p2->hijoDer;
     typename Coladeprioridad<T>::Nodo* izquierda = p2->hijoIzq;
     typename Coladeprioridad<T>::Nodo* anterior = p2->padre;
@@ -74,14 +73,14 @@ class Coladeprioridad
     }
     if(hijoDer != NULL){
     hijoDer-> padre = p2;
-    }   
+    }
     p2-> hijoIzq = hijoIzq;
-    p2-> hijoDer = hijoDer;/*
+    p2-> hijoDer = hijoDer;
     if(izquierda == this){
-      hijoDer = derecha; 
+      hijoDer = derecha;
       if(derecha != NULL){     
       derecha-> padre = this;
-    }
+      }
       hijoIzq = p2;
     }else{
       hijoIzq = izquierda;
@@ -91,13 +90,13 @@ class Coladeprioridad
       hijoDer = p2;
     }
     if(anterior != NULL){
-    if(anterior-> hijoIzq = p2){
+    if(anterior-> hijoIzq == p2){
       anterior-> hijoIzq = this;
     }else{
       anterior-> hijoDer = this;
     }}   
    (p2->padre) = this;    
-   (padre) = anterior;*/
+   (padre) = anterior;
   }else{
     typename Coladeprioridad<T>::Nodo* derecha = p2-> hijoDer;
     typename Coladeprioridad<T>::Nodo* izquierda = p2-> hijoIzq;
@@ -108,13 +107,13 @@ class Coladeprioridad
     if(hijoDer != NULL){
     hijoDer-> padre = p2;
     }
-    if(padre-> hijoIzq = this){  
+    if(padre-> hijoIzq == this){  
       padre-> hijoIzq= p2;
     }else{
       padre-> hijoDer= p2;
     }
     if(anterior != NULL){
-    if(anterior-> hijoIzq = p2){
+    if(anterior-> hijoIzq == p2){
       anterior-> hijoIzq = this;
     }else{
       anterior-> hijoDer = this;
@@ -203,7 +202,7 @@ class Coladeprioridad
 
 
  // Coladeprioridad<T>::Nodo* recorrocamino(Coladeprioridad::Nodo* h, Nat n, Nat cant);
-  typename Coladeprioridad<T>::Nodo** recorrocamino(typename Coladeprioridad<T>::Nodo* h, Nat n, Nat cant ){
+  typename Coladeprioridad<T>::Nodo** recorrocamino(typename Coladeprioridad<T>::Nodo*& h, Nat n, Nat cant ){
    Nat potencia = n;
    Nat resta = 1;   
     while(potencia > 0){
@@ -239,6 +238,7 @@ class Coladeprioridad
     }
   }
 }
+return NULL;
 }
 
 
@@ -357,7 +357,7 @@ private:
 /*
 
   Nodo* recorrocamino(Coladeprioridad::Nodo* h, Nat n, Nat cant);
-  /*bool EstaCompleto(Nat n, Nat cant );
+  bool EstaCompleto(Nat n, Nat cant );
   bool IrPorSubarbolIz(Nat n, Nat cant );
   bool EstaEnLaMitad(Nat n, Nat cant );
   Nat NodosDeNivelCompleto(Nat n);
@@ -436,7 +436,7 @@ return heap_-> dato;
 
 } 
 
-/*template<class T>
+template<class T>
 T& Coladeprioridad<T>::tope() const {
 
 return heap_-> dato;
@@ -444,15 +444,15 @@ return heap_-> dato;
 } 
 
 
-*/
 
 
-/*
+
+
 Nat NodosDeNivelCompleto(Nat n){
  return (2^(n+1))-1;
-}*/
+}
 
-/*
+
 Nat mitadnodosdenivel(Nat n){
 return 2^(n-1);
 }
@@ -474,9 +474,9 @@ return (NodosDeNivelCompleto(n)-cant > mitadnodosdenivel(n));
 bool EstaEnLaMitad(Nat n, Nat cant ){
 return (NodosDeNivelCompleto(n)-cant == mitadnodosdenivel(n));
 }
-*/
 
-/*
+
+
 template<class T>
 typename Coladeprioridad<T>::Nodo* recorrocamino(typename Coladeprioridad<T>::Nodo* h, Nat n, Nat cant ){
   if(cant == 0){
@@ -509,7 +509,7 @@ typename Coladeprioridad<T>::Nodo* recorrocamino(typename Coladeprioridad<T>::No
 }
 }
 
-/*
+
 template<class T>
 T minimodato(typename Coladeprioridad<T>::Nodo* p1, typename Coladeprioridad<T>::Nodo* p2){
   if(p1->dato > p2->dato){
@@ -541,23 +541,18 @@ template<class T>
  void Coladeprioridad<T>::Encolar(const T& elem){ 
   Nat cantidad = cantClaves_;
   Nat niv = nivel_;
-  Nat potencia = niv +1;
+  Nat potencia = niv + 1;
   Nat cambioniv = 1;
   while(potencia > 0){
     cambioniv= cambioniv << 1;
     potencia--;
-  }
-  //typename Coladeprioridad<T>::Nodo prueba = heap_;
-  typename Coladeprioridad<T>::Nodo** ultimo = recorrocamino(heap_, niv, cantidad);    
+  }  
+  typename Coladeprioridad<T>::Nodo** ultimo = recorrocamino(heap_, niv, cantidad);      
   cantClaves_++;
   if(cantClaves_== cambioniv){
     nivel_++;
   }
-
   (*ultimo) = new typename Coladeprioridad<T>::Nodo(elem);
-  (*ultimo) -> dato = elem;
-  (*ultimo) -> hijoIzq = NULL;
-  (*ultimo) -> hijoDer = NULL;
   if(cantClaves_ == 1){
     heap_ = (*ultimo);    
   }else{
@@ -572,7 +567,7 @@ template<class T>
   while(((*ultimo) -> dato < ( ultpadre -> dato)) or (ultpadre == NULL)){
     if((*ultimo)-> padre == NULL){
       heap_ = (*ultimo);
-    }    
+    }        
     (*(*ultimo)).swap(ultpadre);
   }
 }
@@ -587,7 +582,7 @@ void Coladeprioridad<T>::Encolar(const T& elem){
   Nat cantidad = cantClaves_;
   Nat niv = nivel_;
   //typename Coladeprioridad<T>::Nodo prueba = heap_;
-/*  typename Coladeprioridad<T>::Nodo* ultimo = recorrocamino(heap_, niv, cantidad);
+  typename Coladeprioridad<T>::Nodo* ultimo = recorrocamino(heap_, niv, cantidad);
 
 )
     
@@ -662,6 +657,88 @@ typename Coladeprioridad<T>::Iterador Coladeprioridad<T>::Desencolar(){
   return result;
 }
 
+
+template<class T>
+typename Coladeprioridad<T>::Iterador Coladeprioridad<T>::Desencolar(){
+  typename Coladeprioridad<T>::Nodo* raiz = heap_;
+  Nat potencia = nivel_;
+  Nat cambionivel = 1;
+  while(potencia > 0){
+	cambionivel = cambionivel << 1;
+	potencia--;
+  }
+  if(cantClaves_ == cambionivel-1){
+    if(nivel_>0){
+      nivel_--;
+    }    
+  }
+   typename Coladeprioridad<T>::Nodo** ultimo = recorrocamino(heap_, nivel_, cantClaves_-1);
+   (*ultimo).swap(raiz);
+   if(raiz->padre->hijoDer=raiz){
+    raiz->padre->hijoDer = NULL;
+   }else{
+    raiz->padre->hijoIzq = NULL;
+  }
+  heap_= (*ultimo);
+  T result = raiz->dato;
+  delete(raiz);
+  while((((*ultimo)->hijoDer != NULL) and ((*ultimo)->dato > (*ultimo)->hijoDer->dato)) or (((*ultimo)->hijoIzq != NULL) and ((*ultimo)->dato > (*ultimo)->hijoIzq->dato))){
+    if((*ultimo)->hijoDer != NULL){
+      if((*ultimo)->dato > minimodato((*ultimo)->hijoIzq, (*ultimo)->hijoDer)){
+       minimonodo((*ultimo)->hijoIzq, (*ultimo)->hijoDer).swap( (*ultimo));        
+      }else{
+        if((*ultimo)->dato > (*ultimo)->hijoDer->dato){
+          (*ultimo)->hijoDer.swap((*ultimo));
+        }else{
+         (*ultimo)->hijoIzq.swap((*ultimo));
+        }
+      }
+    }else{
+      (*ultimo)->hijoIzq.swap((*ultimo));
+    }
+  }
+  cantClaves_--;
+  return result;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 template<class T>
 void Coladeprioridad<T>::Borrar( typename Coladeprioridad<T>::Iterador ih){ 
   if(cantClaves_ = (2^nivel_)-1){
@@ -702,7 +779,74 @@ void Coladeprioridad<T>::Borrar( typename Coladeprioridad<T>::Iterador ih){
   }
   cantClaves_--;
 }
+
+
+template<class T>
+void Coladeprioridad<T>::Borrar( typename Coladeprioridad<T>::Iterador ih){ 
+  Nat potencia = nivel_;
+  Nat cambionivel = 1;
+  while(potencia > 0){
+	cambionivel = cambionivel << 1;
+	potencia--;
+  }
+  if(cantClaves_ == (cambionivel)-1){
+    if(nivel_>0){
+      nivel_--;
+    }    
+  }
+   typename Coladeprioridad<T>::Nodo** ultimo = recorrocamino(heap_, nivel_, cantClaves_-1);
+   typename Coladeprioridad<T>::Nodo* raizaborrar = ih.Siguiente();
+   (*ultimo)swap(raizaborrar);
+    if(raizaborrar->padre->hijoDer == raizaborrar){
+    raizaborrar->padre->hijoDer = NULL;
+   }else{
+    raizaborrar->padre->hijoIzq = NULL;
+  }
+  heap_= (*ultimo);
+  delete(raizaborrar);
+  while((*ultimo)->dato <((*ultimo)->padre->dato) or (*ultimo)->padre == NULL){
+    if((*ultimo)->padre = NULL){
+      heap_ = (*ultimo);
+    }
+    (*ultimo).swap((*ultimo)->padre);
+  }
+  while((((*ultimo)->hijoDer != NULL) and ((*ultimo)->dato > (*ultimo)->hijoDer->dato)) or (((*ultimo)->hijoIzqu != NULL) and ((*ultimo)->dato > (*ultimo)->hijoIzq->dato))){
+    if((*ultimo)->hijoDer != NULL){
+      if((*ultimo)->dato > minimodato((*ultimo)->hijoIzq, (*ultimo)->hijoDer)){
+       minimonodo((*ultimo)->hijoIzq, (*ultimo)->hijoDer).swap((*ultimo));        
+      }else{
+        if((*ultimo)->dato > (*ultimo)->hijoDer->dato){
+          (*ultimo)->hijoDer.swap((*ultimo));
+        }else{
+         (*ultimo)->hijoIzq.swap((*ultimo));
+        }
+      }
+    }else{
+      (*ultimo)->hijoIzq.swap((*ultimo));
+    }
+  }
+  cantClaves_--;
+}
 */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
  template<class T>
  typename Coladeprioridad<T>::Iterador CrearIt(typename Coladeprioridad<T>::Nodo* p){
