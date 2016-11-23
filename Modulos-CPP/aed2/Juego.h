@@ -72,50 +72,7 @@ namespace aed2
 
        Iterador CrearIt(); 
 
-
-    class Iterador
-  		{
-    	    public:     
-
-      	//Iterador(const typename Coladeprioridad<T>::Iterador& otro);
-
-     	 //Iterador& operator = (const typename Coladeprioridad<T>::iteradordor& otro);
-
-      	bool HaySiguiente();// const;
-     
-      	T& Siguiente();
-
-      	void Avanzar();
-
-      	//Iterador borrarSiguiente();//toma un iterador, lo inicializa con la cola que lo llamo, y agrega.
-
-       	//void Agregar(const T& elem);
-   
-
-
-  	private:
-
-    
-    	//typename Juego::dataJugador
-      	Vector<typename Juego::dataJugador>* elementos_;
-      	Nat posicion_;
-
-
-      	Iterador(){
-        elementos_= NULL;
-        posicion_ = 0;        
-      }
-
-      	Iterador(Vector<typename Juego::dataJugador>* jug){
-      	elementos_ = jug;
-      	posicion_ =  0;		
-      	}
-      
-
-      friend typename Juego::Iterador Juego::CrearIt(); 
-       
-  };
-
+ 
 	private:	
 
 
@@ -185,6 +142,54 @@ namespace aed2
 		Conj<T> Claves(Dicc<J,S>::Iterador); //Deberia estar en diccLineal.
 
 		*/
+
+	public:
+   class Iterador
+  		{
+    	    public:     
+
+      	//Iterador(const typename Coladeprioridad<T>::Iterador& otro);
+
+     	 //Iterador& operator = (const typename Coladeprioridad<T>::iteradordor& otro);
+
+      	bool HaySiguiente();// const;
+     
+      	Nat Siguiente();
+
+      	void Avanzar();
+
+      	//Iterador borrarSiguiente();//toma un iterador, lo inicializa con la cola que lo llamo, y agrega.
+
+       	//void Agregar(const T& elem);
+   
+
+
+  	private:
+
+    
+    	//typename Juego::dataJugador
+      	Vector<dataJugador>* elementos_;
+      	Nat posicion_;
+
+
+      	Iterador(){
+        elementos_= NULL;
+        posicion_ = 0;        
+      }
+
+      	Iterador(Vector<dataJugador>* jug){
+      	elementos_ = jug;
+      	posicion_ =  0;		
+      	}
+      
+
+      friend typename Juego::Iterador Juego::CrearIt(); 
+       
+  };
+
+
+
+
 
 
 

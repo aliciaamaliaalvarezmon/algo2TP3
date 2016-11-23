@@ -72,25 +72,25 @@ namespace aed2{
 	}
 
 	bool Juego::estaConectado(Nat e){		
-		//return false;									//PROBLEMA
-		return vectJug_[e].conexion;
+		return false;									//PROBLEMA
+		//return vectJug_[e].conexion;
 	}
 
 	Nat Juego::sanciones(Nat e){								//PROBLEMA							
 		//return 0;
-		return vectJug_[e].sanciones;
+			return vectJug_[e].sanciones;
 	}
 
 
 	 Coordenada Juego::posicion(Nat e){
-	 	//Coordenada nuevo;
+	    //Coordenada nuevo;
 	 	//return nuevo;
 	 	return vectJug_[e].posicion;
 	  }
 
 	  DiccString< Nat>::Iterador Juego::Pokemons(Nat e){//Aca deberia??? ser DiccString(Nat)::Iterador
-	  //	Dicc<pair<string, Nat> >::Iterador nuevo; 
-	  //	return nuevo;
+	  	//Dicc<pair<string, Nat> >::Iterador nuevo; 
+	  	//return nuevo;
 	  	DiccString< Nat >::Iterador it = vectJug_[e].pokemonescapturados.Siguiente().CrearIt();
 	  	return it;
 
@@ -114,7 +114,7 @@ namespace aed2{
 	  }
 
 	    String Juego::pokemonEnPos(Coordenada c){
-	    	//return "falla";
+	    //return "falla";
 	    	return posdePokemon_.Significado(c);
 
 	    }
@@ -163,7 +163,7 @@ namespace aed2{
 
 
 	     typename Juego::Iterador Juego::CrearIt(){
-	     	vector<dataJugador>* jug = &(this->vectJug_);
+	     	Vector<dataJugador>* jug = &(this->vectJug_);
 	     	typename Juego::Iterador nuevo(jug);
 	     }
 

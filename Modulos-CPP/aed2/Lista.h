@@ -10,7 +10,6 @@
 
 #include <ostream>
 #include "TiposBasicos.h"
-#include "DiccString.h" //agregado 
 
 namespace aed2
 {
