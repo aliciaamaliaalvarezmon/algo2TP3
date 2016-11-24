@@ -192,7 +192,8 @@ void encolar(){
 	ASSERT(hola.Nivel() == 0);
 	ASSERT(it.HaySiguiente());
 	ASSERT(it.Siguiente() == 6);
-	hola.Encolar(5);
+	hola.Desencolar();
+	/*hola.Encolar(5);
 	ASSERT(it.HaySiguiente());
 	ASSERT(it.Siguiente() == 6);
 	hola.Encolar(1);
@@ -203,7 +204,7 @@ void encolar(){
 	hola.Encolar(0);		
 	ASSERT(hola.Claves() == 6);
 	ASSERT(hola.tope() == 0);
-
+*/
 }
 
 

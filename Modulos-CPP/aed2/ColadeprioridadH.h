@@ -573,20 +573,20 @@ bool Coladeprioridad<T>::Iterador::HaySiguiente(){
 
  template<class T>
 typename Coladeprioridad<T>::Iterador Coladeprioridad<T>::Iterador::borrarSiguiente(){
-  Nat potencia = cola_-> nivel_;
+  Nat potencia = cola_->nivel_;
   Nat cambionivel = 1;
   while(potencia > 0){
     cambionivel = cambionivel << 1;
     potencia--;
   }
-  if(cola_-> cantClaves_ == (cambionivel)-1){
-    if(nivel_>0){
-      nivel_--;
+  if(cola_->cantClaves_ == (cambionivel)-1){
+    if(cola_->nivel_ > 0){
+     cola_->nivel_--;
     }    
   }
-  typename Coladeprioridad<T>::Nodo** ultimo = recorrocamino(cola_->heap_,cola_->nivel_, cola_->cantClaves_-1);
+  typename Coladeprioridad<T>::Nodo** ultimo = recorrocamino(cola_->heap_,cola_->nivel_, ((cola_->cantClaves_)-1));
   typename Coladeprioridad<T>::Nodo* raizaborrar = apuntador_;
-  (*ultimo).swap(raizaborrar);
+  (*(*ultimo)).swap(raizaborrar);
   if(raizaborrar->padre->hijoDer == raizaborrar){
     raizaborrar->padre->hijoDer = NULL;
   }else{
@@ -598,21 +598,21 @@ typename Coladeprioridad<T>::Iterador Coladeprioridad<T>::Iterador::borrarSiguie
     if((*ultimo)->padre = NULL){
       cola_->heap_ = (*ultimo);
     }
-    (*ultimo).swap((*ultimo)->padre);
+    (*(*ultimo)).swap((*ultimo)->padre);
   }
-  while((((*ultimo)->hijoDer != NULL) and ((*ultimo)->dato > (*ultimo)->hijoDer->dato)) or (((*ultimo)->hijoIzqu != NULL) and ((*ultimo)->dato > (*ultimo)->hijoIzq->dato))){
+  while((((*ultimo)->hijoDer != NULL) and ((*ultimo)->dato > (*ultimo)->hijoDer->dato)) or (((*ultimo)->hijoIzq != NULL) and ((*ultimo)->dato > (*ultimo)->hijoIzq->dato))){
     if((*ultimo)->hijoDer != NULL){
       if((*ultimo)->dato > minimodato((*ultimo)->hijoIzq, (*ultimo)->hijoDer)){
        minimonodo((*ultimo)->hijoIzq, (*ultimo)->hijoDer).swap((*ultimo));        
      }else{
       if((*ultimo)->dato > (*ultimo)->hijoDer->dato){
-        (*ultimo)->hijoDer.swap((*ultimo));
+        (*(*ultimo)->hijoDer).swap((*ultimo));
       }else{
-       (*ultimo)->hijoIzq.swap((*ultimo));
+       (*(*ultimo)->hijoIzq).swap((*ultimo));
      }
    }
  }else{
-  (*ultimo)->hijoIzq.swap((*ultimo));
+  (*(*ultimo)->hijoIzq).swap((*ultimo));
 }
 }
 cola_-> cantClaves_--;
