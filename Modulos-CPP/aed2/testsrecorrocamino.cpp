@@ -193,6 +193,9 @@ void encolar(){
 	ASSERT(it.HaySiguiente());
 	ASSERT(it.Siguiente() == 6);
 	hola.Desencolar();
+	//cout << hola.HEAP() << endl;	
+	//ASSERT((*hola.HEAP()).Dato() == 6);	
+	ASSERT(hola.EsVacia());
 	/*hola.Encolar(5);
 	ASSERT(it.HaySiguiente());
 	ASSERT(it.Siguiente() == 6);
@@ -243,11 +246,11 @@ int main() {
 	//RUN_TEST(test_vacio);
 	//RUN_TEST(test_un_nodo);
 	//RUN_TEST(test_dos_nodos);
-	RUN_TEST(test_tres_nodos);
-	RUN_TEST(test_cuatro_nodos);
-	RUN_TEST(test_cinco_nodos);
-	RUN_TEST(test_cinco_nodos_con_hijos); 
-	RUN_TEST(test_doce_nodos);
+	//RUN_TEST(test_tres_nodos);
+	//RUN_TEST(test_cuatro_nodos);
+	//RUN_TEST(test_cinco_nodos);
+	//RUN_TEST(test_cinco_nodos_con_hijos); 
+	//RUN_TEST(test_doce_nodos);
 	RUN_TEST(encolar);
 	
 	return 0;
