@@ -8,7 +8,7 @@ using namespace std;
 
 int main(){
 
-Coladeprioridad<int> hola;
+Coladeprioridad<int> hola;/*
 Coladeprioridad<int>::Nodo nuevo(5);
 Coladeprioridad<int>::Nodo segundo(9);
 Coladeprioridad<int>::Nodo tercero(10);
@@ -245,11 +245,11 @@ cout <<"encolar"<< endl;
  hola.Encolar(6);
  cout << hola.EsVacia() << endl;
  cout << hola.tope() << endl;
- hola.Encolar(5); 
- hola.Encolar(9);
- //hola.Encolar(8);  
-//  hola.Encolar(12);
- // hola.Encolar(13);
+ hola.Encolar(7); 
+// hola.Encolar(9);
+ hola.Encolar(8);  
+  hola.Encolar(12);
+ hola.Encolar(13);
 
 
 

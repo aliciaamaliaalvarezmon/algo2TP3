@@ -632,27 +632,31 @@ void  Coladeprioridad<T>::Iterador::Agregar(const T& elem){
   cola_->cantClaves_++;
   if(cola_-> cantClaves_== cambioniv){
    cola_->nivel_++;
- }
+  } 
  ultimo = new typename Coladeprioridad<T>::Nodo(elem);
  if(cola_-> cantClaves_ == 1){
    cola_->heap_ = ultimo;           
  }else{
-  typename Coladeprioridad<T>::Nodo* ultpadre = *((*cola_).recorrocamino(cola_->heap_, cola_->nivel_-1, (cola_->cantClaves_/2)-1));
-  ultimo-> padre = ultpadre;
+  typename Coladeprioridad<T>::Nodo* ultpadre = *((*cola_).recorrocamino(cola_->heap_, cola_->nivel_-1, (cola_->cantClaves_/2)-1 ));  
+  ultimo-> padre = ultpadre;  
   if(ultpadre-> hijoIzq != NULL){
     ultpadre -> hijoDer = ultimo;
   }else{
     ultpadre -> hijoIzq = ultimo;
-  }
+  }   
+
   if(ultimo -> padre != NULL){      
-    while((ultimo -> dato < ( ultpadre -> dato)) or (ultpadre == NULL)){
-      if(ultimo-> padre == NULL){
-        cola_-> heap_ = ultimo;
-      } 
-      (*ultimo).swap(ultpadre);
-    }
-  }
+    while((ultimo -> dato < ( ultpadre -> dato)) and (ultimo->padre != NULL)){
+      cout << ultpadre->dato << endl;    
+      (*ultimo).swap(ultimo->padre);
+
+    }      
+  }    
+    if(ultimo->padre == NULL){
+      cola_->heap_ = (ultimo);
+    }    
 }
+apuntador_ = ultimo;
 }
 
 
