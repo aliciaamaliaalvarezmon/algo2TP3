@@ -50,11 +50,11 @@ namespace aed2
 
        Conj<Nat> Expulsados();
 
-       //Conj<Coordenada>::Iterador posConPokemons(); 
+      Conj<Coordenada>::Iterador posConPokemons(); 
 
-//       String pokemonEnPos(Coordenada c);
+      //String pokemonEnPos(Coordenada c);
 
-   //    Nat CantMovimientosParaCaptura(Coordenada c);
+      Nat CantMovimientosParaCaptura(Coordenada c);
 
        Nat ProxID();
 
@@ -146,8 +146,8 @@ namespace aed2
 
 		void AuxCapturarPokemon(Dicc<Coordenada, string>::Iterador it);
 
-		Conj< Coordenada > Claves(Dicc<Coordenada, string> dicc); //Deberia estar en diccLineal.
-		Conj< Nat > Claves(Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID>::Iterador > dicc); //Deberia estar en diccLineal.
+		Conj<Coordenada> Claves(Dicc<Coordenada, string> dicc); //Deberia estar en diccLineal.
+		Conj<Nat> Claves(Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID>::Iterador > dicc); //Deberia estar en diccLineal.
 
 		
 

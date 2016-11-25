@@ -81,7 +81,7 @@ Juego::Juego(Mapa m)
 
 	  }
 
-/*
+
 
 	  Conj<Coordenada>::Iterador Juego::posConPokemons(){
 	  	//Conj<Coordenada>::Iterador nuevo;
@@ -91,19 +91,20 @@ Juego::Juego(Mapa m)
 
 	  }
 
-	    String Juego::pokemonEnPos(Coordenada c){
+	 /*   String Juego::pokemonEnPos(Coordenada c){
 	    //return "falla";
 	    	return posdePokemon_.Significado(c);
 
-	    }
+	   }*/
 
-	    Nat Juego::CantMovimientosParaCaptura(Coordenada c){
+	     Nat Juego::CantMovimientosParaCaptura(Coordenada c){
 	    	//return 9;
-	    	string p = posdePokemon_.Significado(c);
-	    	return pokemones_.Obtener(p).Significado(c); 
+	    	return matrizPokemon_[c.latitud()][c.longitud()].contador_;
+	    	//string p = posdePokemon_.Significado(c);
+	    	//return pokemones_.Obtener(p).Significado(c); 
 
 	    }
-*/
+
 	     Nat Juego::ProxID(){
 	     	//return 0;
 	     	return vectJug_.Longitud();
@@ -151,7 +152,7 @@ Juego::Juego(Mapa m)
 //FUNCIONES PRIVADAS
 
 
-		Conj< Coordenada > Claves(Dicc<Coordenada, string> dicc){
+		Conj< Coordenada > Juego::Claves(Dicc<Coordenada, string> dicc){
 			Conj<Coordenada> nuevo;
 
 			typename Dicc<Coordenada, string>::Iterador it = dicc.CrearIt();
@@ -161,7 +162,7 @@ Juego::Juego(Mapa m)
 			}
 			return nuevo;
 		} 
-		Conj< Nat > Claves(Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID>::Iterador > dicc){
+		Conj< Nat > Juego::Claves(Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID>::Iterador > dicc){
 			Conj<Nat> nuevo;
 			typename Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID>::Iterador >::Iterador it = dicc.CrearIt();
 			while(it.HaySiguiente()){
