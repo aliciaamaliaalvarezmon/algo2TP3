@@ -5,6 +5,9 @@
  * =============================================================
  */
 
+#ifndef AED2_COORDENADA_H_
+#define AED2_COORDENADA_H_
+
 #include <string>
 #include <ostream>
 #include <iostream>
@@ -45,7 +48,7 @@ class Coordenada{
 		//bool operator == (const Coordenada& c1, const Coordenada& c2);
 		bool operator == (const Coordenada& otro); 
 
-		
+
 	private:
 		Nat lat;
 		Nat lon;
@@ -54,5 +57,4 @@ class Coordenada{
 
 
 
-
-
+#endif

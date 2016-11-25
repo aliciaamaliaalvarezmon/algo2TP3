@@ -53,14 +53,14 @@ Coordenada Coordenada::CoordenadaALaIzquierda() const{
 	return Coordenada(lat, lon-1);	
 }
 
-/*bool Coordenada::operator == (const Coordenada& otro){
+bool Coordenada::operator == (const Coordenada& otro){
   return lat == otro.lat && lon == otro.lon;
 }
-*/
+/*
 bool operator == (const Coordenada& c1, const Coordenada& c2){
 	return c1.latitud() == c2.latitud() && c1.longitud() == c2.longitud();
 }
-
+*/
 /*NO OLVIDAR SACAR EL MAIN AL FINALIZAR DE TESTEAR LA CLASE*/
 /*
 int main(){

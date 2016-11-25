@@ -99,8 +99,8 @@ public:
 		}
 		friend typename DiccString<T>::Iterador DiccString<T>::CrearIt();
 		
-		pair<string, T> siguiente;
 		Conj<string>::Iterador claves;
+		pair<string, T> siguiente;		
 		DiccString<T>* dic;
 	};	
 	
@@ -167,7 +167,7 @@ DiccString<T>::DiccString(const DiccString& d){
 }
 
 
-
+/*
 
 
 template <typename T>
@@ -179,9 +179,26 @@ DiccString<T>::~DiccString(){
 		}        
 	}
 	raiz = NULL;
-	//TODO*/
+	//TODO
 	
 }
+*/
+
+template <typename T>
+DiccString<T>::~DiccString(){
+	if (raiz!= NULL){
+		Conj<String>::Iterador it = claves.CrearIt();
+		while(it.HaySiguiente()){
+		string clave = it.Siguiente();
+		it.Avanzar();
+		Borrar(clave);	
+		}		
+	}
+	raiz = NULL;
+	//TODO
+	
+}
+
 
 
 template <typename T>
@@ -194,6 +211,7 @@ void DiccString<T>::Definir(const string& clave, const T& significado){
 			recorredor = recorredor -> siguientes[int(clave[i])];        
 			i++;
 		}
+		(*(*recorredor).definicion).first.EliminarSiguiente();
 		delete((*recorredor).definicion);
 		Conj<String>::Iterador it =  claves.AgregarRapido(clave);
 		recorredor->definicion = new pair<Conj<String>::Iterador, T>(it,T(significado));
@@ -426,7 +444,7 @@ DiccString<T>::Iterador::Iterador()
 ///////////////////////////////////////////////////////////
 template<typename T>
 DiccString<T>::Iterador::Iterador(const typename DiccString<T>::Iterador& otro)
-	: dic(otro.dic), claves(otro.claves), siguiente(otro.siguiente)
+	: claves(otro.claves),   siguiente(otro.siguiente), dic(otro.dic)
 {}  
 ///////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////

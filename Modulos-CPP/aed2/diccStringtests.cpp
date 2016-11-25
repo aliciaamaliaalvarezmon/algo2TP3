@@ -1,12 +1,12 @@
 #include<iostream>
 using namespace std;
-#include "TiposBasicos.hpp"
-#include "Lista.hpp"
-#include "Dicc.hpp"
-#include "Conj.hpp"
-#include "DiccString.hpp"
-#include "Coordenada.hpp"
-#include "mapa.hpp"
+#include "TiposBasicos.h"
+#include "Lista.h"
+#include "Dicc.h"
+#include "Conj.h"
+#include "DiccString.h"
+#include "Coordenada.h"
+#include "Mapa.h"
 #include <iostream>
 namespace mt {
 	
@@ -168,7 +168,7 @@ if (!mt_thrown) { mt::make_missing_exception_error(mt::location(__FILE__, __LINE
 void test_claves_dicc_vacio2() {
 	DiccString<int> d;
 	ASSERT(d.Claves().Cardinal() == 0);
-	d.Definir("hola", 1);
+	d.Definir("", 1);
 	ASSERT(d.Claves().Cardinal() == 1);
 	d.Definir("hoaeoueoau", 2);
 	ASSERT(d.Claves().Cardinal() == 2);
@@ -507,7 +507,6 @@ void test_obtener() {
 	DiccString<int> d;
 	d.Definir("hola",42);
 	d.Definir("casa",22);
-	
 	ASSERT( d.Obtener("hola") == 42 );
 	ASSERT( d.Obtener("casa") == 22 );
 	d.Definir("hola", 22);
@@ -716,9 +715,81 @@ void test_constructor_por_copia(){
 
 int main() {
 
-	Coordenada nuevaC = Coordenada(7,1);
-	Mapa mundo;
-	mundo.agregarCoord(nuevaC);
+	RUN_TEST(test_joaco);
+	RUN_TEST(test_claves_dicc_vacio);
+	RUN_TEST(test_definir_definido);
+	RUN_TEST(test_constructor_por_copia);
+	RUN_TEST(test_claves);
+	RUN_TEST(test_borrar);
+	RUN_TEST(test_claves_dicc_vacio2);
+	RUN_TEST(test_definir_definido2);
+	RUN_TEST(test_obtener);
+	RUN_TEST(test_obtener2);
+	RUN_TEST(test_borrar_uno2);
+	RUN_TEST(test_borrar2);
+	RUN_TEST(test_copia_referencia2);
+	RUN_TEST(test_todos_prefijos2);
+	RUN_TEST(test_doble_definicion2);
+	RUN_TEST(test_definicion_vacia2);
+	RUN_TEST(test_cardinal_claves2);	
+	RUN_TEST(test_todos_prefijos_con_varias_hojas2);
+//	//Realizar más test para chequear el funcionamiento del diccionario sobre trie.
+//	
+	return 0;
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	//Coordenada nuevaC = Coordenada(7,1);
+	//Mapa mundo;
+	//mundo.agregarCoord(nuevaC);
 //	Vector<int>* res = NULL;
 //	Vector< Vector<int>* > yolo;
 //	yolo.AgregarAtras(res);
@@ -729,19 +800,3 @@ int main() {
 //	RUN_TEST(test_constructor_por_copia);
 //	RUN_TEST(test_claves);
 //	RUN_TEST(test_borrar);
-//	RUN_TEST(test_claves_dicc_vacio2);
-//	RUN_TEST(test_definir_definido2);
-//	RUN_TEST(test_obtener2);
-//	RUN_TEST(test_borrar_uno2);
-//	RUN_TEST(test_borrar2);
-//	RUN_TEST(test_copia_referencia2);
-//	RUN_TEST(test_todos_prefijos2);
-//	RUN_TEST(test_doble_definicion2);
-//	RUN_TEST(test_definicion_vacia2);
-//	RUN_TEST(test_cardinal_claves2);
-//	RUN_TEST(test_todos_prefijos_con_varias_hojas2);
-//	//Realizar más test para chequear el funcionamiento del diccionario sobre trie.
-//	
-	return 0;
-	
-}
