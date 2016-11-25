@@ -65,7 +65,7 @@ Juego::Juego(Mapa m)
 
 
 //VER WARNINGS DE DICCSTRING
-/*
+
 	  DiccString< Nat>::Iterador Juego::Pokemons(Nat e){//Aca deberia??? ser DiccString(Nat)::Iterador
 	  	//Dicc<pair<string, Nat> >::Iterador nuevo; 
 	  	//return nuevo;
@@ -74,19 +74,19 @@ Juego::Juego(Mapa m)
 
 	  }
 
-*/
+
 	  Conj<Nat> Juego::Expulsados(){  ////lio????
 	  	Conj<Nat> nuevo;
 	  	return nuevo;
 
 	  }
 
+/*
 
-
-/*	  Conj<Coordenada>::Iterador Juego::posConPokemons(){
+	  Conj<Coordenada>::Iterador Juego::posConPokemons(){
 	  	//Conj<Coordenada>::Iterador nuevo;
 	  	//return nuevo;
-	  	Conj<Coordenada>::Iterador nuevo = posdePokemon_.Claves().CrearIt();
+	  	Conj<Coordenada>::Iterador nuevo = Claves(posdePokemon_).CrearIt();
 	  	return nuevo;
 
 	  }
@@ -102,8 +102,8 @@ Juego::Juego(Mapa m)
 	    	string p = posdePokemon_.Significado(c);
 	    	return pokemones_.Obtener(p).Significado(c); 
 
-	    }*/
-
+	    }
+*/
 	     Nat Juego::ProxID(){
 	     	//return 0;
 	     	return vectJug_.Longitud();
@@ -151,11 +151,29 @@ Juego::Juego(Mapa m)
 //FUNCIONES PRIVADAS
 
 
+		Conj< Coordenada > Claves(Dicc<Coordenada, string> dicc){
+			Conj<Coordenada> nuevo;
+
+			typename Dicc<Coordenada, string>::Iterador it = dicc.CrearIt();
+			while(it.HaySiguiente()){
+				nuevo.AgregarRapido(it.SiguienteClave());
+				it.Avanzar();
+			}
+			return nuevo;
+		} 
+		Conj< Nat > Claves(Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID>::Iterador > dicc){
+			Conj<Nat> nuevo;
+			typename Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID>::Iterador >::Iterador it = dicc.CrearIt();
+			while(it.HaySiguiente()){
+				nuevo.AgregarRapido(it.SiguienteClave());
+				it.Avanzar();
+			}
+			return nuevo;
+		} 
 
 
-
-	    Vector<Vector<Dicc<Nat, Coladeprioridad<pair<Nat, Nat> >::Iterador> > > Juego::crearMatrizJug(Nat n, Nat m){
-	    	Vector<Vector<Dicc<Nat, Coladeprioridad<pair<Nat, Nat> >::Iterador> > > nuevo;
+	    Vector<Vector<Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID >::Iterador> > > Juego::crearMatrizJug(Nat n, Nat m){
+	    	Vector<Vector<Dicc<Nat, Coladeprioridad<Juego::capturadosyID >::Iterador> > > nuevo;
 	    	return nuevo; 
 
 	    }
@@ -225,7 +243,8 @@ bool Juego::Iterador::HaySiguiente(){
 	Nat i = posicion_;
 	bool hayAlguno = false;
 	while(i < ((*elementos_).Longitud()) && (hayAlguno == false)){
-		if((elementos_[i]).sanciones < 5){
+		typename Juego::dataJugador  jugActual = (*elementos_)[i];
+		if(jugActual.sanciones < 5){
 			hayAlguno = true;
 		}
 		i++;
@@ -239,7 +258,7 @@ Nat Juego::Iterador::Siguiente(){
 	if(i != 0){
 		resAux = i;
 	}else{
-		if((elementos_[i]).sanciones < 5){
+		if((*elementos_)[i].sanciones < 5){
 			resAux = i;
 		}else{
 		Avanzar();
@@ -253,7 +272,7 @@ void Juego::Iterador::Avanzar(){
 	Nat i = posicion_ + 1;
 	bool tengoQueParar = false;
 	while(i < ((*elementos_).Longitud()) && (tengoQueParar == false)){
-		if((elementos_[i]).sanciones < 5){
+		if((*elementos_)[i].sanciones < 5){
 			tengoQueParar = true;
 		}
 	  i++;	

@@ -46,13 +46,13 @@ namespace aed2
 
        Coordenada posicion(Nat e);
 
-//      DiccString< Nat >::Iterador  Pokemons(Nat e);//Conj<pokemon, nat>  /Aca deberia??? ser DiccString(Nat)::Iterador
+      DiccString< Nat >::Iterador  Pokemons(Nat e);
 
        Conj<Nat> Expulsados();
 
- //      Conj<Coordenada>::Iterador posConPokemons(); //HACER CLAVES EN DICC
+       //Conj<Coordenada>::Iterador posConPokemons(); 
 
-       String pokemonEnPos(Coordenada c);
+//       String pokemonEnPos(Coordenada c);
 
    //    Nat CantMovimientosParaCaptura(Coordenada c);
 
@@ -124,17 +124,17 @@ namespace aed2
 		Mapa mundo_;
 		Vector<typename Juego::dataJugador> vectJug_;
 		DiccString<typename Juego::dataPokemon> pokemones_;
-		Vector<Vector<Dicc<Nat, Coladeprioridad<pair<Nat, Nat> >::Iterador> > > matrizJugadores_;//(pokcapturados, ID)
-		Vector<Vector<infoHeap> > matrizPokemon_;
+		Vector<Vector<Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID >::Iterador> > > matrizJugadores_;//(pokcapturados, ID)
+		Vector<Vector<typename Juego::infoHeap> > matrizPokemon_;
 		Dicc<Coordenada, String> posdePokemon_;//(coordenada,pokemon)
 		Lista<DiccString<Nat> > pokemonsXjug_;//puede estar dentro de data jugador
 		Nat cantPokemon_;
 
 
 		
-		Vector<Vector<Dicc<Nat, Coladeprioridad<pair<Nat, Nat> >::Iterador> > > crearMatrizJug(Nat n, Nat m);
+		Vector<Vector<Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID>::Iterador> > > crearMatrizJug(Nat n, Nat m);
 
-		Vector<Vector<infoHeap> > crearMatrizPok(Nat n, Nat m);
+		Vector<Vector< typename Juego::infoHeap> > crearMatrizPok(Nat n, Nat m);
 		
 		Conj<capturadosyID> cercanos(Coordenada c);
 
@@ -146,7 +146,8 @@ namespace aed2
 
 		void AuxCapturarPokemon(Dicc<Coordenada, string>::Iterador it);
 
-		//Conj<T> Claves(Dicc<J,S>::Iterador); //Deberia estar en diccLineal.
+		Conj< Coordenada > Claves(Dicc<Coordenada, string> dicc); //Deberia estar en diccLineal.
+		Conj< Nat > Claves(Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID>::Iterador > dicc); //Deberia estar en diccLineal.
 
 		
 
