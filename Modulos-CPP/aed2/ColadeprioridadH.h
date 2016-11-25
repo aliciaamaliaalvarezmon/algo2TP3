@@ -485,16 +485,6 @@ typename Coladeprioridad<T>::Iterador Coladeprioridad<T>::Desencolar(){
 }
 
 
-template<class T>
-typename Coladeprioridad<T>::Iterador Coladeprioridad<T>::Desencolar(){
-  typename Coladeprioridad<T>::Iterador nuevo = CrearIt(heap_);  
-  nuevo.borrarSiguiente();
-  return nuevo;
-}
-
-
-
-
 
 
 

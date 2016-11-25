@@ -160,45 +160,7 @@ template <typename T>
     Nodo* HEAP(){
       return heap_;
     } 
-/*
-    typename Coladeprioridad<T>::Nodo** recorrocamino(typename Coladeprioridad<T>::Nodo* &h, Nat n, Nat cant) {      
-      Nat potencia = n;
-      Nat resta = 1;   
-      while(potencia > 0) {
-        resta = resta << 1;
-        potencia--;  
-      }
-      if (cant == 0) {
-        return (&h);
-      } else {
-        if(cant == 1){          
-          return (&h->hijoIzq);
-        }else{
-          if((n == 1) && (!EstaCompleto(n, cant))){      
-            return &(h->hijoDer);       
-          }else{        
-            if(EstaCompleto(n, cant)){              
-              recorrocamino(h->hijoIzq, n-1, cant - resta);
-            }
-            else{
-              if(IrPorSubarbolIz(n, cant)){
-                recorrocamino(h->hijoIzq, n-1, cant - resta/2);
-              }
-              else{
-                if(EstaEnLaMitad(n,cant)){
-                  recorrocamino((h->hijoDer), n-2, cant - resta);
-                }else{
-                 recorrocamino(h->hijoDer, n-1, cant - resta);
-               }
 
-             }
-           }
-         }
-       }
-     }
-    // return NULL;
-   }
-*/
    typename Coladeprioridad<T>::Nodo** recorrocamino(typename Coladeprioridad<T>::Nodo* &h, Nat n, Nat cant) {      
       Nat potencia = n;
       Nat resta = 1;   

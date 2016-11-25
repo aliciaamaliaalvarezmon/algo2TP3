@@ -1,8 +1,9 @@
 #include "Mapa.h"
 
-Mapa::Mapa() : longitudmaxima(0), latitudmaxima(0) {}
+Mapa::Mapa() : matriz(), longitudmaxima(0), latitudmaxima(0), coordenadas() {}
 /*CONSULTA: esta bien inicializarlo así?*/
 
+/*
 void Mapa::agregarCoord(Coordenada& c){
 	coordenadas.AgregarRapido(c);
 
@@ -76,7 +77,7 @@ bool Mapa::hayCaminoQ( Coordenada& c, Nat i, Nat j, Conj<Coordenada>& cs) const 
 				b = false;
 			}
 			else{
-				/* NOTA: no puedo pasar 'cs.Eliminar(c)' por parámetro ya que devuelve void*/
+				// NOTA: no puedo pasar 'cs.Eliminar(c)' por parámetro ya que devuelve void
 				cs.Eliminar(c);
 				bool arriba = this->existeCaminoPorArriba(c, cs);
 				bool izquierda = this->existeCaminoPorIzquierda(c, cs);
@@ -92,7 +93,7 @@ bool Mapa::hayCaminoQ( Coordenada& c, Nat i, Nat j, Conj<Coordenada>& cs) const 
 bool Mapa::existeCaminoPorArriba(Coordenada& c, Conj<Coordenada>& cs) const{
 	Coordenada adyacente = c.CoordenadaArriba();
 	Vector<Vector<bool> >* existe = this->matriz[adyacente.longitud()][adyacente.latitud()];
-	/* CONSULTA: la siguiente comparación no debería ser 'existe == NULL' ?? */
+	// CONSULTA: la siguiente comparación no debería ser 'existe == NULL' ?? 
 	if(existe != NULL){
 		return false;
 	}
@@ -106,7 +107,7 @@ bool Mapa::existeCaminoPorArriba(Coordenada& c, Conj<Coordenada>& cs) const{
 bool Mapa::existeCaminoPorAbajo(Coordenada& c, Conj<Coordenada>& cs) const{
 	Coordenada adyacente = c.CoordenadaAbajo();
 	Vector<Vector<bool> >* existe = this->matriz[adyacente.longitud()][adyacente.latitud()];
-	/* CONSULTA: la siguiente comparación no debería ser 'existe == NULL' ?? */
+	// CONSULTA: la siguiente comparación no debería ser 'existe == NULL' ?? 
 	if(existe != NULL){
 		return false;
 	}
@@ -120,7 +121,7 @@ bool Mapa::existeCaminoPorAbajo(Coordenada& c, Conj<Coordenada>& cs) const{
 bool Mapa::existeCaminoPorDerecha(Coordenada& c, Conj<Coordenada>& cs) const{
 	Coordenada adyacente = c.CoordenadaALaDerecha();
 	Vector<Vector<bool> >* existe = this->matriz[adyacente.longitud()][adyacente.latitud()];
-	/* CONSULTA: la siguiente comparación no debería ser 'existe == NULL' ?? */
+	// CONSULTA: la siguiente comparación no debería ser 'existe == NULL' ?? 
 	if(existe != NULL){
 		return false;
 	}
@@ -134,7 +135,7 @@ bool Mapa::existeCaminoPorDerecha(Coordenada& c, Conj<Coordenada>& cs) const{
 bool Mapa::existeCaminoPorIzquierda(Coordenada& c, Conj<Coordenada>& cs) const{
 	Coordenada adyacente = c.CoordenadaALaIzquierda();
 	Vector<Vector<bool> >* existe = this->matriz[adyacente.longitud()][adyacente.latitud()];
-	/* CONSULTA: la siguiente comparación no debería ser 'existe == NULL' ?? */
+	// CONSULTA: la siguiente comparación no debería ser 'existe == NULL' ?? 
 	if(existe != NULL){
 		return false;
 	}
@@ -165,7 +166,5 @@ Vector<Vector<bool> > Mapa::crearMatrizMapa(Coordenada& c) const {
 	return nuevo;
 }
 
+*/
 
-int main(){
-	return 0;
-}

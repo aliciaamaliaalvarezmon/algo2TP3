@@ -26,7 +26,7 @@ namespace aed2
 		//Juego(const Juego& otra); 
         //~Juego();
 
-       Nat AgregarJugador();
+	  Nat AgregarJugador();
 
        void AgregarPokemon(string p, Coordenada c);
 
@@ -46,34 +46,44 @@ namespace aed2
 
        Coordenada posicion(Nat e);
 
-       DiccString< Nat >::Iterador  Pokemons(Nat e);//Conj<pokemon, nat>  /Aca deberia??? ser DiccString(Nat)::Iterador
+//      DiccString< Nat >::Iterador  Pokemons(Nat e);//Conj<pokemon, nat>  /Aca deberia??? ser DiccString(Nat)::Iterador
 
        Conj<Nat> Expulsados();
 
-       Conj<Coordenada>::Iterador posConPokemons();
+ //      Conj<Coordenada>::Iterador posConPokemons(); //HACER CLAVES EN DICC
 
        String pokemonEnPos(Coordenada c);
 
-       Nat CantMovimientosParaCaptura(Coordenada c);
+   //    Nat CantMovimientosParaCaptura(Coordenada c);
 
        Nat ProxID();
 
        Conj<Nat> JugadoresConectados();
 
-        Nat indiceDeRareza(string p);
+       Nat indiceDeRareza(string p);
 
         Nat CantPokemonTotales();
 
        bool HayPokemonCercano(Coordenada c);
 
-       Coordenada PosDePokemonCercano();     
-
-       
+       Coordenada PosDePokemonCercano();            
 
        Iterador CrearIt(); 
 
  
 	private:	
+
+		struct capturadosyID
+		{
+			Nat numero;
+			Nat ID;
+
+			capturadosyID(): numero(0), ID(0){}; 			
+
+			bool operator < (const typename Juego::capturadosyID& otra);//podria ser const al final
+
+		};
+
 
 
 		struct dataJugador
@@ -83,21 +93,18 @@ namespace aed2
 			Coordenada posicion;
 			Nat pokTotalAtrapados;
 			Lista<DiccString<Nat> >::Iterador pokemonescapturados;
-			Dicc<Nat, Coladeprioridad<pair<Nat, Nat> >::Iterador>::Iterador posenColaDeCaptura;
+			Dicc<Nat, Coladeprioridad < typename Juego::capturadosyID >::Iterador>::Iterador posenColaDeCaptura;
+			
 
-			dataJugador(){
-				conexion = 0;
-				sanciones = 0;
-				Coordenada nueva;
-				posicion = nueva;
-				pokTotalAtrapados = 0;				
-				Lista<DiccString<Nat> >::Iterador itsecu; //problema
-				pokemonescapturados = itsecu;
-				Dicc<Nat, Coladeprioridad<pair<Nat, Nat> >::Iterador>::Iterador itdicc;// (pokcap,ID)
-				posenColaDeCaptura = itdicc;
-			} 
+			dataJugador()
+			: conexion(0), sanciones(0), posicion(), pokTotalAtrapados(0), pokemonescapturados(), posenColaDeCaptura()
+			{}
+		
+
 		};
 
+
+		
 		struct dataPokemon
 		{
 			Nat PS;
@@ -115,7 +122,7 @@ namespace aed2
 		};
 
 		Mapa mundo_;
-		Vector<dataJugador> vectJug_;
+		Vector<typename Juego::dataJugador> vectJug_;
 		DiccString<typename Juego::dataPokemon> pokemones_;
 		Vector<Vector<Dicc<Nat, Coladeprioridad<pair<Nat, Nat> >::Iterador> > > matrizJugadores_;//(pokcapturados, ID)
 		Vector<Vector<infoHeap> > matrizPokemon_;
@@ -124,39 +131,39 @@ namespace aed2
 		Nat cantPokemon_;
 
 
-
+		
 		Vector<Vector<Dicc<Nat, Coladeprioridad<pair<Nat, Nat> >::Iterador> > > crearMatrizJug(Nat n, Nat m);
 
 		Vector<Vector<infoHeap> > crearMatrizPok(Nat n, Nat m);
-		/*
-		Conj<pair<nat, ID>> cercanos(Coordenada c);
+		
+		Conj<capturadosyID> cercanos(Coordenada c);
 
 		bool HayUnJugadorCercano(Coordenada c);
 
 		bool estaParaCaptura(Coordenada posDelJug);
 
-		Coordenada BuscarHeap(vector<vector<infoHeap>>);
+		Coordenada BuscarHeap(Vector<Vector<infoHeap> >);
 
-		void AuxCapturarPokemon(Dicc<Coor, pokemon>::Iterador it);
+		void AuxCapturarPokemon(Dicc<Coordenada, string>::Iterador it);
 
-		Conj<T> Claves(Dicc<J,S>::Iterador); //Deberia estar en diccLineal.
+		//Conj<T> Claves(Dicc<J,S>::Iterador); //Deberia estar en diccLineal.
 
-		*/
+		
 
 	public:
    class Iterador
   		{
     	    public:     
 
-      	//Iterador(const typename Coladeprioridad<T>::Iterador& otro);
+      	Iterador(const typename Juego::Iterador& otro);
 
-     	 //Iterador& operator = (const typename Coladeprioridad<T>::iteradordor& otro);
+     	Iterador& operator = (const typename Juego::Iterador& otro);
 
       	bool HaySiguiente();// const;
      
       	Nat Siguiente();
 
-      	void Avanzar();
+     	void Avanzar();
 
       	//Iterador borrarSiguiente();//toma un iterador, lo inicializa con la cola que lo llamo, y agrega.
 

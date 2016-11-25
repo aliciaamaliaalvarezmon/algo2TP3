@@ -26,7 +26,7 @@ class Mapa{
 	public:
 		// Genera un mapa vacío.
 		Mapa();
-
+/*
 		// Agrega la coordenada al mapa.
 		void agregarCoord(Coordenada& c);
 
@@ -62,9 +62,9 @@ class Mapa{
 
 		// Crea una matriz con las coordenadas del mapa.
 		Vector<Vector<bool> > crearMatrizMapa(Coordenada& c) const;
-
+*/
 	private:
-		Vector<Vector<Vector<Vector<bool> >*> > matriz;
+		Vector< Vector < Vector<Vector<bool> >* > > matriz;
 		Nat longitudmaxima;
 		Nat latitudmaxima;
 		Conj<Coordenada> coordenadas;

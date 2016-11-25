@@ -2,43 +2,19 @@
 
 
 
-namespace aed2{
-
-	Juego::Juego(){
-		Mapa mundi;
-		mundo_= mundi;		
-		Vector<typename Juego::dataJugador> jug;
-		vectJug_ = jug;
-		//DiccString<typename Juego::datapokemon> pokes;
-		//pokemones_ = pokes;
-		Vector<Vector<Dicc<Nat, Coladeprioridad<pair<Nat, Nat> >::Iterador> > > VmatrizJug;	
-		matrizJugadores_ = VmatrizJug;
-		Vector<Vector<infoHeap> > VmatrizP;
-		matrizPokemon_ = VmatrizP;
-		Dicc<Coordenada,String> pospok;
-		posdePokemon_= pospok;
-		Lista<DiccString<Nat> > pokXjug;
-		pokemonsXjug_= pokXjug;
-		cantPokemon_ = 0;
+using namespace aed2;
 
 
 
-	}
 
-	Juego::Juego(Mapa m){
-		mundo_= m;
-		Vector<typename Juego::dataJugador> jug;
-		vectJug_ = jug;
-		//DiccString<typename Juego::datapokemon> pokes;//	datapokemon es privado........
-		//pokemones_ = pokes;
-		Dicc<Coordenada,String> pospok;
-		posdePokemon_= pospok;
-		Lista<DiccString<Nat> > pokXjug;
-		pokemonsXjug_= pokXjug;
-		cantPokemon_ = 0;
-		matrizJugadores_ = crearMatrizJug(m.longitudMaxima(), m.latitudMaxima());
-		matrizPokemon_ = crearMatrizPok(m.longitudMaxima(), m.latitudMaxima());
-	}
+Juego::Juego()
+	: mundo_(), vectJug_(), pokemones_(), matrizJugadores_(), matrizPokemon_(), posdePokemon_(), pokemonsXjug_(), cantPokemon_(0)
+	{}
+
+Juego::Juego(Mapa m)
+	: mundo_(m), vectJug_(), pokemones_(), matrizJugadores_(), matrizPokemon_(), posdePokemon_(), pokemonsXjug_(), cantPokemon_(0)
+	{}	
+
 
 
 	Nat Juego::AgregarJugador(){
@@ -66,14 +42,13 @@ namespace aed2{
 	}
 
 
-	Juego::Iterador Juego::Jugadores(){
+	typename Juego::Iterador Juego::Jugadores(){
 		Juego::Iterador nuevo = CrearIt();
 		return nuevo;
 	}
 
-	bool Juego::estaConectado(Nat e){		
-		return false;									//PROBLEMA
-		//return vectJug_[e].conexion;
+	bool Juego::estaConectado(Nat e){				
+		return vectJug_[e].conexion;
 	}
 
 	Nat Juego::sanciones(Nat e){								//PROBLEMA							
@@ -88,6 +63,9 @@ namespace aed2{
 	 	return vectJug_[e].posicion;
 	  }
 
+
+//VER WARNINGS DE DICCSTRING
+/*
 	  DiccString< Nat>::Iterador Juego::Pokemons(Nat e){//Aca deberia??? ser DiccString(Nat)::Iterador
 	  	//Dicc<pair<string, Nat> >::Iterador nuevo; 
 	  	//return nuevo;
@@ -96,7 +74,7 @@ namespace aed2{
 
 	  }
 
-
+*/
 	  Conj<Nat> Juego::Expulsados(){  ////lio????
 	  	Conj<Nat> nuevo;
 	  	return nuevo;
@@ -105,10 +83,10 @@ namespace aed2{
 
 
 
-	  Conj<Coordenada>::Iterador Juego::posConPokemons(){
+/*	  Conj<Coordenada>::Iterador Juego::posConPokemons(){
 	  	//Conj<Coordenada>::Iterador nuevo;
 	  	//return nuevo;
-	  	Conj<Coordenada>::Iterador nuevo = posdePokemon_.claves().CrearIt();
+	  	Conj<Coordenada>::Iterador nuevo = posdePokemon_.Claves().CrearIt();
 	  	return nuevo;
 
 	  }
@@ -124,7 +102,7 @@ namespace aed2{
 	    	string p = posdePokemon_.Significado(c);
 	    	return pokemones_.Obtener(p).Significado(c); 
 
-	    }
+	    }*/
 
 	     Nat Juego::ProxID(){
 	     	//return 0;
@@ -165,7 +143,14 @@ namespace aed2{
 	     typename Juego::Iterador Juego::CrearIt(){
 	     	Vector<dataJugador>* jug = &(this->vectJug_);
 	     	typename Juego::Iterador nuevo(jug);
+	     	return nuevo;
 	     }
+
+
+
+//FUNCIONES PRIVADAS
+
+
 
 
 
@@ -180,24 +165,126 @@ namespace aed2{
 			return nuevo;
 		}
 
-/*
-	Mapa mundo_;
-		vector<dataJugador> vectJug_;
-		DiccString<datapokemon> pokemones_;
-		vector<vector<Dicc<Nat, Coladeprioridad<pair<Nat, Nat>>::Iterador>>> matrizJugadores;//(pokcapturados, ID)
-		vector<vector<infoHeap>> matrizPokemon;
-		Dicc<Coordenada, String> posdePokemon;//(coordenada,pokemon)
-		Lista<diccString<nat>> pokemonsXjug;
-		Nat cantJugador;
+
+	Conj< typename Juego::capturadosyID> Juego::cercanos(Coordenada c){
+		Conj<capturadosyID> nuevo;
+		return nuevo;
+
+	}
+
+	bool Juego::HayUnJugadorCercano(Coordenada c){
+		return false;
+
+	}
+
+	bool Juego::estaParaCaptura(Coordenada posDelJug){
+		return false;
+
+	}
+
+	Coordenada Juego::BuscarHeap(Vector<Vector<infoHeap> >){
+		Coordenada nueva;
+		return nueva;
+
+	}
+
+	void Juego::AuxCapturarPokemon(Dicc<Coordenada, string>::Iterador it){
+
+	}
+
+	//Conj<T> Claves(Dicc<J,S>::Iterador); //Deberia estar en diccLineal.
 
 
 
 
-*/
 
 
 
 
+
+
+
+
+
+//ITERADOR Y STRUCTS
+
+
+Juego::Iterador::Iterador(const typename Juego::Iterador& otro)
+  : elementos_(otro.elementos_), posicion_(otro.posicion_)
+{}
+
+typename Juego::Iterador& Juego::Iterador::operator= (const typename Juego::Iterador& otro)
+{
+  elementos_ = otro.elementos_;
+  posicion_ = otro.posicion_;
+  return *this;
 }
+
+
+bool Juego::Iterador::HaySiguiente(){
+	Nat i = posicion_;
+	bool hayAlguno = false;
+	while(i < ((*elementos_).Longitud()) && (hayAlguno == false)){
+		if((elementos_[i]).sanciones < 5){
+			hayAlguno = true;
+		}
+		i++;
+	}
+	return hayAlguno;
+}// const;
+     
+Nat Juego::Iterador::Siguiente(){
+	Nat i = posicion_;
+	Nat resAux;
+	if(i != 0){
+		resAux = i;
+	}else{
+		if((elementos_[i]).sanciones < 5){
+			resAux = i;
+		}else{
+		Avanzar();
+		resAux = posicion_;
+		}		
+	}
+	return resAux;
+}
+
+void Juego::Iterador::Avanzar(){
+	Nat i = posicion_ + 1;
+	bool tengoQueParar = false;
+	while(i < ((*elementos_).Longitud()) && (tengoQueParar == false)){
+		if((elementos_[i]).sanciones < 5){
+			tengoQueParar = true;
+		}
+	  i++;	
+	}
+	posicion_ = i-1;	
+}
+
+
+
+
+
+//Una tupla es menor a otra si tiene menos pokemons capturados. En caso de ser los mismo, es menor el de ID mas alto
+bool Juego::capturadosyID::operator < (const capturadosyID& otra)
+{
+	if( numero < otra.numero ){
+		return true;
+	}
+	if(numero > otra.numero){
+		return false;
+	}
+	if( numero == otra.numero){
+		return (ID > otra.ID);
+	} 
+  
+
+  }
+
+
+
+
+
+
 
 
