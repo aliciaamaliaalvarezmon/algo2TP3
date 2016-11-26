@@ -48,7 +48,7 @@ template <typename T>
   /// Opreaciones básicas
   bool EsVacia() const;
   Coladeprioridad<T>::Iterador Encolar(const T& elem);
-  Coladeprioridad<T>::Iterador Desencolar();  
+  void Desencolar();  
   T& tope() const; 
 
 
@@ -478,10 +478,10 @@ typename Coladeprioridad<T>::Iterador Coladeprioridad<T>::Encolar(const T& elem)
 
 
 template<class T>
-typename Coladeprioridad<T>::Iterador Coladeprioridad<T>::Desencolar(){
+void Coladeprioridad<T>::Desencolar(){
   typename Coladeprioridad<T>::Iterador nuevo = CrearIt(heap_);  
   nuevo.borrarSiguiente();
-  return nuevo;
+  //return nuevo;
 }
 
 
@@ -509,7 +509,9 @@ bool Coladeprioridad<T>::Iterador::HaySiguiente(){
 
 }
 
+
  template<class T>
+//typename Coladeprioridad<T>::Iterador Coladeprioridad<T>::Iterador::borrarSiguiente(){
   void Coladeprioridad<T>::Iterador::borrarSiguiente(){  
   Nat potencia = cola_->nivel_;
   Nat cambionivel = 1;
@@ -524,7 +526,7 @@ bool Coladeprioridad<T>::Iterador::HaySiguiente(){
     if(cola_->nivel_ > 0){    
      cola_->nivel_--;
     }    
-  } 
+  }
   typename Coladeprioridad<T>::Nodo* ultimo = (*(*cola_).recorrocamino(cola_->heap_,cola_->nivel_, ((cola_->cantClaves_))));
   //cout <<"ultimodato" << (*ultimo).Dato() << endl;
   typename Coladeprioridad<T>::Nodo* raizaborrar = apuntador_;
@@ -545,9 +547,13 @@ bool Coladeprioridad<T>::Iterador::HaySiguiente(){
   }  
   if(ultimo->padre == NULL){   
   cola_->heap_ = ultimo;
-  } 
-  delete(raizaborrar);  
+  }
+  if(raizaborrar == ultimo){   
+  delete(raizaborrar);
+  }else{ 
+  delete(raizaborrar); 
   //aca va el sifht up de agregar
+  ultpadre = ultimo->padre;
   if(ultimo -> padre != NULL){          
     while((ultimo -> dato < ( ultpadre -> dato)) and (ultimo->padre != NULL)){          
       (*ultimo).swap(ultimo->padre);
@@ -588,8 +594,13 @@ bool Coladeprioridad<T>::Iterador::HaySiguiente(){
 }
 }
 }
+}
+//if(ultimo->padre == NULL){
+//  cola_->heap_ = ultimo;
+//}
  apuntador_= NULL;  
 }
+
 
 
 /*

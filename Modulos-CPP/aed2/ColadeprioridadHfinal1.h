@@ -279,7 +279,7 @@ bool EstaEnLaMitad(Nat n, Nat cant ){
   //Coladeprioridad(const Coladeprioridad& otra);
 
   /// Destruye la coladepriorida, incluyendo los T alojados
-  //~Coladeprioridad();
+  ~Coladeprioridad();
 
   /// Operacion de asignacion
   //Lista<T>& operator=(const Lista<T>& otra);
@@ -292,7 +292,8 @@ bool EstaEnLaMitad(Nat n, Nat cant ){
 
 
   Coladeprioridad<T>::Iterador Encolar(const T& elem);
-  Coladeprioridad<T>::Iterador Desencolar();
+  //Coladeprioridad<T>::Iterador Desencolar();
+  void Desencolar();
 
 
 
@@ -438,14 +439,14 @@ Nat Coladeprioridad<T>::Nivel(){
 
 
 
-/*template <typename T>
+template <typename T>
 Coladeprioridad<T>::~Coladeprioridad()
 {
   while(!EsVacia()) {
     Desencolar();
   }
 }
-*/
+
 template <typename T>
 bool Coladeprioridad<T>::EsVacia() const
 {
@@ -531,12 +532,19 @@ typename Coladeprioridad<T>::Iterador Coladeprioridad<T>::Encolar(const T& elem)
  
 }
 
-
+/*
 template<class T>
 typename Coladeprioridad<T>::Iterador Coladeprioridad<T>::Desencolar(){
   typename Coladeprioridad<T>::Iterador nuevo = CrearIt(heap_);  
   nuevo.borrarSiguiente();
   return nuevo;
+}
+*/
+
+template<class T>
+ void Coladeprioridad<T>::Desencolar(){
+  typename Coladeprioridad<T>::Iterador nuevo = CrearIt(heap_);  
+  nuevo.borrarSiguiente();  
 }
 
 
@@ -582,7 +590,7 @@ bool Coladeprioridad<T>::Iterador::HaySiguiente(){
     if(cola_->nivel_ > 0){    
      cola_->nivel_--;
     }    
-  } 
+  }
   typename Coladeprioridad<T>::Nodo* ultimo = (*(*cola_).recorrocamino(cola_->heap_,cola_->nivel_, ((cola_->cantClaves_))));
   //cout <<"ultimodato" << (*ultimo).Dato() << endl;
   typename Coladeprioridad<T>::Nodo* raizaborrar = apuntador_;
@@ -603,9 +611,13 @@ bool Coladeprioridad<T>::Iterador::HaySiguiente(){
   }  
   if(ultimo->padre == NULL){   
   cola_->heap_ = ultimo;
-  }   
+  }
+  if(raizaborrar == ultimo){   
   delete(raizaborrar);
+  }else{ 
+  delete(raizaborrar); 
   //aca va el sifht up de agregar
+  ultpadre = ultimo->padre;
   if(ultimo -> padre != NULL){          
     while((ultimo -> dato < ( ultpadre -> dato)) and (ultimo->padre != NULL)){          
       (*ultimo).swap(ultimo->padre);
@@ -643,6 +655,7 @@ bool Coladeprioridad<T>::Iterador::HaySiguiente(){
   if((ulthIz -> padre) == NULL){   
      cola_->heap_ = ulthIz;
   }
+}
 }
 }
 }
