@@ -5,8 +5,8 @@ Mapa::Mapa() : longitudmaxima(0), latitudmaxima(0), matriz() , coordenadas() {}
 
 void Mapa::agregarCoord(Coordenada& c){
 	coordenadas.AgregarRapido(c);
-	if (c.longitud() >= this->longitudmaxima){
-		while(this->longitudmaxima <= c.longitud()){
+	if (c.longitud()+1 >= this->longitudmaxima){
+		while(this->longitudmaxima <= c.longitud()+1){
 			Vector< Vector<Vector<bool> > > nuevo;
 			Nat i = 0;
 			while (i <= this->longitudmaxima){
@@ -18,8 +18,8 @@ void Mapa::agregarCoord(Coordenada& c){
 	this->longitudmaxima++;
 		}
 	}
-	if (c.latitud() >= this->latitudmaxima){
-		while (this->latitudmaxima <= c.latitud()){
+	if (c.latitud()+1 >= this->latitudmaxima){
+		while (this->latitudmaxima <= c.latitud()+1){
 				Nat j = 0; 
 				while (j < this->longitudmaxima){
 						Vector<Vector<bool> > nuevaPos;
@@ -41,12 +41,16 @@ void Mapa::agregarCoord(Coordenada& c){
 //		cout << "YoloA" <<endl;
 		res = Lindantes(vacio,coords,res);
 //		cout << "YoloB1" <<endl;
-		Vector <Vector <bool> > matrizF = MatrizDeFalse(latitudmaxima-1,longitudmaxima-1);
-		cout << "Latitud de la matriz de caminos: " << matriz.Longitud() <<endl;
-		cout <<"Longitud de la matriz de caminos: " << matriz[0].Longitud() <<endl;
+		Vector <Vector <bool> > matrizF = MatrizDeFalse(latitudmaxima+1,longitudmaxima+1);
+//		cout << "Latitud de la matriz de caminos: " << matriz.Longitud() <<endl;
+//		int i=0;
+//		while(i<matriz.Longitud()){
+//		cout <<"Longitud de la matriz de caminos: " << matriz[i].Longitud() <<endl;
+//		i++;
+//		}
 		Rellenar(matrizF,res);
 //		cout << "YoloD3" <<endl;
-		(matriz[it.Siguiente().latitud()][it.Siguiente().longitud()]) = matrizF;
+		(matriz[it.Siguiente().latitud()-1][it.Siguiente().longitud()-1]) = matrizF;
 //		cout << "YoloE4" <<endl;
 		it.Avanzar();
 	}
@@ -92,20 +96,24 @@ Conj<Coordenada> 	Mapa::Lindantes(Conj<Coordenada> c,Conj<Coordenada> coordenada
 
 Vector <Vector < bool> > Mapa::MatrizDeFalse(Nat i, Nat j){
 	Vector <Vector < bool> >* res = new Vector <Vector < bool> >;
-//	Vector <bool>* nuevo = new Vector < bool>;
-	int k=0;
-	while(k<= i){
-		int r = 0;
-		Vector <bool>* nuevo = new Vector < bool>;
-		while(r<=j){
-			/*cout << matriz.Longitud() <<endl ;*/
-			bool f = false;
+	Vector <bool>* nuevo = new Vector < bool>;
+//	int k=0;
+//	int r=0;
+	bool f;
+	f= false;
+//			cout<< i <<endl;
+//			cout<< j <<endl;
+	while(res->Longitud() <= i){
+		nuevo = new Vector < bool>;
+		while(nuevo->Longitud()< j){
 			nuevo->AgregarAtras(f);
-			r++;
+//			r++;
 		}
+//		cout<< nuevo->Longitud() <<endl;
 		res->AgregarAtras(*nuevo);
-		k++;
+//		cout<< nuevo->Longitud() <<endl;
 	}
+//	cout << res->Longitud() <<"     " << nuevo->Longitud() <<endl;
 	return *res;
 }
 
@@ -119,6 +127,7 @@ void Mapa::Rellenar(Vector <Vector < bool> >& matriz,Conj<Coordenada> linda){
 }
 
 bool Mapa::hayCamino(Coordenada c, Coordenada c2) const{
-//	Vector< Vector<bool> > matrizDeRelacion = (matriz[c.latitud()][c.longitud()]);
-	return ((matriz[c.latitud()][c.longitud()]))[c2.latitud()][c2.longitud()];
+	Vector< Vector<bool> > matrizDeRelacion = (matriz[c.latitud()-1][c.longitud()-1]);
+	cout << "llegue hasta aca" <<endl;
+	return matrizDeRelacion[c2.latitud()][c2.longitud()];
 }
