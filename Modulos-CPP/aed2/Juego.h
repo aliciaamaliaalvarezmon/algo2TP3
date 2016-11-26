@@ -52,7 +52,7 @@ namespace aed2
 
       Conj<Coordenada>::Iterador posConPokemons(); 
 
-      //String pokemonEnPos(Coordenada c);
+       String pokemonEnPos(Coordenada c);
 
       Nat CantMovimientosParaCaptura(Coordenada c);
 

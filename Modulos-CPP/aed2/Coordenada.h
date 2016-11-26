@@ -46,7 +46,7 @@ class Coordenada{
 		Coordenada CoordenadaALaIzquierda() const;
 
 		//bool operator == (const Coordenada& c1, const Coordenada& c2);
-		bool operator == (const Coordenada& otro); 
+		bool operator == (const Coordenada& otro) const; 
 		
  
 

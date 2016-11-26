@@ -75,8 +75,16 @@ Juego::Juego(Mapa m)
 	  }
 
 
-	  Conj<Nat> Juego::Expulsados(){  ////lio????
+	  Conj<Nat> Juego::Expulsados(){
 	  	Conj<Nat> nuevo;
+	  	Nat i = 0;
+	  	while(i < vectJug_.Longitud()){
+	  		if( vectJug_[i].sanciones == 5){
+	  		nuevo.AgregarRapido(i);
+	  		}
+	  	i++;	
+
+	  	}
 	  	return nuevo;
 
 	  }
@@ -91,11 +99,11 @@ Juego::Juego(Mapa m)
 
 	  }
 
-	 /*   String Juego::pokemonEnPos(Coordenada c){
+	    String Juego::pokemonEnPos(Coordenada c){
 	    //return "falla";
 	    	return posdePokemon_.Significado(c);
 
-	   }*/
+	   }
 
 	     Nat Juego::CantMovimientosParaCaptura(Coordenada c){
 	    	//return 9;
@@ -111,8 +119,15 @@ Juego::Juego(Mapa m)
 	     }
 
 
-	     Conj<Nat> JugadoresConectados(){    ///lio?
+	     Conj<Nat> Juego::JugadoresConectados(){    ///lio?
 	     	Conj<Nat> nuevo;
+	     	Nat i = 0;
+	     	while( i < vectJug_.Longitud()){
+	     		if((vectJug_[i].sanciones == 5) and (vectJug_[i].conexion)){
+	     			nuevo.AgregarRapido(i);
+	     		}
+	     		i++;
+	     	}
 	     	return nuevo;
 	     }
 

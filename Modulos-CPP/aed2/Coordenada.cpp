@@ -53,7 +53,7 @@ Coordenada Coordenada::CoordenadaALaIzquierda() const{
 	return Coordenada(lat, lon-1);	
 }
 
-bool Coordenada::operator == (const Coordenada& otro){
+bool Coordenada::operator == (const Coordenada& otro) const{
  return lat == otro.lat && lon == otro.lon;
 }
 
