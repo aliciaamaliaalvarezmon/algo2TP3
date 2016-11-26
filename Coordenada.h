@@ -8,6 +8,7 @@
 #include <string>
 #include <ostream>
 #include <iostream>
+#include Conj.h
 using namespace std;
 typedef unsigned int Nat;
 
@@ -38,6 +39,9 @@ class Coordenada{
 
 		// Devuelve una coordenada idéntica a la pasada por parámetro pero corrida una a la izquierda.
 		Coordenada CoordenadaALaIzquierda() const;
+		bool operator ==(const Coordenada& otro)const;
+	
+		Conj<Coordenada>  Lindantes() const;
 	
 	private:
 		Nat lat;
