@@ -18,7 +18,9 @@ Juego::Juego(Mapa m)
 
 
 	Nat Juego::AgregarJugador(){
-		return 0;
+		dataJugador nuevo;
+		vectJug_.AgregarAtras(nuevo);
+		return (vectJug_.Longitud() - 1);		
 	}
 
 	void Juego::AgregarPokemon(string p, Coordenada c){

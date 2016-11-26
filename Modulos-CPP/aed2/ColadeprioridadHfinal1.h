@@ -276,13 +276,13 @@ bool EstaEnLaMitad(Nat n, Nat cant ){
 
 
   /// Crea por copia una coladeprioridad (operación Copiar())
-  //Coladeprioridad(const Coladeprioridad& otra);
+ // Coladeprioridad(const Coladeprioridad& otra);
 
   /// Destruye la coladepriorida, incluyendo los T alojados
   ~Coladeprioridad();
 
   /// Operacion de asignacion
-  //Lista<T>& operator=(const Lista<T>& otra);
+  //Coladeprioridad<T>& operator=(const Coladeprioridad<T>& otra);
 
 
   /// Opreaciones básicas
@@ -314,7 +314,15 @@ bool EstaEnLaMitad(Nat n, Nat cant ){
 
       //Iterador(const typename Coladeprioridad<T>::Iterador& otro);
 
-      //Iterador& operator = (const typename Coladeprioridad<T>::Iterador& otro);
+      Iterador& operator = (const typename Coladeprioridad<T>::Iterador& otro){
+        cola_ = otro.cola_;
+        apuntador_ = otro.apuntador_;
+        return *this;
+      }
+
+      Iterador(const typename Coladeprioridad<T>::Iterador& otro);
+
+
 
 
       bool HaySiguiente();// const;
@@ -414,9 +422,11 @@ Nat Coladeprioridad<T>::Nivel(){
 	return nivel_;
 }
 
-
-
-
+ 
+template <typename T>
+Coladeprioridad<T>::Iterador::Iterador(const typename Coladeprioridad<T>::Iterador& otro)
+  : cola_(otro.cola_), apuntador_(otro.apuntador_)
+{}
 
 
 

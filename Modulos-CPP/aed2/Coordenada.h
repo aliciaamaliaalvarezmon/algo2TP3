@@ -11,7 +11,11 @@
 #include <string>
 #include <ostream>
 #include <iostream>
+#include "TiposBasicos.h" 
+#include "Conj.h"
+
 using namespace std;
+using namespace aed2;
 typedef unsigned int Nat;
 
 class Coordenada{
@@ -47,6 +51,8 @@ class Coordenada{
 
 		//bool operator == (const Coordenada& c1, const Coordenada& c2);
 		bool operator == (const Coordenada& otro) const; 
+
+		Conj<Coordenada>  Lindantes() const;
 		
  
 

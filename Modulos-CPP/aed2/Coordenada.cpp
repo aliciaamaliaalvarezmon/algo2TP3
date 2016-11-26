@@ -1,4 +1,6 @@
 #include "Coordenada.h"
+#include "TiposBasicos.h" 
+#include "Conj.h"
 
 Coordenada::Coordenada(){
 	lat = 0;
@@ -57,6 +59,19 @@ bool Coordenada::operator == (const Coordenada& otro) const{
  return lat == otro.lat && lon == otro.lon;
 }
 
+Conj<Coordenada> Coordenada::Lindantes() const{
+	Conj<Coordenada> res;
+	Coordenada c(latitud(),longitud());
+	Coordenada abajo(c.CoordenadaAbajo().latitud(),c.CoordenadaAbajo().longitud());
+	Coordenada arriba(c.CoordenadaArriba().latitud(),c.CoordenadaArriba().longitud());
+	Coordenada derecha(c.CoordenadaALaDerecha().latitud(),c.CoordenadaALaDerecha().longitud());
+	Coordenada izquierda(c.CoordenadaALaIzquierda().latitud(),c.CoordenadaALaIzquierda().longitud());
+	res.Agregar(abajo);
+	res.Agregar(arriba);
+	res.Agregar(izquierda);
+	res.Agregar(derecha);
+	return res;
+}
 
 
 /*NO OLVIDAR SACAR EL MAIN AL FINALIZAR DE TESTEAR LA CLASE*/

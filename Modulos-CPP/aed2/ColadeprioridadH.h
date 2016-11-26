@@ -60,10 +60,18 @@ template <typename T>
    {
    public:  
 
+     Iterador& operator = (const typename Coladeprioridad<T>::Iterador& otro){
+        cola_ = otro.cola_;
+        apuntador_ = otro.apuntador_;
+        return *this;
+      }
+      
 
-      //Iterador(const typename Coladeprioridad<T>::Iterador& otro);
+     
+     Iterador(const typename Coladeprioridad<T>::Iterador& otro);
 
-      //Iterador& operator = (const typename Coladeprioridad<T>::Iterador& otro);
+     //Iterador& operator = (const typename Coladeprioridad<T>::Iterador& otro);
+
 
 
       bool HaySiguiente();// const;
@@ -191,6 +199,10 @@ Coladeprioridad<T>::Coladeprioridad()
 : heap_(NULL), cantClaves_(0), nivel_(0)
 {}
 
+template <typename T>
+Coladeprioridad<T>::Iterador::Iterador(const typename Coladeprioridad<T>::Iterador& otro)
+  : cola_(otro.cola_), apuntador_(otro.apuntador_)
+{}
 
 /*
 template <typename T>//TESTING

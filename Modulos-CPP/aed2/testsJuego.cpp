@@ -1,12 +1,17 @@
 #include <iostream>
 #include "mini_test.h"
 
-#include "Mapa.h"
+#include "Juego.h"
 #include "Conj.h"
 
 using namespace aed2;
 
 void compila(){
+	Mapa m;
+	Juego nuevo(m);
+	ASSERT(nuevo.VerMapa()  == m);
+
+
 	}
 
 
@@ -16,5 +21,6 @@ void compila(){
 
 
 int main() {
+	RUN_TEST(compila);
 	return 0;
 }
