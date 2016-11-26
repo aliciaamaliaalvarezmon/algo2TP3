@@ -1,37 +1,56 @@
 #include "Mapa.h"
 
-Mapa::Mapa() : longitudmaxima(0), latitudmaxima(0) {}
+Mapa::Mapa() : longitudmaxima(0), latitudmaxima(0), matriz() , coordenadas() {}
 /*CONSULTA: esta bien inicializarlo así?*/
 
 void Mapa::agregarCoord(Coordenada& c){
 	coordenadas.AgregarRapido(c);
-
 	if (c.longitud() >= this->longitudmaxima){
 		while(this->longitudmaxima <= c.longitud()){
-			Vector<Vector<Vector<bool> >*>* nuevo;
-			Nat i = 0; 
-			while (i < this->latitudmaxima){
-				Vector<Vector<bool> >* posVacia = NULL;
-				nuevo->AgregarAtras(posVacia);
+			Vector< Vector<Vector<bool> > > nuevo;
+			Nat i = 0;
+			while (i <= this->longitudmaxima){
+				Vector<Vector<bool> > posVacia;
+				nuevo.AgregarAtras(posVacia);
 				i++;
 			}
-		this->matriz.AgregarAtras((*nuevo));
-		this->longitudmaxima++;
+	this->matriz.AgregarAtras(nuevo);
+	this->longitudmaxima++;
 		}
 	}
-
 	if (c.latitud() >= this->latitudmaxima){
 		while (this->latitudmaxima <= c.latitud()){
-			Nat j = 0; 
-			while (j < this->longitudmaxima){
-				Vector<Vector<bool> >* nuevaPos = NULL;
-				this->matriz[j].AgregarAtras(nuevaPos);
-				j++;
-			}
-			this->latitudmaxima++;
+				Nat j = 0; 
+				while (j < this->longitudmaxima){
+						Vector<Vector<bool> > nuevaPos;
+						this->matriz[j].AgregarAtras(nuevaPos);
+						j++;
+				}
+				this->latitudmaxima++;
 		}
 	}
-	(*this->matriz[c.longitud()][c.latitud()]) = this->crearMatrizMapa(c);
+	cout <<"Latitud: " << latitudmaxima <<endl;
+	cout << "Longitud: " << longitudmaxima <<endl;
+	Conj<Coordenada> coords = coordenadas;
+	Conj<Coordenada>::Iterador it = coords.CrearIt();
+	while(it.HaySiguiente()){
+		Coordenada paraLasRelaciones = it.Siguiente();
+		Conj<Coordenada> vacio;
+		vacio.Agregar(paraLasRelaciones);
+		Conj<Coordenada> res;
+//		cout << "YoloA" <<endl;
+		res = Lindantes(vacio,coords,res);
+//		cout << "YoloB1" <<endl;
+		Vector <Vector <bool> > matrizF = MatrizDeFalse(latitudmaxima-1,longitudmaxima-1);
+		cout << "Latitud de la matriz de caminos: " << matriz.Longitud() <<endl;
+		cout <<"Longitud de la matriz de caminos: " << matriz[0].Longitud() <<endl;
+		Rellenar(matrizF,res);
+//		cout << "YoloD3" <<endl;
+		(matriz[it.Siguiente().latitud()][it.Siguiente().longitud()]) = matrizF;
+//		cout << "YoloE4" <<endl;
+		it.Avanzar();
+	}
+
 }
 
 const Nat& Mapa::longitudMaxima() const {
@@ -46,126 +65,60 @@ const Conj<Coordenada>& Mapa::coordenadasMapa() const {
 	return coordenadas;
 }
 
-bool Mapa::posExiste(Coordenada& c) const {
-	bool b; 
-	if ((c.longitud() >= this->longitudmaxima) && (c.latitud() >= this->latitudmaxima)){
-		b = false;
-	}
-	else{
-		b = this->matriz[c.longitud()][c.latitud()] != NULL;
-	}
-}
 
-bool Mapa::hayCamino(Coordenada& c, Coordenada& c2) const {
-	Vector<Vector<bool> > matrizBooleana = (*this->matriz[c.longitud()][c.latitud()]);
-	return matrizBooleana[c2.longitud()][c2.latitud()];
-}
-
-bool Mapa::hayCaminoQ( Coordenada& c, Nat i, Nat j, Conj<Coordenada>& cs) const {
-	bool b; 
-	if ((i >= this->longitudmaxima) && (j >= this->latitudmaxima)){
-		b = false;
-	}
-	else{
-		if( ((c.longitud() + 1 == i) || (c.longitud() - 1 == i)) && 
-			((c.latitud() + 1 == j) || (c.latitud() - 1 == j)) ){
-			b = true;
-		}
-		else{
-			if(cs.EsVacio()){
-				b = false;
+Conj<Coordenada> 	Mapa::Lindantes(Conj<Coordenada> c,Conj<Coordenada> coordenadas,Conj<Coordenada> res) const{
+	Conj<Coordenada>::Iterador it =c.CrearIt();
+	Conj<Coordenada> ParaLaRecursion;
+	while(it.HaySiguiente()){
+		Conj<Coordenada> lindastesDeC = (it.Siguiente()).Lindantes();
+		Conj<Coordenada>::Iterador it2 = lindastesDeC.CrearIt();
+		while(it2.HaySiguiente()){
+			if(coordenadas.Pertenece(it2.Siguiente())){
+				res.Agregar(it2.Siguiente());
+				ParaLaRecursion.Agregar(it2.Siguiente());
+				coordenadas.Eliminar(it2.Siguiente());
 			}
-			else{
-				/* NOTA: no puedo pasar 'cs.Eliminar(c)' por parámetro ya que devuelve void*/
-				cs.Eliminar(c);
-				bool arriba = this->existeCaminoPorArriba(c, cs);
-				bool izquierda = this->existeCaminoPorIzquierda(c, cs);
-				bool derecha = this->existeCaminoPorDerecha(c, cs);
-				bool abajo = this->existeCaminoPorAbajo(c, cs);
-				b = arriba && izquierda && derecha && abajo;
-			}
+			it2.Avanzar();
 		}
+		it.Avanzar();
 	}
-	return b; 
-}
-
-bool Mapa::existeCaminoPorArriba(Coordenada& c, Conj<Coordenada>& cs) const{
-	Coordenada adyacente = c.CoordenadaArriba();
-	Vector<Vector<bool> >* existe = this->matriz[adyacente.longitud()][adyacente.latitud()];
-	/* CONSULTA: la siguiente comparación no debería ser 'existe == NULL' ?? */
-	if(existe != NULL){
-		return false;
-	}
-	else{
-		cs.Eliminar(adyacente);
-		return this->hayCaminoQ(c, adyacente.longitud(), adyacente.latitud(), cs);
-
+	if(ParaLaRecursion.Cardinal()!=0){
+		return Lindantes(ParaLaRecursion,coordenadas,res);
+	}else{
+		return res;
 	}
 }
 
-bool Mapa::existeCaminoPorAbajo(Coordenada& c, Conj<Coordenada>& cs) const{
-	Coordenada adyacente = c.CoordenadaAbajo();
-	Vector<Vector<bool> >* existe = this->matriz[adyacente.longitud()][adyacente.latitud()];
-	/* CONSULTA: la siguiente comparación no debería ser 'existe == NULL' ?? */
-	if(existe != NULL){
-		return false;
-	}
-	else{
-		cs.Eliminar(adyacente);
-		return this->hayCaminoQ(c, adyacente.longitud(), adyacente.latitud(), cs);
 
-	}
-}
-
-bool Mapa::existeCaminoPorDerecha(Coordenada& c, Conj<Coordenada>& cs) const{
-	Coordenada adyacente = c.CoordenadaALaDerecha();
-	Vector<Vector<bool> >* existe = this->matriz[adyacente.longitud()][adyacente.latitud()];
-	/* CONSULTA: la siguiente comparación no debería ser 'existe == NULL' ?? */
-	if(existe != NULL){
-		return false;
-	}
-	else{
-		cs.Eliminar(adyacente);
-		return this->hayCaminoQ(c, adyacente.longitud(), adyacente.latitud(), cs);
-
-	}
-}
-
-bool Mapa::existeCaminoPorIzquierda(Coordenada& c, Conj<Coordenada>& cs) const{
-	Coordenada adyacente = c.CoordenadaALaIzquierda();
-	Vector<Vector<bool> >* existe = this->matriz[adyacente.longitud()][adyacente.latitud()];
-	/* CONSULTA: la siguiente comparación no debería ser 'existe == NULL' ?? */
-	if(existe != NULL){
-		return false;
-	}
-	else{
-		cs.Eliminar(adyacente);
-		return this->hayCaminoQ(c, adyacente.longitud(), adyacente.latitud(), cs);
-
-	}
-}
-
-Vector<Vector<bool> > Mapa::crearMatrizMapa(Coordenada& c) const {
-	Nat i = 0;
-	Vector<Vector<bool> > nuevo;
-
-	while(i < this->longitudmaxima){
-		Nat j = 0;
-		Vector<bool> posiciones;
-
-		while (j < this->latitudmaxima){
-			Conj<Coordenada> nuevo = this->coordenadasMapa();
-			Conj<Coordenada> copiaNuevo = nuevo;
-			posiciones.AgregarAtras(this->hayCaminoQ(c, i, j, copiaNuevo));
-			j++;
+Vector <Vector < bool> > Mapa::MatrizDeFalse(Nat i, Nat j){
+	Vector <Vector < bool> >* res = new Vector <Vector < bool> >;
+//	Vector <bool>* nuevo = new Vector < bool>;
+	int k=0;
+	while(k<= i){
+		int r = 0;
+		Vector <bool>* nuevo = new Vector < bool>;
+		while(r<=j){
+			/*cout << matriz.Longitud() <<endl ;*/
+			bool f = false;
+			nuevo->AgregarAtras(f);
+			r++;
 		}
-		nuevo.AgregarAtras(posiciones);
-		i++;
+		res->AgregarAtras(*nuevo);
+		k++;
 	}
-	return nuevo;
+	return *res;
 }
 
+void Mapa::Rellenar(Vector <Vector < bool> >& matriz,Conj<Coordenada> linda){
+	Conj<Coordenada>::Iterador it = linda.CrearIt();
+	while(it.HaySiguiente()){
+		(matriz)[it.Siguiente().latitud()][it.Siguiente().longitud()]=true;
+		it.Avanzar();
+	}
+	
+}
 
-int main(){
-	return 0;
+bool Mapa::hayCamino(Coordenada c, Coordenada c2) const{
+//	Vector< Vector<bool> > matrizDeRelacion = (matriz[c.latitud()][c.longitud()]);
+	return ((matriz[c.latitud()][c.longitud()]))[c2.latitud()][c2.longitud()];
 }
