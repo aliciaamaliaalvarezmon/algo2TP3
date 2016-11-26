@@ -80,7 +80,11 @@ namespace aed2
 
 			capturadosyID(): numero(0), ID(0){}; 			
 
-			bool operator < (const typename Juego::capturadosyID& otra);//podria ser const al final
+			bool operator < (const typename Juego::capturadosyID& otra) const;
+			bool operator == (const typename Juego::capturadosyID& otra) const;
+			bool operator > (const typename Juego::capturadosyID& otra) const;
+			//podria ser const al final
+
 
 		};
 
@@ -116,7 +120,7 @@ namespace aed2
 
 		struct infoHeap
 		{
-			Coladeprioridad<pair<Nat, Nat> > heap_;
+			Coladeprioridad<typename Juego::capturadosyID> heap_;
 			bool HayBasura_;
 			Nat contador_;
 		};

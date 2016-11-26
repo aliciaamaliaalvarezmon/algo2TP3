@@ -801,17 +801,7 @@ typename Coladeprioridad<T>::Iterador Coladeprioridad<T>::Desencolar(){
 
 
 
-
 */
-
-
-
-
-
-
-
-
-
 
 }
 

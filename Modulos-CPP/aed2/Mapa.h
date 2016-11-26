@@ -16,8 +16,8 @@
 #include <ostream>
 #include <iostream>
 #include "Coordenada.h"
-#include "Modulos-CPP/aed2/Conj.h"
-#include "Modulos-CPP/aed2/Vector.h"
+#include "Conj.h"
+#include "Vector.h"
 using namespace std;
 using namespace aed2;
 
@@ -25,6 +25,8 @@ class Mapa{
 public:
 	// Genera un mapa vacío.
 	Mapa();
+
+	Mapa(const Mapa& otro);
 	
 	// Agrega la coordenada al mapa.
 	void agregarCoord(Coordenada& c);

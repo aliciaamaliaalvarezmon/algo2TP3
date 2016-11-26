@@ -11,9 +11,12 @@ Juego::Juego()
 	: mundo_(), vectJug_(), pokemones_(), matrizJugadores_(), matrizPokemon_(), posdePokemon_(), pokemonsXjug_(), cantPokemon_(0)
 	{}
 
-Juego::Juego(Mapa m)
-	: mundo_(m), vectJug_(), pokemones_(), matrizJugadores_(), matrizPokemon_(), posdePokemon_(), pokemonsXjug_(), cantPokemon_(0)
-	{}	
+Juego::Juego(Mapa m)	
+	: mundo_(m), vectJug_(), pokemones_(), posdePokemon_(), pokemonsXjug_(), cantPokemon_(0)
+	{
+		matrizPokemon_ = crearMatrizPok(m.longitudMaxima(), m.longitudMaxima());
+		matrizJugadores_ = crearMatrizJug(m.longitudMaxima(), m.latitudMaxima());
+	}	
 
 
 
@@ -24,6 +27,7 @@ Juego::Juego(Mapa m)
 	}
 
 	void Juego::AgregarPokemon(string p, Coordenada c){
+
 
 	}
 
@@ -190,14 +194,38 @@ Juego::Juego(Mapa m)
 		} 
 
 
-	    Vector<Vector<Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID >::Iterador> > > Juego::crearMatrizJug(Nat n, Nat m){
+	    Vector<Vector<Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID >::Iterador> > > Juego::crearMatrizJug(Nat lon, Nat lat){
+	    	Nat i = 0;
 	    	Vector<Vector<Dicc<Nat, Coladeprioridad<Juego::capturadosyID >::Iterador> > > nuevo;
-	    	return nuevo; 
+	    	while(i < lon){
+	    		Vector<Dicc<Nat, Coladeprioridad<Juego::capturadosyID >::Iterador> > posiciones;
+	    		Nat j = 0;
+	    		while(j < lat){
+	    			Dicc<Nat, Coladeprioridad<Juego::capturadosyID >::Iterador> dicc;
+	    			posiciones.AgregarAtras(dicc);
+	    			j++;
+	    		}
+	    		nuevo.AgregarAtras(posiciones);
+	    		i++;
+	    	}
+	    	return nuevo;
+	    	 
 
 	    }
 
-		Vector<Vector<typename Juego::infoHeap> > Juego::crearMatrizPok(Nat n, Nat m){
+		Vector<Vector<typename Juego::infoHeap> > Juego::crearMatrizPok(Nat lon, Nat lat){
+			Nat i = 0;			
 			Vector<Vector<infoHeap> > nuevo;
+			while(i < lon){
+				Vector<infoHeap> posiciones;
+				Nat j= 0;
+				while(j < lat){
+					typename Juego::infoHeap dummy;
+					posiciones.AgregarAtras(dummy);
+					j++;
+				}
+				i++;
+			}
 			return nuevo;
 		}
 
@@ -303,7 +331,7 @@ void Juego::Iterador::Avanzar(){
 
 
 //Una tupla es menor a otra si tiene menos pokemons capturados. En caso de ser los mismo, es menor el de ID mas alto
-bool Juego::capturadosyID::operator < (const capturadosyID& otra)
+bool Juego::capturadosyID::operator < (const typename Juego::capturadosyID& otra) const
 {
 	if( numero < otra.numero ){
 		return true;
@@ -318,8 +346,23 @@ bool Juego::capturadosyID::operator < (const capturadosyID& otra)
 
   }
 
+bool Juego::capturadosyID::operator == (const typename Juego::capturadosyID& otra) const
+{
+	return (numero == otra.numero) and  (ID == otra.ID);
+  
+
+  }
 
 
+
+
+
+
+bool Juego::capturadosyID::operator > (const typename Juego::capturadosyID& otra) const
+{
+	return ((((*this) < otra) == false ) and (((*this) == otra) == false));
+
+  }
 
 
 
