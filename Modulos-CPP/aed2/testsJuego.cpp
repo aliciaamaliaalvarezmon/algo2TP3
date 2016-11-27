@@ -45,16 +45,28 @@ void conectar(){
 	Coordenada cuarta(1, 2);
 	Coordenada quinta(5, 2);
 	m.agregarCoord(primera);
-	m.agregarCoord(segunda);
+	m.agregarCoord(segunda);//aca
 	m.agregarCoord(tercera);
-	//m.agregarCoord(cuarta);
-	//m.agregarCoord(quinta);
+	m.agregarCoord(cuarta);
+	m.agregarCoord(quinta);
 	Juego hola(m);
 	ASSERT(hola.matrizJUGADORESLongitud() == 5);
-	ASSERT(hola.matrizJUGADORESLatitud() == 4);
+	ASSERT(hola.matrizJUGADORESLatitud() == 6);
 	ASSERT(hola.matrizPOKEMONLongtitud() == 5);
-	ASSERT(hola.matrizPOKEMONLatitud() == 4);
-	
+	ASSERT(hola.matrizPOKEMONLatitud() == 6);
+	Nat cero = hola.AgregarJugador();
+	//hola.conectarse(cero, primera);
+	//ASSERT(hola.estaConectado(cero) == true);
+	//ASSERT(hola.sanciones(cero) == 0);
+	//ASSERT(hola.posicion(cero) == primera);
+	//ASSERT(hola.Pokemons(cero).HaySiguiente() == false);
+	//ASSERT(hola.Expulsados().EsVacio());
+	//ASSERT(hola.ProxID() == 1);
+	//ASSERT(!hola.JugadoresConectados().EsVacio());
+	//ASSERT(hola.JugadoresConectados().Pertenece(cero));
+	//ASSERT(hola.CantPokemonTotales() == 0);
+	//ASSERT(hola.HayPokemonCercano(primera)== false);
+	//ASSERT(hola.CrearIt().Siguiente() == cero);	
 }
 
 

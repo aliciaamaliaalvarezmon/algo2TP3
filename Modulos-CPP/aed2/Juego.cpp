@@ -50,8 +50,8 @@ Juego::Juego(Mapa m)
 	void Juego::conectarse(Nat e, Coordenada c){
 		vectJug_[e].conexion = true;	
 		Coladeprioridad<typename Juego::capturadosyID> nueva;
-		Coladeprioridad<typename Juego::capturadosyID>::Iterador dummy = nueva.CrearIt();	
-		if(estaParaCaptura(c)){
+		Coladeprioridad<typename Juego::capturadosyID>::Iterador dummy = nueva.CrearIt();			
+		if(estaParaCaptura(c)){			
 			Coordenada ACapturar = BuscarHeap(c);
 			typename Juego::capturadosyID espera(vectJug_[e].pokTotalAtrapados, e);
 			typename Coladeprioridad<typename Juego::capturadosyID>::Iterador iteradoralheap = (matrizPokemon_[ACapturar.longitud()][ACapturar.latitud()].heap_).Encolar(espera);
@@ -192,25 +192,27 @@ Juego::Juego(Mapa m)
 	    	return cantPokemon_;
 	    }
 
-	     bool Juego::HayPokemonCercano(Coordenada c){
-	     	bool res;
+	     bool Juego::HayPokemonCercano(Coordenada c){	     	
+	     	bool res = false;
 			Nat i;
 			if (c.longitud() < 2){
 				i = 0;
 			}else{
 				i = c.longitud() -2;			
 			}
-			Nat j;		
-			while( (i <= c.longitud() + 2) and (res == false)){
-				if (c.latitud() < 2){
-					j = 0;
-				}else{
+			Nat j;
+			while( (i <= c.longitud() + 2) and (res == false)){				
+				if (c.latitud() < 2){					
+					j = 0;									
+				}else{					
 					j = c.latitud() -2;
 				}
-				while( (j <= c.latitud() + 2)and (res == false)){
+				cout << j << endl;				
+				while( (j <= c.latitud() + 2) and (res == false)){										
 					Coordenada ver(j,i);
 					bool a = mundo_.posEnMapa(ver);
-					bool b = (c.distEuclidea(ver) <= 4);
+					cout << "llega hasta aqui" << endl;	
+					bool b = (c.distEuclidea(ver) <= 4);						
 					bool d = (!(matrizPokemon_[ver.longitud()][ver.latitud()].HayBasura_));
 					bool e = mundo_.hayCamino(c, ver);
 					if( a and b and d and e){
@@ -399,8 +401,8 @@ Juego::Juego(Mapa m)
 
 	bool Juego::estaParaCaptura(Coordenada posDelJug){
 		//pareciera que faltara revisar el contador.
-		bool res = false;
-		if(HayPokemonCercano(posDelJug)){
+		bool res = false;			
+		if(HayPokemonCercano(posDelJug)){			
 			Coordenada posDelPoke = BuscarHeap(posDelJug);
 			res = mundo_.hayCamino(posDelJug, posDelPoke);			
 		}		

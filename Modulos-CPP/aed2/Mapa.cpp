@@ -1,6 +1,6 @@
 #include "Mapa.h"
 
-Mapa::Mapa() : longitudmaxima(0), latitudmaxima(0), matriz() , coordenadas() {}
+Mapa::Mapa() :  matriz() , longitudmaxima(0), latitudmaxima(0), coordenadas() {}
 /*CONSULTA: esta bien inicializarlo así?*/
 
 void Mapa::agregarCoord(Coordenada& c){
@@ -14,7 +14,7 @@ void Mapa::agregarCoord(Coordenada& c){
 		while(matriz.Longitud() <= c.latitud()){
 			matriz.AgregarAtras(*fila);
 		}
-		int i = 0;
+		Nat i = 0;
 		while(i< matriz.Longitud()){
 			while(matriz[i].Longitud()<= c.longitud()){
 				matriz[i].AgregarAtras(*elem);
@@ -36,7 +36,7 @@ void Mapa::agregarCoord(Coordenada& c){
 		}else{
 //			cout << "entre aca" <<endl;
 			if(c.longitud() >= longitudmaxima){
-				int i = 0;
+				Nat i = 0;
 				while(i< matriz.Longitud()){
 					while(matriz[i].Longitud()<= c.longitud()){
 						matriz[i].AgregarAtras(*elem);
@@ -48,7 +48,7 @@ void Mapa::agregarCoord(Coordenada& c){
 		}
 		
 	}
-	int i=0;
+	Nat i=0;
 	cout << "longitudmaxima:" << longitudmaxima<<endl;
 	cout << "latitudmaxima:" << latitudmaxima<<endl;
 	cout << "latitud de la Matriz:" << matriz.Longitud()<<endl;
@@ -159,4 +159,11 @@ void Mapa::Rellenar(Vector <Vector < bool> >& matriz,Conj<Coordenada> linda){
 
 bool Mapa::hayCamino(Coordenada c, Coordenada c2) const{
 	return (matriz[c.latitud()][c.longitud()])[c2.latitud()][c2.longitud()];
+}
+
+
+bool Mapa::posEnMapa(Coordenada c) const{
+	//return (matriz[c.latitud()][c.longitud()])[c.latitud()][c.longitud()];
+	return   (matriz[0][0])[0][0];
+	
 }

@@ -11,6 +11,8 @@
  * ========================================================================================
  */
 
+#ifndef AED2_MAPA_H_
+#define AED2_MAPA_H_
 
 #include <string>
 #include <ostream>
@@ -79,3 +81,4 @@ private:
 	
 };
 
+#endif
