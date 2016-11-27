@@ -27,7 +27,8 @@ Juego::Juego(Mapa m)
 	}
 
 	void Juego::AgregarPokemon(string p, Coordenada c){
-		Dicc<Coordenada, String>::Iterador ju = (posdePokemon_).DefinirRapido(c,p);
+		//Dicc<Coordenada, String>::Iterador ju = (posdePokemon_).DefinirRapido(c,p);
+		(posdePokemon_).DefinirRapido(c,p);
 		Conj<capturadosyID> entrenadores = cercanos(c);// jajajajaja, podemos romper todo.		
 		if(!pokemones_.Definido(p)) {
 			pokemones_.Definir(p, dataPokemon(1,0));			
@@ -41,7 +42,9 @@ Juego::Juego(Mapa m)
 		Conj<typename Juego::capturadosyID>::Iterador it = entrenadores.CrearIt();
 
 		while(it.HaySiguiente()){
-		//	vectJug_[it.Siguiente().ID].posenColaDeCaptura = matrizJugadores_[vectJug_[it.Siguiente().ID].posicion.longitud()][vectJug_[it.Siguiente().ID].posicion.latitud()].DefinirRapido(it.Siguiente().ID, (*rompe).Encolar(it.Siguiente));
+			Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID>::Iterador>* hola = &(matrizJugadores_[vectJug_[it.Siguiente().ID].posicion.longitud()][vectJug_[it.Siguiente().ID].posicion.latitud()]);
+			(*hola).DefinirRapido(it.Siguiente().ID, (*rompe).Encolar(it.Siguiente()));
+			//vectJug_[it.Siguiente().ID].posenColaDeCaptura = matrizJugadores_[vectJug_[it.Siguiente().ID].posicion.longitud()][vectJug_[it.Siguiente().ID].posicion.latitud()].DefinirRapido(it.Siguiente().ID, (*rompe).Encolar(it.Siguiente));
 			it.Avanzar();
 		}
 		cantPokemon_ ++;
