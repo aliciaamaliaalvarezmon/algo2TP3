@@ -142,10 +142,14 @@ Juego::Juego(Mapa m)
 
 
 
-	  Conj<Coordenada>::Iterador Juego::posConPokemons(){
-	  	//Conj<Coordenada>::Iterador nuevo;
-	  	//return nuevo;
-	  	Conj<Coordenada>::Iterador nuevo = Claves(posdePokemon_).CrearIt();
+	  Conj<Coordenada>::Iterador Juego::posConPokemons(Conj<Coordenada>& dummy){
+	  	
+	  	//return nuevo;	  		
+	  	//cout << "antes dummy" << dummy.Cardinal()<< endl;  	
+	  	Claves(posdePokemon_, dummy);	 
+	  	//cout << "desues dummy" << dummy.Cardinal()<< endl;  	 
+	  	Conj<Coordenada>::Iterador nuevo = dummy.CrearIt();	  	
+	  	cout << "iterador"<<nuevo.Siguiente().latitud() << nuevo.Siguiente().longitud() << endl;
 	  	return nuevo;
 
 	  }
@@ -280,17 +284,28 @@ Juego::Juego(Mapa m)
 //FUNCIONES PRIVADAS
 
 
+		void Juego::Claves(Dicc<Coordenada, string> dicc, Conj<Coordenada>& vacio){
+			//Conj<Coordenada> nuevo;			
+			typename Dicc<Coordenada, string>::Iterador it = dicc.CrearIt();			
+			while(it.HaySiguiente()){
+				//cout << "Cantidad de claves" << posdePokemon_.CantClaves() << endl;
+				//cout << "claves " << it.SiguienteClave().latitud() << ", " << it.SiguienteClave().longitud() <<endl;
+				vacio.AgregarRapido(it.SiguienteClave());				
+				it.Avanzar();				
+				}			
+		} 
+		/*
 		Conj< Coordenada > Juego::Claves(Dicc<Coordenada, string> dicc){
-			Conj<Coordenada> nuevo;
+			//Conj<Coordenada> nuevo;
 
-			typename Dicc<Coordenada, string>::Iterador it = dicc.CrearIt();
-			Nat cantidaddeclaves = dicc.CantClaves();
-			/*while(it.HaySiguiente()){
-				cout << "Cantidad de claves" << posdePokemon_.CantClaves() << endl;
-				cout << "claves " << it.SiguienteClave().latitud() << ", " << it.SiguienteClave().longitud() <<endl;
-				nuevo.AgregarRapido(it.SiguienteClave());
+			typename Dicc<Coordenada, string>::Iterador it = dicc.CrearIt();			
+			while(it.HaySiguiente()){
+				//cout << "Cantidad de claves" << posdePokemon_.CantClaves() << endl;
+				//cout << "claves " << it.SiguienteClave().latitud() << ", " << it.SiguienteClave().longitud() <<endl;
+				nuevo.AgregarRapido(it.SiguienteClave());				
 				it.Avanzar();
-			}*/
+				//cout << "candinal" << nuevo.Cardinal() << endl;
+			}
 			while(cantidaddeclaves > 0){				
 				cout << "claves " << it.SiguienteClave().latitud() << ", " << it.SiguienteClave().longitud() <<endl;
 				nuevo.AgregarRapido(it.SiguienteClave());
@@ -298,17 +313,32 @@ Juego::Juego(Mapa m)
 				cantidaddeclaves--;
 			}	
 
-			return nuevo;
+			//return nuevo;
+		} */
+
+
+		void Juego::Claves(Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID>::Iterador > dicc, Conj<Nat>& vacio){			
+			typename Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID>::Iterador >::Iterador it = dicc.CrearIt();
+			while(it.HaySiguiente()){
+				vacio.AgregarRapido(it.SiguienteClave());//AgregarRapido
+				it.Avanzar();
+			}			
 		} 
+
+/*
 		Conj< Nat > Juego::Claves(Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID>::Iterador > dicc){
 			Conj<Nat> nuevo;
 			typename Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID>::Iterador >::Iterador it = dicc.CrearIt();
 			while(it.HaySiguiente()){
-				nuevo.AgregarRapido(it.SiguienteClave());
+				nuevo.Agregar(it.SiguienteClave());//AgregarRapido
 				it.Avanzar();
 			}
 			return nuevo;
 		} 
+*/
+
+
+
 
 
 	    Vector<Vector<Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID >::Iterador> > > Juego::crearMatrizJug(Nat lon, Nat lat){
@@ -367,11 +397,14 @@ Juego::Juego(Mapa m)
 				Coordenada ver(j,i);
 				if(ver.longitud() < mundo_.longitudMaxima() and ver.latitud() < mundo_.latitudMaxima()){
 				bool a = (mundo_.posEnMapa(ver)); //puede fallar				
-				bool b = (c.distEuclidea(ver) <= 4);				
-				bool d = (!(Claves(matrizJugadores_[ver.longitud()][ver.latitud()]).EsVacio()));
+				bool b = (c.distEuclidea(ver) <= 4);
+				Conj<Nat> dummy;
+				Claves(matrizJugadores_[ver.longitud()][ver.latitud()], dummy);				
+				bool d = (!(dummy.EsVacio()));
 				bool e = mundo_.hayCamino(ver, c);
 				if(a and b and d and e){
-					Conj<Nat>::Iterador it = (Claves((matrizJugadores_[ver.longitud()][ver.latitud()]))).CrearIt();
+					//Conj<Nat>::Iterador it = (Claves((matrizJugadores_[ver.longitud()][ver.latitud()]))).CrearIt();
+					Conj<Nat>::Iterador it = dummy.CrearIt();
 					while (it.HaySiguiente()){
 						typename Juego::capturadosyID hola(vectJug_[it.Siguiente()].pokTotalAtrapados ,it.Siguiente() );
 						nuevo.AgregarRapido(hola);

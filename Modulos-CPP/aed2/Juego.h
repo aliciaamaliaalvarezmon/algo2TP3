@@ -50,7 +50,7 @@ namespace aed2
 
        Conj<Nat> Expulsados();
 
-      Conj<Coordenada>::Iterador posConPokemons(); 
+      Conj<Coordenada>::Iterador posConPokemons(Conj<Coordenada>& dummy); 
 
        String pokemonEnPos(Coordenada c);
 
@@ -159,8 +159,10 @@ namespace aed2
 
 		void AuxCapturarPokemon(Dicc<Coordenada, string>::Iterador it);
 
-		Conj<Coordenada> Claves(Dicc<Coordenada, string> dicc); //Deberia estar en diccLineal.
-		Conj<Nat> Claves(Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID>::Iterador > dicc); //Deberia estar en diccLineal.
+		//Conj<Coordenada> Claves(Dicc<Coordenada, string> dicc); //Deberia estar en diccLineal.
+		void Claves(Dicc<Coordenada, string> dicc, Conj<Coordenada>& vacio);
+		void Claves(Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID>::Iterador > dicc, Conj<Nat>& vacio);
+		//Conj<Nat> Claves(Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID>::Iterador > dicc); //Deberia estar en diccLineal.
 
 		
 

@@ -89,6 +89,7 @@ void desconectar(){
 	ASSERT(hola.matrizPOKEMONLongtitud() == 5);
 	ASSERT(hola.matrizPOKEMONLatitud() == 6);
 	Nat cero = hola.AgregarJugador();
+
 	hola.conectarse(cero, primera);
 	ASSERT(hola.estaConectado(cero) == true);
 	ASSERT(hola.sanciones(cero) == 0);
@@ -131,16 +132,18 @@ void AgregoPokemon(){
 	m.agregarCoord(quinta);
 	//hasta aca el mapa
 	Juego hola(m);
-	hola.AgregarPokemon("torchit", primera);	
+	hola.AgregarPokemon("torchit", primera);		
 	ASSERT(hola.CantMovimientosParaCaptura(primera) == 0);
 	ASSERT(hola.CantPokemonTotales() == 1);
 	ASSERT(hola.indiceDeRareza("torchit") == 0);
 	ASSERT(hola.pokemonEnPos(primera) == "torchit");
-	cout << hola.posConPokemons().Siguiente().latitud() << ", " << hola.posConPokemons().Siguiente().longitud() <<endl;
-	ASSERT(hola.posConPokemons().Siguiente() == primera);
-	
-	//ASSERT(hola.HayPokemonCercano(primera));
-	//ASSERT(PosDePokemonCercano(primera) == primera);
+	//cout << "llega"<<endl;
+	Conj<Coordenada> vacio;
+	cout << hola.posConPokemons(vacio).Siguiente().latitud() << ", " << hola.posConPokemons(vacio).Siguiente().longitud() <<endl;
+	ASSERT(hola.posConPokemons(vacio).Siguiente() == primera);
+	cout << "llega"<<endl;	
+	ASSERT(hola.HayPokemonCercano(primera));
+	cout << hola.PosDePokemonCercano(primera).latitud() <<"," << hola.PosDePokemonCercano(primera).longitud() << endl;
 
 
 }
