@@ -67,12 +67,14 @@ Juego::Juego(Mapa m)
 	}
 
 	void Juego::desconectarse(Nat e){
-		vectJug_[e].conexion = false;
-		Coordenada c = vectJug_[e].posicion;
-		if(estaParaCaptura(c)){			
+		vectJug_[e].conexion = false;		
+		Coordenada c = vectJug_[e].posicion;		
+		if(estaParaCaptura(c)){	
 			vectJug_[e].posenColaDeCaptura.SiguienteSignificado().borrarSiguiente();//elimino de la cola la pos			
 		}
+		if(vectJug_[e].posenColaDeCaptura.HaySiguiente()){
 		vectJug_[e].posenColaDeCaptura.EliminarSiguiente(); //elimino de la matriz Jugador
+		}
 
 	}
 
@@ -169,7 +171,7 @@ Juego::Juego(Mapa m)
 	     	Conj<Nat> nuevo;
 	     	Nat i = 0;
 	     	while( i < vectJug_.Longitud()){
-	     		if((vectJug_[i].sanciones == 5) and (vectJug_[i].conexion)){
+	     		if((vectJug_[i].sanciones < 5) and (vectJug_[i].conexion)){
 	     			nuevo.AgregarRapido(i);
 	     		}
 	     		i++;
@@ -206,8 +208,7 @@ Juego::Juego(Mapa m)
 					j = 0;									
 				}else{					
 					j = c.latitud() -2;
-				}
-				cout << j << endl;				
+				}							
 				while( (j <= c.latitud() + 2) and (res == false)){														
 					Coordenada ver(j,i);
 					if(ver.longitud() < mundo_.longitudMaxima() and ver.latitud() < mundo_.latitudMaxima()){

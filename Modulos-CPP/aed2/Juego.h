@@ -131,7 +131,7 @@ namespace aed2
 			bool HayBasura_;
 			Nat contador_;
 
-			infoHeap(): heap_(), HayBasura_(false), contador_(0) {};
+			infoHeap(): heap_(), HayBasura_(true), contador_(0) {};//el haybasura, al poner el pokemon, pasa a ser false
 		};
 
 		Mapa mundo_;
