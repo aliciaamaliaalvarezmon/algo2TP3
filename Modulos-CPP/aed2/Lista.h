@@ -178,6 +178,7 @@ template<class T>
 std::ostream& operator << (std::ostream& os, const Lista<T>& l);
 
 template<class T>
+
 bool operator == (const Lista<T>& l1, const Lista<T>& k2);
 
   //  Implementacion de Lista

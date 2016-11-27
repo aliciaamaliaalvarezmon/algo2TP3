@@ -60,6 +60,8 @@ public:
 	
 	// Devuelve true si existe un camino que conecte a las coordenadas por izquierda.
 	bool existeCaminoPorIzquierda(Coordenada& c, Conj<Coordenada>& cs) const;
+
+	bool posEnMapa(Coordenada c) const;
 	
 	// Crea una matriz con las coordenadas del mapa.
 	Vector<Vector<bool> > crearMatrizMapa(Coordenada& c) const;

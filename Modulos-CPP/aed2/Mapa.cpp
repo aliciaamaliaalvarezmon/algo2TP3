@@ -8,6 +8,8 @@ Mapa::Mapa(const Mapa& otro)
 {}
 
 
+
+
 void Mapa::agregarCoord(Coordenada& c){
 	coordenadas.AgregarRapido(c);
 	Vector< Vector<Vector<bool> > >* fila = new Vector< Vector<Vector<bool> > >; 
@@ -149,4 +151,8 @@ void Mapa::Rellenar(Vector <Vector < bool> >& matriz,Conj<Coordenada> linda){
 
 bool Mapa::hayCamino(Coordenada c, Coordenada c2) const{
 	return (matriz[c.latitud()][c.longitud()])[c2.latitud()][c2.longitud()];
+}
+
+bool Mapa::posEnMapa(Coordenada c) const{
+	return (matriz[c.latitud()][c.longitud()])[c.latitud()][c.longitud()];
 }

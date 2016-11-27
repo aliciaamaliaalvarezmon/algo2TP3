@@ -62,11 +62,11 @@ namespace aed2
 
        Nat indiceDeRareza(string p);
 
-        Nat CantPokemonTotales();
+       Nat CantPokemonTotales();
 
        bool HayPokemonCercano(Coordenada c);
 
-       Coordenada PosDePokemonCercano();            
+       Coordenada PosDePokemonCercano(Coordenada c);            
 
        Iterador CrearIt(); 
 
@@ -78,7 +78,8 @@ namespace aed2
 			Nat numero;
 			Nat ID;
 
-			capturadosyID(): numero(0), ID(0){}; 			
+			capturadosyID(): numero(0), ID(0){}; 
+			capturadosyID(Nat num, Nat i ): numero(num), ID(i){};			
 
 			bool operator < (const typename Juego::capturadosyID& otra) const;
 			bool operator == (const typename Juego::capturadosyID& otra) const;
@@ -115,6 +116,7 @@ namespace aed2
 			Nat PC;	
 
 			dataPokemon(): PS(0), PC(0){}; 
+			dataPokemon(Nat s, Nat c): PS(s), PC(c){};
 			
 		};
 
@@ -123,12 +125,14 @@ namespace aed2
 			Coladeprioridad<typename Juego::capturadosyID> heap_;
 			bool HayBasura_;
 			Nat contador_;
+
+			infoHeap(): heap_(), HayBasura_(false), contador_(0) {};
 		};
 
 		Mapa mundo_;
 		Vector<typename Juego::dataJugador> vectJug_;
 		DiccString<typename Juego::dataPokemon> pokemones_;
-		Vector<Vector<Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID >::Iterador> > > matrizJugadores_;//(pokcapturados, ID)
+		Vector<Vector<Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID>::Iterador> > > matrizJugadores_;//(pokcapturados, ID)
 		Vector<Vector<typename Juego::infoHeap> > matrizPokemon_;
 		Dicc<Coordenada, String> posdePokemon_;//(coordenada,pokemon)
 		Lista<DiccString<Nat> > pokemonsXjug_;//puede estar dentro de data jugador
@@ -140,13 +144,13 @@ namespace aed2
 
 		Vector<Vector< typename Juego::infoHeap> > crearMatrizPok(Nat n, Nat m);
 		
-		Conj<capturadosyID> cercanos(Coordenada c);
+		Conj<typename Juego::capturadosyID> cercanos(Coordenada c);
 
 		bool HayUnJugadorCercano(Coordenada c);
 
 		bool estaParaCaptura(Coordenada posDelJug);
 
-		Coordenada BuscarHeap(Vector<Vector<infoHeap> >);
+		Coordenada BuscarHeap(Coordenada c);
 
 		void AuxCapturarPokemon(Dicc<Coordenada, string>::Iterador it);
 
