@@ -36,11 +36,11 @@ Juego::Juego(Mapa m)
 			pokemones_.Obtener(p).PS++;			 
 		}
 		//agregamos pokemon a pokemones
-		typename Juego::infoHeap heap;
-		matrizPokemon_[c.longitud()][c.latitud()] = heap;
+		typename Juego::infoHeap heap;		
+		matrizPokemon_[c.longitud()][c.latitud()] = heap;		
 		Coladeprioridad<typename Juego::capturadosyID>* rompe = &(matrizPokemon_[c.longitud()][c.latitud()].heap_);
+		matrizPokemon_[c.longitud()][c.latitud()].HayBasura_ = false;
 		Conj<typename Juego::capturadosyID>::Iterador it = entrenadores.CrearIt();
-
 		while(it.HaySiguiente()){
 			Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID>::Iterador>* hola = &(matrizJugadores_[vectJug_[it.Siguiente().ID].posicion.longitud()][vectJug_[it.Siguiente().ID].posicion.latitud()]);
 			(*hola).DefinirRapido(it.Siguiente().ID, (*rompe).Encolar(it.Siguiente()));
@@ -212,13 +212,13 @@ Juego::Juego(Mapa m)
 				}else{					
 					j = c.latitud() -2;
 				}							
-				while( (j <= c.latitud() + 2) and (res == false)){														
-					Coordenada ver(j,i);
+				while( (j <= c.latitud() + 2) and (res == false)){	
+					Coordenada ver(j,i);						
 					if(ver.longitud() < mundo_.longitudMaxima() and ver.latitud() < mundo_.latitudMaxima()){
 					bool a = mundo_.posEnMapa(ver);					
 					bool b = (c.distEuclidea(ver) <= 4);						
 					bool d = (!(matrizPokemon_[ver.longitud()][ver.latitud()].HayBasura_));
-					bool e = mundo_.hayCamino(c, ver);
+					bool e = mundo_.hayCamino(c, ver);					
 					if( a and b and d and e){
 						res = true;
 					}
@@ -247,11 +247,14 @@ Juego::Juego(Mapa m)
 					j = c.latitud() -2;
 				}
 				while( (j <= c.latitud() + 2)and (aux == false)){
-					Coordenada ver(j,i);
+					Coordenada ver(j,i);					
 					if(ver.longitud() < mundo_.longitudMaxima() and ver.latitud() < mundo_.latitudMaxima()){
 					bool a = mundo_.posEnMapa(c);
 					bool b = (c.distEuclidea(ver) <= 4);
 					bool d = (!(matrizPokemon_[ver.longitud()][ver.latitud()].HayBasura_));
+					Coordenada prue(1,1);
+					//cout << "ver" << ver.latitud() <<"," <<ver.longitud() <<"," << matrizPokemon_[ver.longitud()][ver.latitud()].HayBasura_ << endl;
+					//cout<< "hay camino: " << mundo_.hayCamino(c, ver) << endl;
 					bool e = mundo_.hayCamino(c, ver);
 					if(a and b and d and e){
 						aux = true;
