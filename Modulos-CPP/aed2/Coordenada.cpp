@@ -1,3 +1,7 @@
+
+
+
+
 #include "Coordenada.h"
 #include "TiposBasicos.h" 
 #include "Conj.h"
@@ -5,6 +9,16 @@
 Coordenada::Coordenada(){
 	lat = 0;
 	lon = 0;
+}
+
+Coordenada::Coordenada( const Coordenada& otro):
+	lat(otro.lat), lon(otro.lon)
+{}
+
+Coordenada& Coordenada::operator=(const Coordenada& otro){
+lat =otro.lat;
+ lon = otro.lon;
+ return (*this);
 }
 
 Coordenada::Coordenada(Nat n, Nat m){

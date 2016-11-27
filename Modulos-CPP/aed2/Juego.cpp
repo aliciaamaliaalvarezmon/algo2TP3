@@ -28,7 +28,7 @@ Juego::Juego(Mapa m)
 
 	void Juego::AgregarPokemon(string p, Coordenada c){
 		//Dicc<Coordenada, String>::Iterador ju = (posdePokemon_).DefinirRapido(c,p);
-		(posdePokemon_).DefinirRapido(c,p);
+		(posdePokemon_).DefinirRapido(c,p);		
 		Conj<capturadosyID> entrenadores = cercanos(c);// jajajajaja, podemos romper todo.		
 		if(!pokemones_.Definido(p)) {
 			pokemones_.Definir(p, dataPokemon(1,0));			
@@ -47,7 +47,7 @@ Juego::Juego(Mapa m)
 			//vectJug_[it.Siguiente().ID].posenColaDeCaptura = matrizJugadores_[vectJug_[it.Siguiente().ID].posicion.longitud()][vectJug_[it.Siguiente().ID].posicion.latitud()].DefinirRapido(it.Siguiente().ID, (*rompe).Encolar(it.Siguiente));
 			it.Avanzar();
 		}
-		cantPokemon_ ++;
+		cantPokemon_ ++;		
 	}
 
 	void Juego::conectarse(Nat e, Coordenada c){
@@ -281,10 +281,20 @@ Juego::Juego(Mapa m)
 			Conj<Coordenada> nuevo;
 
 			typename Dicc<Coordenada, string>::Iterador it = dicc.CrearIt();
-			while(it.HaySiguiente()){
+			Nat cantidaddeclaves = dicc.CantClaves();
+			/*while(it.HaySiguiente()){
+				cout << "Cantidad de claves" << posdePokemon_.CantClaves() << endl;
+				cout << "claves " << it.SiguienteClave().latitud() << ", " << it.SiguienteClave().longitud() <<endl;
 				nuevo.AgregarRapido(it.SiguienteClave());
 				it.Avanzar();
-			}
+			}*/
+			while(cantidaddeclaves > 0){				
+				cout << "claves " << it.SiguienteClave().latitud() << ", " << it.SiguienteClave().longitud() <<endl;
+				nuevo.AgregarRapido(it.SiguienteClave());
+				it.Avanzar();
+				cantidaddeclaves--;
+			}	
+
 			return nuevo;
 		} 
 		Conj< Nat > Juego::Claves(Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID>::Iterador > dicc){

@@ -10,6 +10,9 @@
 
 #include <string>
 #include <ostream>
+
+
+
 #include <iostream>
 #include "TiposBasicos.h" 
 #include "Conj.h"
@@ -23,6 +26,8 @@ class Coordenada{
 		// Crea una Coordenada con los valores n y m.
 
 		Coordenada();
+		Coordenada( const Coordenada& otro);
+		Coordenada& operator=(const Coordenada& otro);
 		
 		Coordenada(Nat n, Nat m);
 		/*CONSULTA: en el tp este metodo se llama crearCoord. podemos cambiar el nombre?*/
