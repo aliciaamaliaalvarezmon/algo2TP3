@@ -14,7 +14,7 @@ Juego::Juego()
 Juego::Juego(Mapa m)	
 	: mundo_(m), vectJug_(), pokemones_(), posdePokemon_(), pokemonsXjug_(), cantPokemon_(0)
 	{
-		matrizPokemon_ = crearMatrizPok(m.longitudMaxima(), m.longitudMaxima());
+		matrizPokemon_ = crearMatrizPok(m.longitudMaxima(), m.latitudMaxima());
 		matrizJugadores_ = crearMatrizJug(m.longitudMaxima(), m.latitudMaxima());
 	}	
 
@@ -319,6 +319,7 @@ Juego::Juego(Mapa m)
 					posiciones.AgregarAtras(dummy);
 					j++;
 				}
+				nuevo.AgregarAtras(posiciones);
 				i++;
 			}
 			return nuevo;
@@ -554,5 +555,27 @@ bool Juego::capturadosyID::operator > (const typename Juego::capturadosyID& otra
 
 
 
+//TESTING
 
+
+
+  Nat Juego::matrizJUGADORESLongitud(){
+  	return matrizJugadores_.Longitud();
+  }//(pokcapturados, ID)
+
+
+
+Nat Juego::matrizPOKEMONLongtitud(){
+	return matrizPokemon_.Longitud();
+}
+
+Nat Juego::matrizJUGADORESLatitud(){
+  	return matrizJugadores_[0].Longitud();
+  }//(pokcapturados, ID)
+
+
+
+Nat Juego::matrizPOKEMONLatitud(){
+	return matrizPokemon_[0].Longitud();
+}
 
