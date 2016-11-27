@@ -208,15 +208,16 @@ Juego::Juego(Mapa m)
 					j = c.latitud() -2;
 				}
 				cout << j << endl;				
-				while( (j <= c.latitud() + 2) and (res == false)){										
+				while( (j <= c.latitud() + 2) and (res == false)){														
 					Coordenada ver(j,i);
-					bool a = mundo_.posEnMapa(ver);
-					cout << "llega hasta aqui" << endl;	
+					if(ver.longitud() < mundo_.longitudMaxima() and ver.latitud() < mundo_.latitudMaxima()){
+					bool a = mundo_.posEnMapa(ver);					
 					bool b = (c.distEuclidea(ver) <= 4);						
 					bool d = (!(matrizPokemon_[ver.longitud()][ver.latitud()].HayBasura_));
 					bool e = mundo_.hayCamino(c, ver);
 					if( a and b and d and e){
 						res = true;
+					}
 					}
 					j++;
 				}
@@ -243,6 +244,7 @@ Juego::Juego(Mapa m)
 				}
 				while( (j <= c.latitud() + 2)and (aux == false)){
 					Coordenada ver(j,i);
+					if(ver.longitud() < mundo_.longitudMaxima() and ver.latitud() < mundo_.latitudMaxima()){
 					bool a = mundo_.posEnMapa(c);
 					bool b = (c.distEuclidea(ver) <= 4);
 					bool d = (!(matrizPokemon_[ver.longitud()][ver.latitud()].HayBasura_));
@@ -250,6 +252,7 @@ Juego::Juego(Mapa m)
 					if(a and b and d and e){
 						aux = true;
 						nueva = ver;
+					}
 					}
 					j++;
 				}
@@ -345,6 +348,7 @@ Juego::Juego(Mapa m)
 			}
 			while(j <= c.latitud() + 2){
 				Coordenada ver(j,i);
+				if(ver.longitud() < mundo_.longitudMaxima() and ver.latitud() < mundo_.latitudMaxima()){
 				bool a = (mundo_.posEnMapa(ver)); //puede fallar				
 				bool b = (c.distEuclidea(ver) <= 4);				
 				bool d = (!(Claves(matrizJugadores_[ver.longitud()][ver.latitud()]).EsVacio()));
@@ -356,6 +360,7 @@ Juego::Juego(Mapa m)
 						nuevo.AgregarRapido(hola);
 						it.Avanzar();
 					}					
+				}
 				}
 				j++;
 			}
@@ -384,12 +389,14 @@ Juego::Juego(Mapa m)
 			}
 			while(j < c.latitud() + 2 ){
 				Coordenada ver(j,i);
+				if(ver.longitud() < mundo_.longitudMaxima() and ver.latitud() < mundo_.latitudMaxima()){
 				bool a = (mundo_.posEnMapa(ver)); //puede fallar
 				bool b = (c.distEuclidea(ver) <= 4);
 				bool d = ((matrizJugadores_[ver.longitud()][ver.latitud()]).CantClaves() > 0);
 				bool e = mundo_.hayCamino(ver, c);
 				if(a and b and d and e){
 					aux = true;
+				}
 				}
 				j++;
 			}
@@ -428,12 +435,14 @@ Juego::Juego(Mapa m)
 			}
 			while((j<= c.latitud() +2) and (!AunNoLoEncontre)){
 				Coordenada ver(j,i);
+				if(ver.longitud() < mundo_.longitudMaxima() and ver.latitud() < mundo_.latitudMaxima()){
 				if(mundo_.posEnMapa(ver) and c.distEuclidea(ver) <= 4){
 					if(!(matrizPokemon_[c.longitud()][c.latitud()].HayBasura_)){
 						Coordenada esEsta(j,i);
 						nueva =  esEsta;
 						AunNoLoEncontre = true;
 					}
+				}
 				}
 				j++;
 			}
