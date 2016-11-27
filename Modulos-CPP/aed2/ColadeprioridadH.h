@@ -50,6 +50,7 @@ template <typename T>
   Coladeprioridad<T>::Iterador Encolar(const T& elem);
   void Desencolar();  
   T& tope() const; 
+  Coladeprioridad<T>::Iterador CrearIt();
 
 
 
@@ -103,11 +104,15 @@ template <typename T>
     }
     Iterador(Coladeprioridad<T>* c, typename Coladeprioridad<T>::Nodo* p){
       cola_= c;
-      apuntador_ = p;        
+      apuntador_ = p;    
     }
 
 
+
+
+
     friend typename Coladeprioridad<T>::Iterador Coladeprioridad<T>::CrearIt(typename Coladeprioridad<T>::Nodo* p); 
+    friend typename Coladeprioridad<T>::Iterador Coladeprioridad<T>::CrearIt(); 
       //friend typename Coladeprioridad<T>::Iterador CrearIt(typename Coladeprioridad<T>::Nodo* n);
 
   };
@@ -505,6 +510,13 @@ typename Coladeprioridad<T>::Iterador Coladeprioridad<T>::CrearIt(typename Colad
   typename Coladeprioridad<T>::Iterador nuevo(this, p);
   return nuevo;//VER SI ESTO NO DEBERIA DEVOLVER VOID
 }
+
+ template<class T>
+typename Coladeprioridad<T>::Iterador Coladeprioridad<T>::CrearIt(){
+  typename Coladeprioridad<T>::Iterador nuevo(this, this->heap_);
+  return nuevo;//VER SI ESTO NO DEBERIA DEVOLVER VOID
+}
+
 
 
 //FUNCIONES DEL ITERADOR::

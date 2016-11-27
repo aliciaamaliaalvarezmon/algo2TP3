@@ -48,8 +48,22 @@ Juego::Juego(Mapa m)
 	}
 
 	void Juego::conectarse(Nat e, Coordenada c){
-		
-
+		vectJug_[e].conexion = true;	
+		Coladeprioridad<typename Juego::capturadosyID> nueva;
+		Coladeprioridad<typename Juego::capturadosyID>::Iterador dummy = nueva.CrearIt();	
+		if(estaParaCaptura(c)){
+			Coordenada ACapturar = BuscarHeap(c);
+			typename Juego::capturadosyID espera(vectJug_[e].pokTotalAtrapados, e);
+			typename Coladeprioridad<typename Juego::capturadosyID>::Iterador iteradoralheap = (matrizPokemon_[ACapturar.longitud()][ACapturar.latitud()].heap_).Encolar(espera);
+			vectJug_[e].posenColaDeCaptura = matrizJugadores_[c.longitud()][c.latitud()].DefinirRapido(e, iteradoralheap );
+		}else{
+		matrizJugadores_[c.longitud()][c.latitud()].DefinirRapido(e, dummy);
+		}	
+		if(HayPokemonCercano(c)){
+			Coordenada PosdePokemon = BuscarHeap(c);
+			matrizPokemon_[PosdePokemon.longitud()][PosdePokemon.latitud()].contador_ = 0;
+		}
+		vectJug_[e].posicion = c;
 	}
 
 	void Juego::desconectarse(Nat e){
@@ -328,8 +342,8 @@ Juego::Juego(Mapa m)
 			}
 			while(j <= c.latitud() + 2){
 				Coordenada ver(j,i);
-				bool a = (mundo_.posEnMapa(ver)); //puede fallar
-				bool b = (c.distEuclidea(ver) <= 4);
+				bool a = (mundo_.posEnMapa(ver)); //puede fallar				
+				bool b = (c.distEuclidea(ver) <= 4);				
 				bool d = (!(Claves(matrizJugadores_[ver.longitud()][ver.latitud()]).EsVacio()));
 				bool e = mundo_.hayCamino(ver, c);
 				if(a and b and d and e){
