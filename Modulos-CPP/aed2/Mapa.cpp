@@ -1,14 +1,7 @@
 #include "Mapa.h"
 
-Mapa::Mapa() : matriz(), longitudmaxima(0), latitudmaxima(0),  coordenadas() {}
+Mapa::Mapa() : longitudmaxima(0), latitudmaxima(0), matriz() , coordenadas() {}
 /*CONSULTA: esta bien inicializarlo así?*/
-
-Mapa::Mapa(const Mapa& otro)
-:  matriz(otro.matriz), longitudmaxima(otro.longitudmaxima), latitudmaxima(otro.latitudmaxima), coordenadas(otro.coordenadas)
-{}
-
-
-
 
 void Mapa::agregarCoord(Coordenada& c){
 	coordenadas.AgregarRapido(c);
@@ -21,21 +14,29 @@ void Mapa::agregarCoord(Coordenada& c){
 		while(matriz.Longitud() <= c.latitud()){
 			matriz.AgregarAtras(*fila);
 		}
+		int i = 0;
+		while(i< matriz.Longitud()){
+			while(matriz[i].Longitud()<= c.longitud()){
+				matriz[i].AgregarAtras(*elem);
+			}
+			i++;
+		}
 		latitudmaxima = c.latitud()+1;
 		longitudmaxima = c.longitud()+1;
 	}else{
 		if(c.latitud() >= latitudmaxima){
+//			cout << "la latitud empato" <<endl;
 			while(fila->Longitud() < longitudmaxima){
 				fila->AgregarAtras(*elem);
 			}
-			while(matriz.Longitud() <= c.latitud()){
+			while(matriz.Longitud() <= c.latitud()+1){
 				matriz.AgregarAtras(*fila);
 			}
 			latitudmaxima = c.latitud()+1;
 		}else{
 //			cout << "entre aca" <<endl;
 			if(c.longitud() >= longitudmaxima){
-				Nat i = 0;
+				int i = 0;
 				while(i< matriz.Longitud()){
 					while(matriz[i].Longitud()<= c.longitud()){
 						matriz[i].AgregarAtras(*elem);
@@ -47,7 +48,10 @@ void Mapa::agregarCoord(Coordenada& c){
 		}
 		
 	}
-	Nat i=0;
+	int i=0;
+	cout << "longitudmaxima:" << longitudmaxima<<endl;
+	cout << "latitudmaxima:" << latitudmaxima<<endl;
+	cout << "latitud de la Matriz:" << matriz.Longitud()<<endl;
 	while(i<matriz.Longitud()){
 		cout << "La Longitud de la matriz es : " << matriz[i].Longitud() <<endl;
 		i++;
@@ -79,6 +83,10 @@ void Mapa::agregarCoord(Coordenada& c){
 	}
 	
 }
+
+Mapa::Mapa(const Mapa& otro)
+	:  matriz(otro.matriz), longitudmaxima(otro.longitudmaxima), latitudmaxima(otro.latitudmaxima), coordenadas(otro.coordenadas)
+{}
 
 const Nat& Mapa::longitudMaxima() const {
 	return longitudmaxima;
@@ -151,8 +159,4 @@ void Mapa::Rellenar(Vector <Vector < bool> >& matriz,Conj<Coordenada> linda){
 
 bool Mapa::hayCamino(Coordenada c, Coordenada c2) const{
 	return (matriz[c.latitud()][c.longitud()])[c2.latitud()][c2.longitud()];
-}
-
-bool Mapa::posEnMapa(Coordenada c) const{
-	return (matriz[c.latitud()][c.longitud()])[c.latitud()][c.longitud()];
 }
