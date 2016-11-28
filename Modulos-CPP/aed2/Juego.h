@@ -25,7 +25,7 @@ namespace aed2
 		Juego(Mapa m);
 		//Juego(const Juego& otra); 
         //~Juego();
-	 bool EstaParaCaptura(Coordenada c);
+	 //bool EstaParaCaptura(Coordenada c);
 	  Nat AgregarJugador();
 
        void AgregarPokemon(string p, Coordenada c);

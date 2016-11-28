@@ -194,13 +194,35 @@ Mapa m;
 	hola.AgregarPokemon("torchit", primera);
 	hola.conectarse(cero, cuarta);
 	hola.conectarse(uno, primera);
+	hola.desconectarse(uno);
 
 
 
 }
 
 
-void Agrego_pok_cerca_de_jugador(){}
+void Agrego_pok_cerca_de_jugador(){
+	Mapa m;
+	Coordenada primera(1,1);
+	Coordenada segunda(2,3);
+	Coordenada tercera(3, 4);
+	Coordenada cuarta(1, 2);
+	Coordenada quinta(5, 2);
+	m.agregarCoord(primera);
+	m.agregarCoord(segunda);//aca
+	m.agregarCoord(tercera);
+	m.agregarCoord(cuarta);
+	m.agregarCoord(quinta);
+	Juego hola(m);
+	Nat cero = hola.AgregarJugador();
+	Nat uno = hola.AgregarJugador();
+	hola.conectarse(cero, cuarta);
+	hola.conectarse(uno, primera);
+	hola.AgregarPokemon("torchit", primera);	
+
+
+
+}
 
 
 
@@ -210,6 +232,7 @@ int main() {
 	//RUN_TEST(conectar);
 	//RUN_TEST(desconectar);
 	//RUN_TEST(AgregoPokemon);
-	RUN_TEST(Conecto_cerca_de_pokemon);
+	//RUN_TEST(Conecto_cerca_de_pokemon);
+	RUN_TEST(Agrego_pok_cerca_de_jugador);
 	return 0;
 }

@@ -86,15 +86,16 @@ Juego::Juego(Mapa m)
 	}
 
 void Juego::moverse(Nat e, Coordenada c){
-	if (not( antiguaPos.distEuclidea(c) > 100 or not mundo_.hayCamino(antiguaPos,c))){
+	
 		Coordenada antiguaPos =  vectJug_[e].posicion; 
+	if (not( antiguaPos.distEuclidea(c) > 100 or not mundo_.hayCamino(antiguaPos,c))){	
 		vectJug_[e].posicion = c ;
-		if(EstaParaCaptura(antiguaPos)){
+		if(estaParaCaptura(antiguaPos)){
 			Coordenada AntiguoHeap = BuscarHeap(antiguaPos); 
 			Coladeprioridad<typename Juego::capturadosyID> heap = matrizPokemon_[AntiguoHeap.latitud()][AntiguoHeap.longitud()].heap_;
 			(vectJug_[e].posenColaDeCaptura.SiguienteSignificado()).borrarSiguiente();
 		} 
-		if(EstaParaCaptura(c)){
+		if(estaParaCaptura(c)){
 			Coordenada VoyACapturarEste = BuscarHeap(c);
 			Coladeprioridad<typename Juego::capturadosyID> heap =  ((matrizPokemon_[VoyACapturarEste.latitud()][VoyACapturarEste.longitud()]).heap_); 
 			typename Juego:: capturadosyID captura;
@@ -155,7 +156,8 @@ void Juego::moverse(Nat e, Coordenada c){
 					Coordenada VoyACapturarEste = BuscarHeap(c);
 					if(mundo_.hayCamino(VoyACapturarEste,c)){ 
 						Coladeprioridad<typename Juego::capturadosyID>	heap = matrizPokemon_[VoyACapturarEste.latitud()][VoyACapturarEste.longitud()].heap_;
-					(heap, vectJug_[e].posenColaDeCaptura.SiguienteSignificado()).borrarSiguiente();
+					//(heap, vectJug_[e].posenColaDeCaptura.SiguienteSignificado()).borrarSiguiente();
+						 (vectJug_[e].posenColaDeCaptura.SiguienteSignificado()).borrarSiguiente();
 					}
 				}
 				cantPokemon_ = cantPokemon_ - vectJug_[e].pokTotalAtrapados; 
@@ -687,7 +689,7 @@ void Juego::Iterador::Avanzar(){
 	posicion_ = i-1;	
 }
 
-
+/*
 bool Juego::EstaParaCaptura(Coordenada c){
 	if(HayPokemonCercano(c)){
 		Coordenada poke = BuscarHeap(c);
@@ -696,7 +698,7 @@ bool Juego::EstaParaCaptura(Coordenada c){
 		return false;
 	}
 }
-
+*/
 
 //Una tupla es menor a otra si tiene menos pokemons capturados. En caso de ser los mismo, es menor el de ID mas alto
 bool Juego::capturadosyID::operator < (const typename Juego::capturadosyID& otra) const
