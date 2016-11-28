@@ -86,7 +86,7 @@ Juego::Juego(Mapa m)
 	}
 
 void Juego::moverse(Nat e, Coordenada c){
-	if not(( antiguaPos.distEuclidea(c) > 100 or not mundo_.hayCamino(antiguaPos,c))){
+	if (not( antiguaPos.distEuclidea(c) > 100 or not mundo_.hayCamino(antiguaPos,c))){
 		Coordenada antiguaPos =  vectJug_[e].posicion; 
 		vectJug_[e].posicion = c ;
 		if(EstaParaCaptura(antiguaPos)){
