@@ -85,9 +85,95 @@ Juego::Juego(Mapa m)
 
 	}
 
-	void Juego::moverse(Nat e, Coordenada c){
-
+void Juego::moverse(Nat e, Coordenada c){
+	if not(( antiguaPos.distEuclidea(c) > 100 or not mundo_.hayCamino(antiguaPos,c))){
+		Coordenada antiguaPos =  vectJug_[e].posicion; 
+		vectJug_[e].posicion = c ;
+		if(EstaParaCaptura(antiguaPos)){
+			Coordenada AntiguoHeap = BuscarHeap(antiguaPos); 
+			Coladeprioridad<typename Juego::capturadosyID> heap = matrizPokemon_[AntiguoHeap.latitud()][AntiguoHeap.longitud()].heap_;
+			(vectJug_[e].posenColaDeCaptura.SiguienteSignificado()).borrarSiguiente();
+		} 
+		if(EstaParaCaptura(c)){
+			Coordenada VoyACapturarEste = BuscarHeap(c);
+			Coladeprioridad<typename Juego::capturadosyID> heap =  ((matrizPokemon_[VoyACapturarEste.latitud()][VoyACapturarEste.longitud()]).heap_); 
+			typename Juego:: capturadosyID captura;
+			captura.numero = vectJug_[e].pokTotalAtrapados;
+			captura.ID = e;
+			Coladeprioridad<typename Juego::capturadosyID>::Iterador iteradorAlHeap = heap.Encolar(captura); 
+			Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID>::Iterador>::Iterador  posencola = matrizJugadores_[c.latitud()][c.longitud()].Definir(e,iteradorAlHeap);        
+			vectJug_[e].posenColaDeCaptura = posencola;   
+		}
+		if(HayPokemonCercano(c) && HayPokemonCercano(antiguaPos)){
+			if (not(BuscarHeap(c) == BuscarHeap(antiguaPos))){
+			Coordenada PosDePokemon = BuscarHeap(c);
+			(matrizPokemon_[PosDePokemon.latitud()][PosDePokemon.longitud()]).contador_  = 0; 
+		}
 	}
+	else
+	{
+		if(HayPokemonCercano(c)){
+			Coordenada PosDePokemon = BuscarHeap(c); 
+			(matrizPokemon_[PosDePokemon.latitud()][PosDePokemon.longitud()]).contador_  = 0;
+		}
+	}
+		/*Coordenada PosDePokemon = BuscarHeap(c);*/ 
+		Dicc<Coordenada,String>::Iterador it = posdePokemon_.CrearIt(); 
+		while(it.HaySiguiente()){ 
+			if(HayPokemonCercano(c) && not(PosDePokemonCercano(c) == it.SiguienteClave())){
+				Coordenada posPokemon   = it.SiguienteClave();
+				infoHeap posActual = matrizPokemon_[posPokemon.latitud()][posPokemon.longitud()];
+				if(HayUnJugadorCercano(it.SiguienteClave())){
+					(posActual).contador_ += 1;
+				}
+				if((posActual).contador_ ==10){
+					AuxCapturarPokemon(it) ;
+					
+				}
+			}
+			else
+			{ 
+				Coordenada posPokemon  = it.SiguienteClave();
+				infoHeap posActual = matrizPokemon_[posPokemon.latitud()][posPokemon.longitud()];
+				if (not HayPokemonCercano(c)){      
+					if(HayUnJugadorCercano(it.SiguienteClave())){
+						(posActual).contador_ += 1;
+					}
+				}
+				if((posActual).contador_ ==10){ 
+						AuxCapturarPokemon(it);
+					}
+					
+			}
+			it.Avanzar();
+		}
+	}
+		if( antiguaPos.distEuclidea(c) > 100 or not mundo_.hayCamino(antiguaPos,c)){
+			vectJug_[e].sanciones = vectJug_[e].sanciones+1;
+			if(vectJug_[e].sanciones==5){
+				if(HayPokemonCercano(c)){
+					Coordenada VoyACapturarEste = BuscarHeap(c);
+					if(mundo_.hayCamino(VoyACapturarEste,c)){ 
+						Coladeprioridad<typename Juego::capturadosyID>	heap = matrizPokemon_[VoyACapturarEste.latitud()][VoyACapturarEste.longitud()].heap_;
+					(heap, vectJug_[e].posenColaDeCaptura.SiguienteSignificado()).borrarSiguiente();
+					}
+				}
+				cantPokemon_ = cantPokemon_ - vectJug_[e].pokTotalAtrapados; 
+				vectJug_[e].conexion = false; 
+				vectJug_[e].posicion = Coordenada(0,0);
+				DiccString<Nat>::Iterador itapokecap = (vectJug_[e].pokemonescapturados.Siguiente()).CrearIt();
+				while(itapokecap.HaySiguiente()){ 
+					dataPokemon& pok = pokemones_.Obtener(itapokecap.SiguienteClave());
+					pok.PC = pok.PC - itapokecap.SiguienteSignificado(); 
+					if(pok.PS ==0 and pok.PC==0){ 
+						pokemones_.Borrar(itapokecap.SiguienteClave());
+					}
+					itapokecap.Avanzar();
+				}
+				
+			}
+		}
+}
 
 	Mapa Juego::VerMapa(){
 		return mundo_;
@@ -602,7 +688,14 @@ void Juego::Iterador::Avanzar(){
 }
 
 
-
+bool Juego::EstaParaCaptura(Coordenada c){
+	if(HayPokemonCercano(c)){
+		Coordenada poke = BuscarHeap(c);
+		return this->mundo_.hayCamino(c,poke);
+	}else{
+		return false;
+	}
+}
 
 
 //Una tupla es menor a otra si tiene menos pokemons capturados. En caso de ser los mismo, es menor el de ID mas alto
