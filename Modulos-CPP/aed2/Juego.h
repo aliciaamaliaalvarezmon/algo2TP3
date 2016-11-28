@@ -70,7 +70,7 @@ namespace aed2
 
        Iterador CrearIt(); 
 
-       	Nat matrizJUGADORESLongitud();//(pokcapturados, ID)
+        Nat matrizJUGADORESLongitud();//(pokcapturados, ID)
 		Nat matrizPOKEMONLongtitud();
 		Nat matrizJUGADORESLatitud();//(pokcapturados, ID)
 		Nat matrizPOKEMONLatitud();

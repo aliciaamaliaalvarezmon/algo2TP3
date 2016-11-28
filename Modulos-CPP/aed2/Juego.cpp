@@ -56,9 +56,13 @@ Juego::Juego(Mapa m)
 		Coladeprioridad<typename Juego::capturadosyID>::Iterador dummy = nueva.CrearIt();			
 		if(estaParaCaptura(c)){			
 			Coordenada ACapturar = BuscarHeap(c);
-			typename Juego::capturadosyID espera(vectJug_[e].pokTotalAtrapados, e);
-			typename Coladeprioridad<typename Juego::capturadosyID>::Iterador iteradoralheap = (matrizPokemon_[ACapturar.longitud()][ACapturar.latitud()].heap_).Encolar(espera);
+			cout << "llega" << ACapturar.latitud() <<", "<< ACapturar.longitud() << endl;
+			typename Juego::capturadosyID espera(vectJug_[e].pokTotalAtrapados, e);						
+			typename Coladeprioridad<typename Juego::capturadosyID>::Iterador iteradoralheap = (matrizPokemon_[ACapturar.longitud()][ACapturar.latitud()].heap_).Encolar(espera);		
+			//cout << "iteradoralheap  " << iteradoralheap.Siguiente().numero << ", "<< iteradoralheap.Siguiente().ID << endl;
 			vectJug_[e].posenColaDeCaptura = matrizJugadores_[c.longitud()][c.latitud()].DefinirRapido(e, iteradoralheap );
+			cout <<"funciono" << vectJug_[e].posenColaDeCaptura.SiguienteClave() << endl;
+			cout <<"funciono" << vectJug_[e].posenColaDeCaptura.SiguienteSignificado().Siguiente().ID << endl;
 		}else{
 		matrizJugadores_[c.longitud()][c.latitud()].DefinirRapido(e, dummy);
 		}	
@@ -162,7 +166,7 @@ Juego::Juego(Mapa m)
 
 	     Nat Juego::CantMovimientosParaCaptura(Coordenada c){
 	    	//return 9;
-	    	return matrizPokemon_[c.latitud()][c.longitud()].contador_;
+	    	return matrizPokemon_[c.longitud()][c.latitud()].contador_;
 	    	//string p = posdePokemon_.Significado(c);
 	    	//return pokemones_.Obtener(p).Significado(c); 
 
@@ -193,7 +197,7 @@ Juego::Juego(Mapa m)
 	    	Nat capturados = (pokemones_.Obtener(p)).PC;
 	    	Nat salvajes = (pokemones_.Obtener(p)).PS;
 	    	Nat cant = capturados + salvajes;
-	    	return 100 - (100 * (cant/cantPokemon_));
+	    	return 100 - ((100 * cant)/cantPokemon_);
 	    }
 
 
@@ -217,12 +221,14 @@ Juego::Juego(Mapa m)
 					j = c.latitud() -2;
 				}							
 				while( (j <= c.latitud() + 2) and (res == false)){	
-					Coordenada ver(j,i);						
+					Coordenada ver(j,i);										
 					if(ver.longitud() < mundo_.longitudMaxima() and ver.latitud() < mundo_.latitudMaxima()){
 					bool a = mundo_.posEnMapa(ver);					
 					bool b = (c.distEuclidea(ver) <= 4);						
 					bool d = (!(matrizPokemon_[ver.longitud()][ver.latitud()].HayBasura_));
-					bool e = mundo_.hayCamino(c, ver);					
+					bool e = mundo_.hayCamino(c, ver);
+					//cout << "ver: "<< ver.latitud() <<", " << ver.longitud() << endl;
+					//cout << "posEnMapa  " << a <<"distancia " << b << "Basura " << d << "camino "<< e << endl;						
 					if( a and b and d and e){
 						res = true;
 					}
@@ -459,9 +465,9 @@ Juego::Juego(Mapa m)
 	bool Juego::estaParaCaptura(Coordenada posDelJug){
 		//pareciera que faltara revisar el contador.
 		bool res = false;			
-		if(HayPokemonCercano(posDelJug)){			
-			Coordenada posDelPoke = BuscarHeap(posDelJug);
-			res = mundo_.hayCamino(posDelJug, posDelPoke);			
+		if(HayPokemonCercano(posDelJug)){					
+			Coordenada posDelPoke = BuscarHeap(posDelJug);				
+			res = mundo_.hayCamino(posDelJug, posDelPoke);
 		}		
 		return res;
 
@@ -469,7 +475,7 @@ Juego::Juego(Mapa m)
 
 	Coordenada Juego::BuscarHeap(Coordenada c){
 		Coordenada nueva;
-		Nat i;
+		Nat i;		
 		bool AunNoLoEncontre = false;
 		if(c.longitud() < 2){
 			 i = 0;
@@ -477,19 +483,18 @@ Juego::Juego(Mapa m)
 			i = c.longitud()-2;
 		}
 		Nat j = 0;	
-		while((i<= c.longitud() +2) and (!AunNoLoEncontre)){
+		while((i<= c.longitud() +2) and (AunNoLoEncontre == false)){
 			if(c.latitud() < 2){
 				j = 0; 
 			}else{
 				j = c.latitud() -2;
 			}
-			while((j<= c.latitud() +2) and (!AunNoLoEncontre)){
-				Coordenada ver(j,i);
-				if(ver.longitud() < mundo_.longitudMaxima() and ver.latitud() < mundo_.latitudMaxima()){
-				if(mundo_.posEnMapa(ver) and c.distEuclidea(ver) <= 4){
-					if(!(matrizPokemon_[c.longitud()][c.latitud()].HayBasura_)){
-						Coordenada esEsta(j,i);
-						nueva =  esEsta;
+			while((j<= c.latitud() +2) and (AunNoLoEncontre == false)){
+				Coordenada ver(j,i);				
+				if(ver.longitud() < mundo_.longitudMaxima() and ver.latitud() < mundo_.latitudMaxima()){				
+				if(mundo_.posEnMapa(ver) and c.distEuclidea(ver) <= 4){								
+					if((matrizPokemon_[i][j].HayBasura_) == false){										
+						nueva =  ver;						
 						AunNoLoEncontre = true;
 					}
 				}
@@ -497,10 +502,12 @@ Juego::Juego(Mapa m)
 				j++;
 			}
 			i++;
-		}
+		}				
 		return nueva;
 
 	}
+
+
 
 	void Juego::AuxCapturarPokemon(Dicc<Coordenada, string>::Iterador it){
 		infoHeap dameLaData = matrizPokemon_[it.SiguienteClave().latitud()][it.SiguienteClave().longitud()];
@@ -522,6 +529,7 @@ Juego::Juego(Mapa m)
 		matrizPokemon_[it.SiguienteClave().longitud()][it.SiguienteClave().latitud()].HayBasura_= true;
 		matrizPokemon_[it.SiguienteClave().longitud()][it.SiguienteClave().latitud()].contador_ = 0;
 	}
+
 
 	//Conj<T> Claves(Dicc<J,S>::Iterador); //Deberia estar en diccLineal.
 

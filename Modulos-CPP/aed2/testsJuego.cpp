@@ -130,30 +130,77 @@ void AgregoPokemon(){
 	m.agregarCoord(tercera);
 	m.agregarCoord(cuarta);
 	m.agregarCoord(quinta);
-	//hasta aca el mapa
+	ASSERT(m.hayCamino(primera, primera));
+	ASSERT(m.hayCamino(segunda, segunda));
+	ASSERT(m.hayCamino(tercera, tercera));
+	ASSERT(m.hayCamino(cuarta, cuarta));
+	ASSERT(m.hayCamino(quinta, quinta));
+	ASSERT(m.hayCamino(primera, cuarta));
+	ASSERT(!m.hayCamino(segunda, quinta));
+	//hasta aca el mapa	
 	Juego hola(m);
+	ASSERT(hola.matrizJUGADORESLongitud() == 5);
+	ASSERT(hola.matrizJUGADORESLatitud() == 6);
+	ASSERT(hola.matrizPOKEMONLongtitud() == 5);
+	ASSERT(hola.matrizPOKEMONLatitud() == 6);
 	hola.AgregarPokemon("torchit", primera);		
 	ASSERT(hola.CantMovimientosParaCaptura(primera) == 0);
 	ASSERT(hola.CantPokemonTotales() == 1);
 	ASSERT(hola.indiceDeRareza("torchit") == 0);
-	ASSERT(hola.pokemonEnPos(primera) == "torchit");
+	//ASSERT(hola.pokemonEnPos(primera) == "torchit");
 	//cout << "llega"<<endl;
 	Conj<Coordenada> vacio;
-	cout << hola.posConPokemons(vacio).Siguiente().latitud() << ", " << hola.posConPokemons(vacio).Siguiente().longitud() <<endl;
-	ASSERT(hola.posConPokemons(vacio).Siguiente() == primera);
+	//cout << hola.posConPokemons(vacio).Siguiente().latitud() << ", " << hola.posConPokemons(vacio).Siguiente().longitud() <<endl;
+	//ASSERT(hola.posConPokemons(vacio).Siguiente() == primera);	
+	//ASSERT(hola.HayPokemonCercano(primera));
+	//agregamos otros pokemons
+	hola.AgregarPokemon("jericho", quinta);		
+	ASSERT(hola.CantMovimientosParaCaptura(quinta) == 0);
 	cout << "llega"<<endl;	
-	ASSERT(hola.HayPokemonCercano(primera));
-	cout << hola.PosDePokemonCercano(primera).latitud() <<"," << hola.PosDePokemonCercano(primera).longitud() << endl;
+	ASSERT(hola.CantPokemonTotales() == 2);
+	cout << hola.indiceDeRareza("jericho") << endl;
+	ASSERT(hola.indiceDeRareza("jericho") == 50);
+	//ASSERT(hola.indiceDeRareza("torchit") == 50);
+	ASSERT(hola.pokemonEnPos(quinta) == "jericho");
+	ASSERT(hola.HayPokemonCercano(quinta));
+	Conj<Coordenada>::Iterador iter = hola.posConPokemons(vacio);
+	ASSERT(iter.Siguiente() == primera);
+	iter.Avanzar();
+	ASSERT(iter.Siguiente() == quinta);
+	//cout << hola.PosDePokemonCercano(quinta).latitud() <<"," << hola.PosDePokemonCercano(quinta).longitud() << endl;
+
 
 
 }
 
 
+ 
+
+void Conecto_cerca_de_pokemon(){
+Mapa m;
+	Coordenada primera(1,1);
+	Coordenada segunda(2,3);
+	Coordenada tercera(3, 4);
+	Coordenada cuarta(1, 2);
+	Coordenada quinta(5, 2);
+	m.agregarCoord(primera);
+	m.agregarCoord(segunda);//aca
+	m.agregarCoord(tercera);
+	m.agregarCoord(cuarta);
+	m.agregarCoord(quinta);
+	Juego hola(m);
+	Nat cero = hola.AgregarJugador();
+	Nat uno = hola.AgregarJugador();	
+	hola.AgregarPokemon("torchit", primera);
+	hola.conectarse(cero, cuarta);
+	hola.conectarse(uno, primera);
 
 
 
+}
 
 
+void Agrego_pok_cerca_de_jugador(){}
 
 
 
@@ -162,6 +209,7 @@ int main() {
 	//RUN_TEST(AgregaJugador);
 	//RUN_TEST(conectar);
 	//RUN_TEST(desconectar);
-	RUN_TEST(AgregoPokemon);
+	//RUN_TEST(AgregoPokemon);
+	RUN_TEST(Conecto_cerca_de_pokemon);
 	return 0;
 }
