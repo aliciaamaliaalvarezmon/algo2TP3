@@ -29,6 +29,7 @@ public:
 	Mapa();
 
 	Mapa(const Mapa& otro);
+	~Mapa();
 	
 	// Agrega la coordenada al mapa.
 	void agregarCoord(Coordenada& c);

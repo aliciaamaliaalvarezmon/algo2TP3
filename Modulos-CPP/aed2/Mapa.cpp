@@ -1,6 +1,31 @@
 #include "Mapa.h"
 
 Mapa::Mapa() :  matriz() , longitudmaxima(0), latitudmaxima(0), coordenadas() {}
+
+Mapa::~Mapa(){/*
+	Nat i = 0;
+	Nat j = 0;
+	while(i < latitudmaxima){
+		//Vector<Vector<Vector<bool > > >* esperanza = &(matriz[i]);
+		while(j < longitudmaxima){
+			Vector<Vector<bool> >* elem  = &(matriz[i][j]);
+			Nat a = 0;			
+			while(a < latitudmaxima){
+				Vector<bool>* podemos = &(matriz[i][j][a]);
+				delete(podemos);
+				a++;
+				} 	
+				delete(elem);
+				j++;
+			}
+		//	delete(esperanza);
+			i++;
+		}
+*/
+	}
+
+
+
 /*CONSULTA: esta bien inicializarlo así?*/
 /*
 void Mapa::agregarCoord(Coordenada& c){
@@ -88,6 +113,14 @@ void Mapa::agregarCoord(Coordenada& c){
 	coordenadas.AgregarRapido(c);
 	Vector< Vector<Vector<bool> > >* fila = new Vector< Vector<Vector<bool> > >; 
 	Vector<Vector<bool> >* elem = new Vector<Vector<bool> >;
+	/*Vector<bool>* ojala = new Vector<bool>;
+	ojala->AgregarAtras(false);
+	elem->AgregarAtras((*ojala));
+	fila->AgregarAtras((*elem));
+	//Nat i = 0;
+	delete(ojala);
+	delete(elem);
+	delete(fila);*/		
 	if(c.latitud() >= latitudmaxima and c.longitud() >= longitudmaxima){
 		while(fila->Longitud() <= c.longitud()){
 			fila->AgregarAtras(*elem);
@@ -134,22 +167,22 @@ void Mapa::agregarCoord(Coordenada& c){
 		Nat longi = 0;
 		while(longi < longitudmaxima){
 			Coordenada ver(lati, longi);
-			if(coordenadas.Pertenece(ver) == false){
-			matriz[lati][longi] =  MatrizDeFalse(latitudmaxima+1,longitudmaxima+1);			
+			if(coordenadas.Pertenece(ver) == false){					
+			matriz[lati][longi] =  MatrizDeFalse(latitudmaxima+1, longitudmaxima +1);									
 		}
 		longi++;
 		}
 		lati++;
 	}
 
-	Nat i=0;
-	cout << "longitudmaxima:" << longitudmaxima<<endl;
-	cout << "latitudmaxima:" << latitudmaxima<<endl;
-	cout << "latitud de la Matriz:" << matriz.Longitud()<<endl;
-	while(i<matriz.Longitud()){
-		cout << "La Longitud de la matriz es : " << matriz[i].Longitud() <<endl;
-		i++;
-	}
+	//Nat i=0;
+	//cout << "longitudmaxima:" << longitudmaxima<<endl;
+	//cout << "latitudmaxima:" << latitudmaxima<<endl;
+	//cout << "latitud de la Matriz:" << matriz.Longitud()<<endl;
+	//while(i<matriz.Longitud()){
+//		cout << "La Longitud de la matriz es : " << matriz[i].Longitud() <<endl;
+//		i++;
+//	}
 //	cout <<"Latitud: " << latitudmaxima <<endl;
 //	cout << "Longitud: " << longitudmaxima <<endl;
 	Conj<Coordenada> coords = coordenadas;
@@ -174,9 +207,12 @@ void Mapa::agregarCoord(Coordenada& c){
 		//		cout << "YoloD3" <<endl;
 		(matriz[it.Siguiente().latitud()][it.Siguiente().longitud()]) = matrizF;
 		//		cout << "YoloE4" <<endl;
+		
 		it.Avanzar();
-	}
-	
+	}	
+
+delete(elem);
+delete(fila);
 }
 
 
@@ -230,7 +266,7 @@ Conj<Coordenada> 	Mapa::Lindantes(Conj<Coordenada> c,Conj<Coordenada> coordenada
 
 Vector <Vector < bool> > Mapa::MatrizDeFalse(Nat i, Nat j){
 	Vector <Vector < bool> >* res = new Vector <Vector < bool> >;
-	Vector <bool>* nuevo = new Vector < bool>;
+	//Vector <bool>* nuevo  = new Vector < bool>;
 	//	int k=0;
 	//	int r=0;
 	bool f;
@@ -238,17 +274,21 @@ Vector <Vector < bool> > Mapa::MatrizDeFalse(Nat i, Nat j){
 	//			cout<< i <<endl;
 	//			cout<< j <<endl;
 	while(res->Longitud() <= i){
-		nuevo = new Vector < bool>;
+	Vector <bool>* nuevo = new Vector < bool>;
 		while(nuevo->Longitud()< j){
-			nuevo->AgregarAtras(f);
+			nuevo->AgregarAtras(f);			
 			//			r++;
 		}
 		//		cout<< nuevo->Longitud() <<endl;
 		res->AgregarAtras(*nuevo);
+		delete(nuevo);	
 		//		cout<< nuevo->Longitud() <<endl;
 	}
+	Vector <Vector < bool> > resi = (*res);
+	delete(res);
+	//delete(nuevo);
 	//	cout << res->Longitud() <<"     " << nuevo->Longitud() <<endl;
-	return *res;
+	return resi;
 }
 
 void Mapa::Rellenar(Vector <Vector < bool> >& matriz,Conj<Coordenada> linda){
