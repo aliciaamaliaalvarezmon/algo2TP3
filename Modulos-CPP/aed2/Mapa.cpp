@@ -159,6 +159,7 @@ void Mapa::agregarCoord(Coordenada& c){
 		Conj<Coordenada> vacio;
 		vacio.Agregar(paraLasRelaciones);
 		Conj<Coordenada> res;
+		res.Agregar(paraLasRelaciones);
 		//		cout << "YoloA" <<endl;
 		res = Lindantes(vacio,coords,res);
 		//		cout << "YoloB1" <<endl;
