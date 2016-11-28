@@ -503,7 +503,24 @@ Juego::Juego(Mapa m)
 	}
 
 	void Juego::AuxCapturarPokemon(Dicc<Coordenada, string>::Iterador it){
-
+		infoHeap dameLaData = matrizPokemon_[it.SiguienteClave().latitud()][it.SiguienteClave().longitud()];
+		dataJugador& jugador = vectJug_[(((dameLaData).heap_).tope()).ID];
+		if(not ((jugador.pokemonescapturados).Siguiente()).Definido(it.SiguienteSignificado())){ 
+			(jugador.pokemonescapturados.Siguiente()).Definir(it.SiguienteSignificado(),1);
+		}
+		else
+		{
+			(jugador.pokemonescapturados.Siguiente()).Definir(it.SiguienteSignificado(),(jugador.pokemonescapturados.Siguiente()).Obtener(it.SiguienteSignificado())+1);
+		}	
+		dataPokemon& BuscarEnElTrie = pokemones_.Obtener(it.SiguienteSignificado()); 
+		BuscarEnElTrie.PS = (BuscarEnElTrie.PS)-1; 
+		BuscarEnElTrie.PC = (BuscarEnElTrie.PC)+1; 
+		Coladeprioridad<typename Juego::capturadosyID> dummy;
+		Dicc<Coordenada,string> pokpos;
+		Dicc<Coordenada,string>::Iterador itpos = pokpos.CrearIt();
+		matrizPokemon_[it.SiguienteClave().longitud()][it.SiguienteClave().latitud()].heap_ = dummy;
+		matrizPokemon_[it.SiguienteClave().longitud()][it.SiguienteClave().latitud()].HayBasura_= true;
+		matrizPokemon_[it.SiguienteClave().longitud()][it.SiguienteClave().latitud()].contador_ = 0;
 	}
 
 	//Conj<T> Claves(Dicc<J,S>::Iterador); //Deberia estar en diccLineal.
