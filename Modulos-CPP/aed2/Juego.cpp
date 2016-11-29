@@ -733,7 +733,9 @@ Nat Juego::Iterador::Siguiente(){
 }
 
 void Juego::Iterador::Avanzar(){
-	Nat i = posicion_ + 1;
+
+	if ((posicion_+1) < (*elementos_).Longitud()){
+	Nat i = posicion_ + 1;	
 	bool tengoQueParar = false;
 	while(i < ((*elementos_).Longitud()) && (tengoQueParar == false)){
 		if((*elementos_)[i].sanciones < 5){
@@ -742,6 +744,8 @@ void Juego::Iterador::Avanzar(){
 	  i++;	
 	}
 	posicion_ = i-1;	
+}else
+ posicion_++;
 }
 
 /*

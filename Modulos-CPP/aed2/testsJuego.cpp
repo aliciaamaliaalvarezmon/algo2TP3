@@ -552,26 +552,46 @@ void Expulsion_del_Eden(){
 	hola.conectarse(uno, primera);	
 	hola.conectarse(dos, tercera);
 	hola.AgregarPokemon("torchit", primera);
-	hola.moverse(2, tercera);	
-	hola.moverse(2, tercera);
-	hola.moverse(2, tercera);
-	hola.moverse(2, tercera);	
-	hola.moverse(2, tercera);
-	hola.moverse(2, tercera);
-	hola.moverse(2, tercera);
-	hola.moverse(2, tercera);
-	hola.moverse(2, tercera);
-	hola.moverse(2, tercera);
+	//hola.moverse(2, tercera);	
+	//hola.moverse(2, tercera);
+	//hola.moverse(2, tercera);
+	//hola.moverse(2, tercera);	
+	//hola.moverse(2, tercera);
+	//hola.moverse(2, tercera);
+	//hola.moverse(2, tercera);
+	//hola.moverse(2, tercera);
+	//hola.moverse(2, tercera);
+	//hola.moverse(2, tercera);
+	//hola.AgregarPokemon("torchit", primera);
+	//hola.moverse(2, tercera);	
+	//hola.moverse(2, tercera);
+	//hola.moverse(2, tercera);
+	//hola.moverse(2, tercera);	
+	//hola.moverse(2, tercera);
+	//hola.moverse(2, tercera);
+	//hola.moverse(2, tercera);
+	//hola.moverse(2, tercera);
+	//hola.moverse(2, tercera);
+	//hola.moverse(2, tercera);	
 	hola.moverse(uno, quinta);	
 	hola.moverse(uno, quinta);	
 	hola.moverse(uno, quinta);	
 	hola.moverse(uno, quinta);	
 	hola.moverse(uno, quinta);
-	//ASSERT(hola.sanciones(uno) == 5);
-	//hola.moverse(uno, quinta);
+	//hola.desconectarse(dos);
+	ASSERT(hola.sanciones(uno) == 5);
+	//cout << hola.MostrarTope(1, 1) << endl;
+	hola.moverse(uno, quinta);
 	Conj<Nat> hol;
 	hola.Expulsados(hol);
 	ASSERT(hol.Pertenece(1));//hola.moverse(1, quinta);
+	typename Juego::Iterador adieu = hola.Jugadores();
+	Nat i = 10;
+	while(adieu.HaySiguiente()){
+		cout << adieu.Siguiente() << endl;
+		adieu.Avanzar();	
+	}
+
 
 
 }
