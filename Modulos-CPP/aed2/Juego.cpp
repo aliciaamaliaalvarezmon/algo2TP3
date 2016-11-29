@@ -159,33 +159,39 @@ void Juego::moverse(Nat e, Coordenada c){
 			}
 		}
 	}
-		if( antiguaPos.distEuclidea(c) > 100 or not mundo_.hayCamino(antiguaPos,c)){				
+		if( antiguaPos.distEuclidea(c) > 100 or not mundo_.hayCamino(antiguaPos,c)){						
 			vectJug_[e].sanciones = vectJug_[e].sanciones+1;
-			if(vectJug_[e].sanciones==5){						
-				if(HayPokemonCercano(antiguaPos)){ //decia c en vez de antiguaPos					
+			if(vectJug_[e].sanciones==5){
+				if(HayPokemonCercano(antiguaPos)){//decia c en vez de antiguaPos
 					Coordenada VoyACapturarEste = BuscarHeap(antiguaPos);					
 					if(mundo_.hayCamino(VoyACapturarEste,antiguaPos)){ 
 						//Coladeprioridad<typename Juego::capturadosyID>	heap = matrizPokemon_[VoyACapturarEste.latitud()][VoyACapturarEste.longitud()].heap_;
 					//(heap, vectJug_[e].posenColaDeCaptura.SiguienteSignificado()).borrarSiguiente();
 						 (vectJug_[e].posenColaDeCaptura.SiguienteSignificado()).borrarSiguiente();
 					}
-				}				
-				cantPokemon_ = cantPokemon_ - vectJug_[e].pokTotalAtrapados; 
+				}	
+												
+				cantPokemon_ = cantPokemon_ - vectJug_[e].pokTotalAtrapados; 				
 				vectJug_[e].conexion = false; 					
-				vectJug_[e].posicion = Coordenada(0,0);		
-				//if(vectJug_[e].pokemonescapturados.Siguiente().CantClaves() > 0){					
-				DiccString<Nat>::Iterador itapokecap((vectJug_[e].pokemonescapturados.Siguiente()).CrearIt());										
-				while(itapokecap.HaySiguiente()){ //vectJug_[e].pokemonescapturados.Siguiente().CantClaves() > 0	
-					dataPokemon& pok = pokemones_.Obtener(itapokecap.SiguienteClave());					
-					pok.PC = pok.PC - itapokecap.SiguienteSignificado(); 											
+				vectJug_[e].posicion = Coordenada(0,0);
+				//if(vectJug_[e].pokemonescapturados.Siguiente().CantClaves() > 0){							
+				DiccString<Nat>::Iterador itapokecap((vectJug_[e].pokemonescapturados.Siguiente()).CrearIt());															
+				while(vectJug_[e].pokemonescapturados.Siguiente().CantClaves() > 0 ){ //itapokecap.HaySiguiente()						
+					dataPokemon& pok = pokemones_.Obtener(itapokecap.SiguienteClave());	
+					pok.PC = pok.PC - itapokecap.SiguienteSignificado(); 	
+					cout << "llega"<<endl;																
 					if(pok.PS ==0 and pok.PC==0){	
-						//pokemones_.Borrar(itapokecap.SiguienteClave());								
-						itapokecap.BorrarSiguiente();												
-					}							
-					if(itapokecap.HaySiguiente()){	
-					cout << "llega"<<endl;				
-					itapokecap.Avanzar();					
-				}							
+						pokemones_.Borrar(itapokecap.SiguienteClave());	
+						//cout << "llega"<<endl;								
+						//el borrar siguiente "avanza" la clave					
+					}//else{
+					//cout << "llega"<<endl;
+					itapokecap.BorrarSiguiente();
+					//if(itapokecap.HaySiguiente()){										
+					//itapokecap.Avanzar();
+					//cout << "llega"<<endl;					
+				//}	
+				//}						
 				}				
 			//}
 				

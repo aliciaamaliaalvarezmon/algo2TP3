@@ -480,9 +480,9 @@ T& DiccString<T>::Iterador::SiguienteSignificado(){
 ///////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////
 template<typename T>
-void DiccString<T>::Iterador::BorrarSiguiente(){
-	(*dic).Borrar(claves.Siguiente());
-	 claves = (*dic).claves.CrearIt();
+void DiccString<T>::Iterador::BorrarSiguiente(){	
+	(*dic).Borrar(claves.Siguiente());		
+	 claves = (*dic).claves.CrearIt();		 
 	 if(claves.HaySiguiente()){
 	 siguiente = make_pair(claves.Siguiente(), (*dic).Obtener(claves.Siguiente()));
 	}
@@ -496,11 +496,13 @@ void DiccString<T>::Iterador::BorrarSiguiente(){
 ///////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////
 template<typename T>
-void DiccString<T>::Iterador::Avanzar(){
-	claves.Avanzar();
-	string id = claves.Siguiente();
+void DiccString<T>::Iterador::Avanzar(){		
+	claves.Avanzar();	
+	if(claves.HaySiguiente()){
+	string id = claves.Siguiente();	
 	T significado(dic->Obtener(id));
 	siguiente = make_pair(claves.Siguiente(),significado);
+}
 }
 template<typename T>
 const pair<string, T>  DiccString<T>::Iterador::Siguiente(){
