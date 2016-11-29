@@ -62,7 +62,7 @@ namespace aed2
 		Nat MostrarTope(Nat a, Nat b);
 	
        Conj<Nat> JugadoresConectados();
-
+      
        Nat indiceDeRareza(string p);
 
        Nat CantPokemonTotales();
