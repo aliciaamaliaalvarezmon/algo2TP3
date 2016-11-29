@@ -267,7 +267,7 @@ return	matrizPokemon_[a][b].heap_.tope().ID;
   void Juego::Expulsados(Conj<Nat>& nuevo){	  	
 	  	Nat i = 0;	  	
 	  	while(i < vectJug_.Longitud()){	  	
-	  		if( vectJug_[i].sanciones == 5){
+	  		if( vectJug_[i].sanciones >= 5){
 	  			//cout << "i" << i << ", sanciones" <<  vectJug_[i].sanciones << endl; 	
 	  		nuevo.AgregarRapido(i);	  		
 	  		}
@@ -656,7 +656,7 @@ return	matrizPokemon_[a][b].heap_.tope().ID;
 		if(not ((jugador.pokemonescapturados).Siguiente()).Definido(it.SiguienteSignificado())){ 
 			(jugador.pokemonescapturados.Siguiente()).Definir(it.SiguienteSignificado(),1);
 		}
-		else
+		else 
 		{
 			(jugador.pokemonescapturados.Siguiente()).Definir(it.SiguienteSignificado(),(jugador.pokemonescapturados.Siguiente()).Obtener(it.SiguienteSignificado())+1);
 		}	
