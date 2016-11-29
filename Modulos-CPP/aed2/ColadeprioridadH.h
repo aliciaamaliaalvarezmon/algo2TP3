@@ -261,6 +261,7 @@ T& Coladeprioridad<T>::tope() const {
 
 template<class T>
 void Coladeprioridad<T>::Nodo::swap(Nodo* &p2){
+  if(this != p2){
   if(padre == p2){ 
     typename Coladeprioridad<T>::Nodo* derecha = p2->hijoDer;
     typename Coladeprioridad<T>::Nodo* izquierda = p2->hijoIzq;
@@ -343,6 +344,7 @@ void Coladeprioridad<T>::Nodo::swap(Nodo* &p2){
     }
 
   }
+}
 }  
 
 template<class T>
@@ -538,7 +540,7 @@ bool Coladeprioridad<T>::Iterador::HaySiguiente(){
 
  template<class T>
 //typename Coladeprioridad<T>::Iterador Coladeprioridad<T>::Iterador::borrarSiguiente(){
-  void Coladeprioridad<T>::Iterador::borrarSiguiente(){  
+  void Coladeprioridad<T>::Iterador::borrarSiguiente(){ 
   Nat potencia = cola_->nivel_;
   Nat cambionivel = 1;
   while(potencia > 0){
@@ -552,16 +554,16 @@ bool Coladeprioridad<T>::Iterador::HaySiguiente(){
     if(cola_->nivel_ > 0){    
      cola_->nivel_--;
     }    
-  }
+  }   
   typename Coladeprioridad<T>::Nodo* ultimo = (*(*cola_).recorrocamino(cola_->heap_,cola_->nivel_, ((cola_->cantClaves_))));
   //cout <<"ultimodato" << (*ultimo).Dato() << endl;
   typename Coladeprioridad<T>::Nodo* raizaborrar = apuntador_;
   typename Coladeprioridad<T>::Nodo* ultpadre = ultimo->padre;
   //en el arbol real hay una mas hasta que se elimine el ultimo. 
   if( cola_->cantClaves_ == 0 ){    
-    cola_->heap_ = NULL;    
+    cola_->heap_ = NULL;
     delete(ultimo);
-  }else{      
+  }else{         
   (*ultimo).swap(raizaborrar); 
   if(raizaborrar->padre != NULL){       
   if((raizaborrar->padre)->hijoDer == raizaborrar){     
@@ -611,7 +613,7 @@ bool Coladeprioridad<T>::Iterador::HaySiguiente(){
         }
      }
    }
- }else{  
+ }else{    
   typename Coladeprioridad<T>::Nodo* ulthIz = ultimo->hijoIzq;
   (*(ulthIz)).swap(ultimo);  
   if((ulthIz -> padre) == NULL){   

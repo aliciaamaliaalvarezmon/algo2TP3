@@ -731,6 +731,52 @@ void se_desconecta_real(){
 }
 
 
+void me_muevo_esperando(){
+		Mapa m;
+	Coordenada primera(1,1);
+	Coordenada segunda(2,3);
+	Coordenada tercera(3, 4);
+	Coordenada cuarta(1, 2);
+	Coordenada quinta(5, 2);
+	Coordenada sexta(5,1);
+	m.agregarCoord(primera);
+	m.agregarCoord(segunda);//aca
+	m.agregarCoord(tercera);
+	m.agregarCoord(cuarta);
+	m.agregarCoord(quinta);
+	m.agregarCoord(sexta);
+	Juego hola(m);
+	Nat cero = hola.AgregarJugador();
+	Nat uno = hola.AgregarJugador();
+	Nat dos = hola.AgregarJugador();
+	Nat tres = hola.AgregarJugador();
+	Nat cuatro = hola.AgregarJugador();
+	Nat cinco = hola.AgregarJugador();
+	Nat seis = hola.AgregarJugador();
+	Nat siete = hola.AgregarJugador();
+	hola.AgregarPokemon("torchit", primera);
+	hola.conectarse(cero, primera);
+	hola.conectarse(uno, primera);
+	hola.conectarse(dos, primera);
+	hola.conectarse(tres, primera);
+	hola.conectarse(cuatro, primera);
+	hola.conectarse(cinco, primera);
+	hola.conectarse(seis, primera);
+	//hola.conectarse(siete, primera);
+	hola.moverse(uno, primera);
+	hola.moverse(uno, primera);
+	hola.moverse(uno, primera);
+	hola.moverse(uno, primera);
+	hola.moverse(uno, primera);
+	hola.moverse(uno, primera);
+	hola.moverse(uno, primera);
+	hola.moverse(uno, primera);
+	hola.moverse(uno, primera);
+	hola.moverse(uno, primera);
+	hola.moverse(uno, primera);
+	//cout << hola.MostrarTope(1,1)<< endl;
+}
+
 
 
 //NOS FALTA VER QUE PASA SI EL TIPO SE MUEVE A SU MISMA POSICION MIENTRAS ESPERA
@@ -755,6 +801,7 @@ int main() {
 	RUN_TEST(Expulsion_del_Eden);
 	RUN_TEST(salgo_y_entro);
 	RUN_TEST(se_desconecta_real);
+	RUN_TEST(me_muevo_esperando);
 	return 0;
 }
 
