@@ -26,6 +26,8 @@ template <typename T>
   /// Crea una coladeprioridad vacía. (Operación Vacia())
    Coladeprioridad();
    ~Coladeprioridad();
+  // Coladeprioridad<T>& operator=(aed2::Coladeprioridad<T> const&)
+   //Coladeprioridad Coladeprioridad<T>::operator=(aed2::Coladeprioridad<T> const&);
   /// Crea por copia una coladeprioridad (operación Copiar())
   //Coladeprioridad(const Coladeprioridad& otra);
 
@@ -82,7 +84,7 @@ template <typename T>
 
       void borrarSiguiente();//toma un iterador, lo inicializa con la cola que lo llamo, y agrega.
 
-      void Agregar(const T& elem);
+      //void Agregar(const T& elem);
 
       //const T& Siguiente() const;  
 
@@ -135,7 +137,7 @@ private:
       T dato;     
       Nodo* padre;    
 
-      void swap(Nodo* &p2);  
+      void swap(Nodo* &p2);
 
       //FUNCIONES DE TESTING
      /*Nat Dato(){    //TESTING

@@ -62,6 +62,9 @@ public:
 	--PRODUCE ALIASING--
 	**/
 	void Borrar(const string& clave);
+
+
+
 	
 	
 	/**
@@ -70,6 +73,8 @@ public:
 	--NO PRODUCE ALIASING--
 	**/
 	const Conj<string>& Claves()const;
+
+	Nat CantClaves();
 	
 	class Iterador;
 	//	
@@ -89,13 +94,17 @@ public:
 		///////////////////////////
 		const pair<string, T>  Siguiente();
 		///////////////////////////
+		void BorrarSiguiente();
+		//////////////////////////
 		void Avanzar();
 	private:
+		//borrar las claves del iterador y las de vos mismo.
 		Iterador(DiccString<T>* d): dic(d){
 			claves = (*d).claves.CrearIt();
 			//typename Conj<string>::Iterador it = claves.CrearIt();
-			siguiente = make_pair(claves.Siguiente(), (*d).Obtener(claves.Siguiente()));
-			//it.EliminarSiguiente();
+			if(claves.HaySiguiente()){
+			siguiente = make_pair(claves.Siguiente(), (*d).Obtener(claves.Siguiente()));//rompe crear el iterador sino hay siguiente de claves.
+			}//it.EliminarSiguiente();
 		}
 		friend typename DiccString<T>::Iterador DiccString<T>::CrearIt();
 		
@@ -198,6 +207,10 @@ DiccString<T>::~DiccString(){
 	//TODO
 	
 }
+template <typename T>
+Nat DiccString<T>::CantClaves(){
+	return claves.Cardinal();
+}
 
 
 
@@ -214,7 +227,7 @@ void DiccString<T>::Definir(const string& clave, const T& significado){
 		(*(*recorredor).definicion).first.EliminarSiguiente();
 		delete((*recorredor).definicion);
 		Conj<String>::Iterador it =  claves.AgregarRapido(clave);
-		recorredor->definicion = new pair<Conj<String>::Iterador, T>(it,T(significado));
+		recorredor->definicion = new pair<Conj<String>::Iterador, T>(it,(significado));//T antes de significado
 	}else{
 		Conj<String>::Iterador it =  claves.AgregarRapido(clave);
 		if (raiz == NULL){
@@ -464,6 +477,22 @@ template<typename T>
 T& DiccString<T>::Iterador::SiguienteSignificado(){
 	return (siguiente.second);
 }
+///////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
+template<typename T>
+void DiccString<T>::Iterador::BorrarSiguiente(){
+	(*dic).Borrar(claves.Siguiente());
+	 claves = (*dic).claves.CrearIt();
+	 if(claves.HaySiguiente()){
+	 siguiente = make_pair(claves.Siguiente(), (*dic).Obtener(claves.Siguiente()));
+	}
+}
+//VA A ROMPER
+
+
+
+
+
 ///////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////
 template<typename T>

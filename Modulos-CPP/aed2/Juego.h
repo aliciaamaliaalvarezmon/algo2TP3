@@ -48,7 +48,8 @@ namespace aed2
 
       DiccString< Nat >::Iterador  Pokemons(Nat e);
 
-       Conj<Nat> Expulsados();
+      // Conj<Nat>& Expulsados();
+       void Expulsados(Conj<Nat>& nuevo);
 
       Conj<Coordenada>::Iterador posConPokemons(Conj<Coordenada>& dummy); 
 
@@ -57,7 +58,8 @@ namespace aed2
       Nat CantMovimientosParaCaptura(Coordenada c);
 
        Nat ProxID();
-	
+
+		Nat MostrarTope(Nat a, Nat b);
 	
        Conj<Nat> JugadoresConectados();
 
@@ -75,7 +77,7 @@ namespace aed2
 		Nat matrizPOKEMONLongtitud();
 		Nat matrizJUGADORESLatitud();//(pokcapturados, ID)
 		Nat matrizPOKEMONLatitud();
-
+	bool HayUnJugadorCercano(Coordenada c);
  
 	private:	
 
@@ -152,13 +154,13 @@ namespace aed2
 		
 		Conj<typename Juego::capturadosyID> cercanos(Coordenada c);
 
-		bool HayUnJugadorCercano(Coordenada c);
+	//	bool HayUnJugadorCercano(Coordenada c);
 
 		bool estaParaCaptura(Coordenada posDelJug);
 
 		Coordenada BuscarHeap(Coordenada c);
 
-		void AuxCapturarPokemon(Dicc<Coordenada, string>::Iterador it);
+		void AuxCapturarPokemon(Dicc<Coordenada, string>::Iterador& it);
 
 		//Conj<Coordenada> Claves(Dicc<Coordenada, string> dicc); //Deberia estar en diccLineal.
 		void Claves(Dicc<Coordenada, string> dicc, Conj<Coordenada>& vacio);

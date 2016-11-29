@@ -22,14 +22,16 @@ Juego::Juego(Mapa m)
 
 	Nat Juego::AgregarJugador(){
 		dataJugador nuevo;
-		vectJug_.AgregarAtras(nuevo);
+		DiccString<Nat> vacio;
+		Lista<DiccString<Nat> >::Iterador iter = pokemonsXjug_.AgregarAtras(vacio);
+		nuevo.pokemonescapturados = iter;
+		vectJug_.AgregarAtras(nuevo);		
 		return (vectJug_.Longitud() - 1);		
 	}
 
-	void Juego::AgregarPokemon(string p, Coordenada c){
-		//Dicc<Coordenada, String>::Iterador ju = (posdePokemon_).DefinirRapido(c,p);
+	void Juego::AgregarPokemon(string p, Coordenada c){		
 		(posdePokemon_).DefinirRapido(c,p);		
-		Conj<capturadosyID> entrenadores = cercanos(c);// jajajajaja, podemos romper todo.		
+		Conj<typename Juego::capturadosyID> entrenadores = cercanos(c);// jajajajaja, podemos romper todo.			
 		if(!pokemones_.Definido(p)) {
 			pokemones_.Definir(p, dataPokemon(1,0));			
 		}else{			
@@ -39,14 +41,16 @@ Juego::Juego(Mapa m)
 		typename Juego::infoHeap heap;		
 		matrizPokemon_[c.longitud()][c.latitud()] = heap;		
 		Coladeprioridad<typename Juego::capturadosyID>* rompe = &(matrizPokemon_[c.longitud()][c.latitud()].heap_);
-		matrizPokemon_[c.longitud()][c.latitud()].HayBasura_ = false;
+		matrizPokemon_[c.longitud()][c.latitud()].HayBasura_ = false;			
 		Conj<typename Juego::capturadosyID>::Iterador it = entrenadores.CrearIt();
 		while(it.HaySiguiente()){
-			Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID>::Iterador>* hola = &(matrizJugadores_[vectJug_[it.Siguiente().ID].posicion.longitud()][vectJug_[it.Siguiente().ID].posicion.latitud()]);
-			(*hola).DefinirRapido(it.Siguiente().ID, (*rompe).Encolar(it.Siguiente()));
+			Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID>::Iterador>* hola = (&(matrizJugadores_[vectJug_[it.Siguiente().ID].posicion.longitud()][vectJug_[it.Siguiente().ID].posicion.latitud()]));			
+			
+			//Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID>::Iterador>::Iterador poscola = (*hola).DefinirRapido(it.Siguiente().ID, (*rompe).Encolar(it.Siguiente())); ACA
 			//vectJug_[it.Siguiente().ID].posenColaDeCaptura = matrizJugadores_[vectJug_[it.Siguiente().ID].posicion.longitud()][vectJug_[it.Siguiente().ID].posicion.latitud()].DefinirRapido(it.Siguiente().ID, (*rompe).Encolar(it.Siguiente));
-			it.Avanzar();
-		}
+			vectJug_[it.Siguiente().ID].posenColaDeCaptura = (*hola).DefinirRapido(it.Siguiente().ID, (*rompe).Encolar(it.Siguiente())); //poscola
+			it.Avanzar();			
+		}		
 		cantPokemon_ ++;		
 	}
 
@@ -61,8 +65,8 @@ Juego::Juego(Mapa m)
 			typename Coladeprioridad<typename Juego::capturadosyID>::Iterador iteradoralheap = (matrizPokemon_[ACapturar.longitud()][ACapturar.latitud()].heap_).Encolar(espera);		
 			//cout << "iteradoralheap  " << iteradoralheap.Siguiente().numero << ", "<< iteradoralheap.Siguiente().ID << endl;
 			vectJug_[e].posenColaDeCaptura = matrizJugadores_[c.longitud()][c.latitud()].DefinirRapido(e, iteradoralheap );
-			cout <<"funciono" << vectJug_[e].posenColaDeCaptura.SiguienteClave() << endl;
-			cout <<"funciono" << vectJug_[e].posenColaDeCaptura.SiguienteSignificado().Siguiente().ID << endl;
+			//cout <<"funciono" << vectJug_[e].posenColaDeCaptura.SiguienteClave() << endl;
+			//cout <<"funciono" << vectJug_[e].posenColaDeCaptura.SiguienteSignificado().Siguiente().ID << endl;
 		}else{
 		matrizJugadores_[c.longitud()][c.latitud()].DefinirRapido(e, dummy);
 		}	
@@ -75,106 +79,126 @@ Juego::Juego(Mapa m)
 
 	void Juego::desconectarse(Nat e){
 		vectJug_[e].conexion = false;		
-		Coordenada c = vectJug_[e].posicion;		
-		if(estaParaCaptura(c)){	
-			vectJug_[e].posenColaDeCaptura.SiguienteSignificado().borrarSiguiente();//elimino de la cola la pos			
-		}
+		Coordenada c = vectJug_[e].posicion;				
+		if(estaParaCaptura(c)){				
+			vectJug_[e].posenColaDeCaptura.SiguienteSignificado().borrarSiguiente();		
+		}		
 		if(vectJug_[e].posenColaDeCaptura.HaySiguiente()){
 		vectJug_[e].posenColaDeCaptura.EliminarSiguiente(); //elimino de la matriz Jugador
 		}
+		//cout << "matriz"<<(*matrizPokemon_[1][1].heap_.HEAP()).Dato().ID << ", "<<(*matrizPokemon_[1][1].heap_.HEAP()).Dato().numero <<endl;
+		//cout << "desconectarse"<< pokemones_.Obtener("torchit").PC<< endl;
 
 	}
 
-void Juego::moverse(Nat e, Coordenada c){
-	
+void Juego::moverse(Nat e, Coordenada c){	
 		Coordenada antiguaPos =  vectJug_[e].posicion; 
-	if (not( antiguaPos.distEuclidea(c) > 100 or not mundo_.hayCamino(antiguaPos,c))){	
+		//cout << "antiguaPos" <<  vectJug_[e].posicion.latitud()<< vectJug_[e].posicion.longitud() << endl;
+	if (not( antiguaPos.distEuclidea(c) > 100 or not mundo_.hayCamino(antiguaPos,c))){
 		vectJug_[e].posicion = c ;
 		if(estaParaCaptura(antiguaPos)){
-			Coordenada AntiguoHeap = BuscarHeap(antiguaPos); 
-			Coladeprioridad<typename Juego::capturadosyID> heap = matrizPokemon_[AntiguoHeap.latitud()][AntiguoHeap.longitud()].heap_;
-			(vectJug_[e].posenColaDeCaptura.SiguienteSignificado()).borrarSiguiente();
-		} 
-		if(estaParaCaptura(c)){
-			Coordenada VoyACapturarEste = BuscarHeap(c);
-			Coladeprioridad<typename Juego::capturadosyID> heap =  ((matrizPokemon_[VoyACapturarEste.latitud()][VoyACapturarEste.longitud()]).heap_); 
-			typename Juego:: capturadosyID captura;
-			captura.numero = vectJug_[e].pokTotalAtrapados;
-			captura.ID = e;
-			Coladeprioridad<typename Juego::capturadosyID>::Iterador iteradorAlHeap = heap.Encolar(captura); 
-			Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID>::Iterador>::Iterador  posencola = matrizJugadores_[c.latitud()][c.longitud()].Definir(e,iteradorAlHeap);        
+			Coordenada AntiguoHeap = BuscarHeap(antiguaPos); 			
+			//Coladeprioridad<typename Juego::capturadosyID> heap = matrizPokemon_[AntiguoHeap.longitud()][AntiguoHeap.latitud()].heap_;			
+			(vectJug_[e].posenColaDeCaptura.SiguienteSignificado()).borrarSiguiente();					
+		} 		
+		if(estaParaCaptura(c)){	
+			Coordenada VoyACapturarEste = BuscarHeap(c);			
+			typename Juego:: capturadosyID captura(vectJug_[e].pokTotalAtrapados, e);
+			//captura.numero = ;
+			//captura.ID = e;
+			Coladeprioridad<typename Juego::capturadosyID>::Iterador iteradorAlHeap = ((matrizPokemon_[VoyACapturarEste.longitud()][VoyACapturarEste.latitud()]).heap_).Encolar(captura); 
+			Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID>::Iterador>::Iterador  posencola = matrizJugadores_[c.longitud()][c.latitud()].Definir(e,iteradorAlHeap);        
 			vectJug_[e].posenColaDeCaptura = posencola;   
 		}
 		if(HayPokemonCercano(c) && HayPokemonCercano(antiguaPos)){
 			if (not(BuscarHeap(c) == BuscarHeap(antiguaPos))){
 			Coordenada PosDePokemon = BuscarHeap(c);
-			(matrizPokemon_[PosDePokemon.latitud()][PosDePokemon.longitud()]).contador_  = 0; 
+			(matrizPokemon_[PosDePokemon.longitud()][PosDePokemon.latitud()]).contador_  = 0; 
 		}
 	}
 	else
 	{
 		if(HayPokemonCercano(c)){
 			Coordenada PosDePokemon = BuscarHeap(c); 
-			(matrizPokemon_[PosDePokemon.latitud()][PosDePokemon.longitud()]).contador_  = 0;
+			(matrizPokemon_[PosDePokemon.longitud()][PosDePokemon.latitud()]).contador_  = 0;
 		}
 	}
 		/*Coordenada PosDePokemon = BuscarHeap(c);*/ 
-		Dicc<Coordenada,String>::Iterador it = posdePokemon_.CrearIt(); 
+		Dicc<Coordenada,String>::Iterador it = posdePokemon_.CrearIt(); 		
 		while(it.HaySiguiente()){ 
 			if(HayPokemonCercano(c) && not(PosDePokemonCercano(c) == it.SiguienteClave())){
-				Coordenada posPokemon   = it.SiguienteClave();
-				infoHeap posActual = matrizPokemon_[posPokemon.latitud()][posPokemon.longitud()];
+				//Coordenada posPokemon   = it.SiguienteClave();
+				infoHeap &posActual = matrizPokemon_[it.SiguienteClave().longitud()][it.SiguienteClave().latitud()];
 				if(HayUnJugadorCercano(it.SiguienteClave())){
 					(posActual).contador_ += 1;
 				}
 				if((posActual).contador_ ==10){
 					AuxCapturarPokemon(it) ;
+					//it.EliminarSiguiente();
 					
 				}
 			}
 			else
-			{ 
-				Coordenada posPokemon  = it.SiguienteClave();
-				infoHeap posActual = matrizPokemon_[posPokemon.latitud()][posPokemon.longitud()];
+			{ 	
+				//Coordenada &posPokemon  = it.SiguienteClave();
+				infoHeap &posActual = matrizPokemon_[it.SiguienteClave().longitud()][it.SiguienteClave().latitud()];
 				if (not HayPokemonCercano(c)){      
 					if(HayUnJugadorCercano(it.SiguienteClave())){
-						(posActual).contador_ += 1;
+						//cout << "posicion" << it.SiguienteClave().latitud() << "  "<<  it.SiguienteClave().longitud() <<", jug" << HayUnJugadorCercano(it.SiguienteClave()) << endl;
+						posActual.contador_ += 1;
 					}
-				}
-				if((posActual).contador_ ==10){ 
-						AuxCapturarPokemon(it);
+				}				
+				if((posActual).contador_ ==10){ 					
+						AuxCapturarPokemon(it);												
+						it.EliminarSiguiente();												
 					}
 					
-			}
+			}		
+			if(it.HaySiguiente()){							
 			it.Avanzar();
+			}
 		}
 	}
-		if( antiguaPos.distEuclidea(c) > 100 or not mundo_.hayCamino(antiguaPos,c)){
+		if( antiguaPos.distEuclidea(c) > 100 or not mundo_.hayCamino(antiguaPos,c)){				
 			vectJug_[e].sanciones = vectJug_[e].sanciones+1;
-			if(vectJug_[e].sanciones==5){
-				if(HayPokemonCercano(c)){
-					Coordenada VoyACapturarEste = BuscarHeap(c);
-					if(mundo_.hayCamino(VoyACapturarEste,c)){ 
-						Coladeprioridad<typename Juego::capturadosyID>	heap = matrizPokemon_[VoyACapturarEste.latitud()][VoyACapturarEste.longitud()].heap_;
+			if(vectJug_[e].sanciones==5){						
+				if(HayPokemonCercano(antiguaPos)){ //decia c en vez de antiguaPos					
+					Coordenada VoyACapturarEste = BuscarHeap(antiguaPos);					
+					if(mundo_.hayCamino(VoyACapturarEste,antiguaPos)){ 
+						//Coladeprioridad<typename Juego::capturadosyID>	heap = matrizPokemon_[VoyACapturarEste.latitud()][VoyACapturarEste.longitud()].heap_;
 					//(heap, vectJug_[e].posenColaDeCaptura.SiguienteSignificado()).borrarSiguiente();
 						 (vectJug_[e].posenColaDeCaptura.SiguienteSignificado()).borrarSiguiente();
 					}
-				}
+				}				
 				cantPokemon_ = cantPokemon_ - vectJug_[e].pokTotalAtrapados; 
-				vectJug_[e].conexion = false; 
-				vectJug_[e].posicion = Coordenada(0,0);
-				DiccString<Nat>::Iterador itapokecap = (vectJug_[e].pokemonescapturados.Siguiente()).CrearIt();
-				while(itapokecap.HaySiguiente()){ 
-					dataPokemon& pok = pokemones_.Obtener(itapokecap.SiguienteClave());
-					pok.PC = pok.PC - itapokecap.SiguienteSignificado(); 
-					if(pok.PS ==0 and pok.PC==0){ 
-						pokemones_.Borrar(itapokecap.SiguienteClave());
-					}
-					itapokecap.Avanzar();
-				}
+				vectJug_[e].conexion = false; 					
+				vectJug_[e].posicion = Coordenada(0,0);		
+				//if(vectJug_[e].pokemonescapturados.Siguiente().CantClaves() > 0){					
+				DiccString<Nat>::Iterador itapokecap((vectJug_[e].pokemonescapturados.Siguiente()).CrearIt());										
+				while(itapokecap.HaySiguiente()){ //vectJug_[e].pokemonescapturados.Siguiente().CantClaves() > 0	
+					dataPokemon& pok = pokemones_.Obtener(itapokecap.SiguienteClave());					
+					pok.PC = pok.PC - itapokecap.SiguienteSignificado(); 											
+					if(pok.PS ==0 and pok.PC==0){	
+						//pokemones_.Borrar(itapokecap.SiguienteClave());								
+						itapokecap.BorrarSiguiente();												
+					}							
+					if(itapokecap.HaySiguiente()){	
+					cout << "llega"<<endl;				
+					itapokecap.Avanzar();					
+				}							
+				}				
+			//}
 				
-			}
+			
 		}
+		}
+	//	cout << "llega"<<endl;		
+	//	cout << "contador:" <<  matrizPokemon_[1][1].heap_.tope().ID <<endl; 
+
+} 
+
+Nat Juego::MostrarTope(Nat a, Nat b){
+return	matrizPokemon_[a][b].heap_.tope().ID;
 }
 
 	Mapa Juego::VerMapa(){
@@ -209,8 +233,9 @@ void Juego::moverse(Nat e, Coordenada c){
 	  DiccString< Nat>::Iterador Juego::Pokemons(Nat e){//Aca deberia??? ser DiccString(Nat)::Iterador
 	  	//Dicc<pair<string, Nat> >::Iterador nuevo; 
 	  	//return nuevo;
+	  	cout << "llega"<< endl;
 	  	DiccString< Nat >::Iterador it;
-	  	if(vectJug_[e].pokemonescapturados.HaySiguiente()){
+	  	if(vectJug_[e].pokemonescapturados.HaySiguiente()){	  		
 	  	 it = vectJug_[e].pokemonescapturados.Siguiente().CrearIt();
 	  	}
 	  	return it;
@@ -218,7 +243,7 @@ void Juego::moverse(Nat e, Coordenada c){
 	  }
 
 
-	  Conj<Nat> Juego::Expulsados(){
+	/*  Conj<Nat>& Juego::Expulsados(){
 	  	Conj<Nat> nuevo;
 	  	Nat i = 0;
 	  	while(i < vectJug_.Longitud()){
@@ -231,6 +256,26 @@ void Juego::moverse(Nat e, Coordenada c){
 	  	return nuevo;
 
 	  }
+*/
+
+  void Juego::Expulsados(Conj<Nat>& nuevo){	  	
+	  	Nat i = 0;	  	
+	  	while(i < vectJug_.Longitud()){	  	
+	  		if( vectJug_[i].sanciones == 5){
+	  			//cout << "i" << i << ", sanciones" <<  vectJug_[i].sanciones << endl; 	
+	  		nuevo.AgregarRapido(i);	  		
+	  		}
+	  	i++;	
+
+	  	}
+	  	//return nuevo;
+
+	  }
+
+
+
+
+
 
 
 
@@ -241,7 +286,7 @@ void Juego::moverse(Nat e, Coordenada c){
 	  	Claves(posdePokemon_, dummy);	 
 	  	//cout << "desues dummy" << dummy.Cardinal()<< endl;  	 
 	  	Conj<Coordenada>::Iterador nuevo = dummy.CrearIt();	  	
-	  	cout << "iterador"<<nuevo.Siguiente().latitud() << nuevo.Siguiente().longitud() << endl;
+	  	//cout << "iterador"<<nuevo.Siguiente().latitud() << nuevo.Siguiente().longitud() << endl;
 	  	return nuevo;
 
 	  }
@@ -538,6 +583,8 @@ void Juego::moverse(Nat e, Coordenada c){
 				bool b = (c.distEuclidea(ver) <= 4);
 				bool d = ((matrizJugadores_[ver.longitud()][ver.latitud()]).CantClaves() > 0);
 				bool e = mundo_.hayCamino(ver, c);
+				//cout << "ver" << ver.latitud() <<"," <<ver.longitud() <<",posenMapa? " << a << "esta" << d << endl;
+				//cout<< "hay camino: " << mundo_.hayCamino(c, ver) << endl;
 				if(a and b and d and e){
 					aux = true;
 				}
@@ -597,9 +644,9 @@ void Juego::moverse(Nat e, Coordenada c){
 
 
 
-	void Juego::AuxCapturarPokemon(Dicc<Coordenada, string>::Iterador it){
-		infoHeap dameLaData = matrizPokemon_[it.SiguienteClave().latitud()][it.SiguienteClave().longitud()];
-		dataJugador& jugador = vectJug_[(((dameLaData).heap_).tope()).ID];
+	void Juego::AuxCapturarPokemon(Dicc<Coordenada, string>::Iterador& it){
+		infoHeap dameLaData = matrizPokemon_[it.SiguienteClave().longitud()][it.SiguienteClave().latitud()];
+		dataJugador& jugador = vectJug_[(((dameLaData).heap_).tope()).ID];		
 		if(not ((jugador.pokemonescapturados).Siguiente()).Definido(it.SiguienteSignificado())){ 
 			(jugador.pokemonescapturados.Siguiente()).Definir(it.SiguienteSignificado(),1);
 		}
@@ -607,15 +654,17 @@ void Juego::moverse(Nat e, Coordenada c){
 		{
 			(jugador.pokemonescapturados.Siguiente()).Definir(it.SiguienteSignificado(),(jugador.pokemonescapturados.Siguiente()).Obtener(it.SiguienteSignificado())+1);
 		}	
+		jugador.pokTotalAtrapados++;
 		dataPokemon& BuscarEnElTrie = pokemones_.Obtener(it.SiguienteSignificado()); 
 		BuscarEnElTrie.PS = (BuscarEnElTrie.PS)-1; 
-		BuscarEnElTrie.PC = (BuscarEnElTrie.PC)+1; 
+		BuscarEnElTrie.PC = (BuscarEnElTrie.PC)+1;	
 		Coladeprioridad<typename Juego::capturadosyID> dummy;
 		Dicc<Coordenada,string> pokpos;
 		Dicc<Coordenada,string>::Iterador itpos = pokpos.CrearIt();
 		matrizPokemon_[it.SiguienteClave().longitud()][it.SiguienteClave().latitud()].heap_ = dummy;
+		//cout << "no nos importa el operador" << matrizPokemon_[it.SiguienteClave().longitud()][it.SiguienteClave().latitud()].heap_.EsVacia() << endl; 
 		matrizPokemon_[it.SiguienteClave().longitud()][it.SiguienteClave().latitud()].HayBasura_= true;
-		matrizPokemon_[it.SiguienteClave().longitud()][it.SiguienteClave().latitud()].contador_ = 0;
+		matrizPokemon_[it.SiguienteClave().longitud()][it.SiguienteClave().latitud()].contador_ = 0;		
 	}
 
 
@@ -760,3 +809,11 @@ Nat Juego::matrizPOKEMONLatitud(){
 	return matrizPokemon_[0].Longitud();
 }
 
+//COUTS DE DESCONECTAR
+/*	Coladeprioridad<typename Juego::capturadosyID>::Iterador crear = matrizPokemon_[1][1].heap_.CrearIt();
+			cout << "hello"<< crear.Siguiente().ID <<", "<< crear.Siguiente().numero << endl;
+			crear.borrarSiguiente();
+			Coladeprioridad<typename Juego::capturadosyID>::Iterador crear2 = matrizPokemon_[1][1].heap_.CrearIt();
+			cout << "hello"<< crear2.Siguiente().ID <<", "<< crear2.Siguiente().numero << endl;
+
+			cout << "matriz"<<(*matrizPokemon_[1][1].heap_.HEAP()).Dato().ID << ", "<<(*matrizPokemon_[1][1].heap_.HEAP()).Dato().numero <<endl;	*/
