@@ -4,11 +4,11 @@
 
 Driver::Driver(const Conj< Coordenada > & cs)
 {
-	Conj< Coordenada >::Iterador it = cs.CrearIt();
+	Conj< Coordenada >::const_Iterador it = cs.CrearIt();
 	Mapa m;
 	while(it.HaySiguiente()){
 		m.agregarCoord(it.Siguiente());
-		it.Avanzar()
+		it.Avanzar();
 	}
 	Juego game(m);
 }
@@ -28,7 +28,7 @@ void Driver::conectarse(const Jugador & j, const Coordenada & c){
 }
 
 void Driver::desconectarse(const Jugador & j){
-	game.desconectarse(j,c);
+	game.desconectarse(j);
 }
 
 void Driver::moverse(const Jugador & j, const Coordenada & c){
@@ -47,7 +47,7 @@ bool Driver::posExistente(const Coordenada & c) const{
 	return (game.VerMapa()).posEnMapa(c);
 }
 Conj< Jugador > Driver::jugadores() const{
-	Juego::Iterador it = game.CrearIt();
+	Juego::const_Iterador it = game.CrearIt();
 	Conj< Jugador > res;
 	while(it.HaySiguiente()){
 		res.AgregarRapido(it.Siguiente());
@@ -62,7 +62,7 @@ Nat Driver::sanciones(const Jugador & j) const{
 	return (game.sanciones(j));
 }
 Coordenada Driver::posicion(const Jugador & j) const{
-	return (game.posicion(posicion));
+	return (game.posicion(j));
 }
 
 Dicc< Pokemon , Nat > Driver::pokemons(const Jugador & j) const{
@@ -101,7 +101,7 @@ Conj<Jugador> Driver::entrenadoresPosibles(const Coordenada & c) const{
 	return game.cercanos();
 }
 Nat Driver::indiceRareza(const Pokemon & p) const{
-	return game.indiceRareza(p);
+	return game.indiceDeRareza(p);
 }
 Nat Driver::cantPokemonsTotales() const{
 	return game.CantPokemonTotales();
