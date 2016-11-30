@@ -49,7 +49,7 @@ namespace aed2
       DiccString< Nat >::Iterador  Pokemons(Nat e);
 
       // Conj<Nat>& Expulsados();
-       void Expulsados(Conj<Nat>& nuevo);
+       void Expulsados(Conj<Nat>& nuevo) const;
 
       Conj<Coordenada>::Iterador posConPokemons(Conj<Coordenada>& dummy); 
 

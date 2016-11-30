@@ -253,7 +253,7 @@ return	matrizPokemon_[a][b].heap_.tope().ID;
 	  }
 */
 
-  void Juego::Expulsados(Conj<Nat>& nuevo){	  	
+  void Juego::Expulsados(Conj<Nat>& nuevo) const{	  	
 	  	Nat i = 0;	  	
 	  	while(i < vectJug_.Longitud()){	  	
 	  		if( vectJug_[i].sanciones >= 5){	  		
