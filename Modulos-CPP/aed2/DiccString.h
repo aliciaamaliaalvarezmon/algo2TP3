@@ -98,6 +98,8 @@ public:
 		void BorrarSiguiente();
 		//////////////////////////
 		void Avanzar();
+		/////////////////////////
+		Conj<pair<string, T> > Siguientes();
 	private:
 		//borrar las claves del iterador y las de vos mismo.
 		Iterador(DiccString<T>* d): dic(d){
@@ -547,12 +549,37 @@ void DiccString<T>::Iterador::Avanzar(){
 	siguiente = make_pair(claves.Siguiente(),significado);
 }
 }
+///////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
+//template<typename T>
 template<typename T>
 const pair<string, T>  DiccString<T>::Iterador::Siguiente(){
 	return siguiente;
 }
 
+///////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
+template<typename T>
+Conj<pair<string, T> > DiccString<T>::Iterador::Siguientes(){
+	Conj<pair<string, T> > nuevo;
+	typename Conj<pair<string, T> >::Iterador recorro = (*this).claves;
+	while(recorro.HaySiguiente()){
+		nuevo.AgregarRapido(recorro.Siguiente(), (*this).dicc.Obtener(recorro.Siguiente()));
+		recorro.Avanzar();
+	}
+	return nuevo;
+}
 
+
+
+
+
+
+///////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
+
+
+//template<typename T>
 template<typename T>
 typename DiccString<T>::Iterador DiccString<T>::CrearIt(){
 	return Iterador(this);
