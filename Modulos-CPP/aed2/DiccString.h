@@ -79,6 +79,7 @@ public:
 	class Iterador;
 	//	
 	Iterador CrearIt();
+	typename DiccString<T>::const_Iterador CrearIt() const;
 	
 	class Iterador{
 	public:
@@ -107,11 +108,48 @@ public:
 			}//it.EliminarSiguiente();
 		}
 		friend typename DiccString<T>::Iterador DiccString<T>::CrearIt();
+		friend class const_Iterador;
+		Conj<string>::Iterador claves;
+		pair<string, T> siguiente;		
+		DiccString<T>* dic;
+	};	
+
+	class const_Iterador{
+	public:
+		const_Iterador();
+		///////////////////////////
+		const_Iterador(const typename DiccString<T>::Iterador& otra);
+		///////////////////////////
+		const_Iterador(const typename DiccString<T>::const_Iterador& otra);
+		///////////////////////////
+		bool HaySiguiente() const;
+		///////////////////////////
+		string  SiguienteClave() const;
+		///////////////////////////
+		T& SiguienteSignificado() const;
+		///////////////////////////
+		const pair<string, T>  Siguiente() const;
+		///////////////////////////
+		//void BorrarSiguiente();
+		//////////////////////////
+		void Avanzar();
+	private:
+		//borrar las claves del iterador y las de vos mismo.
+		const_Iterador(DiccString<T>* d): dic(d){
+			claves = (*d).claves.CrearIt();
+			//typename Conj<string>::Iterador it = claves.CrearIt();
+			if(claves.HaySiguiente()){
+			siguiente = make_pair(claves.Siguiente(), (*d).Obtener(claves.Siguiente()));//rompe crear el iterador sino hay siguiente de claves.
+			}//it.EliminarSiguiente();
+		}
+		friend typename DiccString<T>::const_Iterador DiccString<T>::CrearIt() const;
 		
 		Conj<string>::Iterador claves;
 		pair<string, T> siguiente;		
 		DiccString<T>* dic;
 	};	
+
+
 	
 	
 private:
@@ -142,6 +180,11 @@ private:
 	int letras(Nodo* puntero);
 	
 };
+
+
+	
+
+
 
 
 
@@ -447,8 +490,8 @@ int DiccString<T>::letras(Nodo* puntero){
 
 
 
-
-
+//////////ITERDADOR
+/////////////////////////////////////////////////
 template<typename T>
 DiccString<T>::Iterador::Iterador()
 	: dic(NULL)
@@ -514,6 +557,107 @@ template<typename T>
 typename DiccString<T>::Iterador DiccString<T>::CrearIt(){
 	return Iterador(this);
 }
+
+//////////CONST_ITERDADOR 
+/////////////////////////////////////////////////
+template<typename T>
+DiccString<T>::const_Iterador::const_Iterador()
+	: dic(NULL)
+{}
+///////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
+template<typename T>
+DiccString<T>::const_Iterador::const_Iterador(const typename DiccString<T>::Iterador& otro)
+	: claves(otro.claves),   siguiente(otro.siguiente), dic(otro.dic)
+{}  
+///////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
+template<typename T>
+DiccString<T>::const_Iterador::const_Iterador(const typename DiccString<T>::const_Iterador& otro)
+	: claves(otro.claves),   siguiente(otro.siguiente), dic(otro.dic)
+{}  
+///////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
+template<typename T>
+bool DiccString<T>::const_Iterador::HaySiguiente() const{
+	return (claves.HaySiguiente());
+}
+///////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
+template<typename T>
+string  DiccString<T>::const_Iterador::SiguienteClave() const{
+	return (siguiente.first);
+}
+///////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
+template<typename T>
+T& DiccString<T>::const_Iterador::SiguienteSignificado() const{
+	return (siguiente.second);
+}
+///////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
+
+template<typename T>
+void DiccString<T>::const_Iterador::Avanzar(){		
+	claves.Avanzar();	
+	if(claves.HaySiguiente()){
+	string id = claves.Siguiente();	
+	T significado(dic->Obtener(id));
+	siguiente = make_pair(claves.Siguiente(),significado);
+}
+}
+///////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
+
+template<typename T>
+const pair<string, T>  DiccString<T>::const_Iterador::Siguiente() const{
+	return siguiente;
+}
+
+
+template<typename T>
+typename DiccString<T>::const_Iterador DiccString<T>::CrearIt() const{
+	return Iterador(this);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #endif
 
 #endif

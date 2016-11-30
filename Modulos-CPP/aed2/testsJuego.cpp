@@ -763,17 +763,17 @@ void me_muevo_esperando(){
 	hola.conectarse(cinco, primera);
 	hola.conectarse(seis, primera);
 	//hola.conectarse(siete, primera);
-	hola.moverse(uno, primera);
-	hola.moverse(uno, primera);
-	hola.moverse(uno, primera);
-	hola.moverse(uno, primera);
-	hola.moverse(uno, primera);
-	hola.moverse(uno, primera);
-	hola.moverse(uno, primera);
-	hola.moverse(uno, primera);
-	hola.moverse(uno, primera);
-	hola.moverse(uno, primera);
-	hola.moverse(uno, primera);
+	hola.moverse(cero, primera);
+	hola.moverse(cero, primera);
+	hola.moverse(cero, primera);
+	hola.moverse(cero, primera);
+	hola.moverse(cero, primera);
+	hola.moverse(cero, primera);
+	hola.moverse(cero, primera);
+	hola.moverse(cero, primera);
+	hola.moverse(cero, primera);
+	hola.moverse(cero, primera);
+	hola.moverse(cero, primera);
 	//cout << hola.MostrarTope(1,1)<< endl;
 }
 
@@ -817,16 +817,16 @@ void indiceDeRareza(){
 	hola.AgregarPokemon("torchit", primera);
 	hola.conectarse(tres, sexta);
 	hola.conectarse(uno, primera);
-	hola.moverse(uno, primera);
-	hola.moverse(uno, primera);
-	hola.moverse(uno, primera);
-	hola.moverse(uno, primera);
-	hola.moverse(uno, primera);
-	hola.moverse(uno, primera);
-	hola.moverse(uno, primera);
-	hola.moverse(uno, primera);
-	hola.moverse(uno, primera);
-	hola.moverse(uno, primera);
+	hola.moverse(dos, primera);
+	hola.moverse(dos, primera);
+	hola.moverse(dos, primera);
+	hola.moverse(dos, primera);
+	hola.moverse(dos, primera);
+	hola.moverse(dos, primera);
+	hola.moverse(dos, primera);
+	hola.moverse(dos, primera);
+	hola.moverse(dos, primera);
+	hola.moverse(dos, primera);
 	ASSERT(!hola.HayPokemonCercano(sexta));
 	cout<< "atrapo un jerachi" << hola.Pokemons(tres).SiguienteClave() << endl;	
 	hola.moverse(tres, segunda);
@@ -1086,7 +1086,7 @@ void lonely_soldier_boy(){
 
 
 int main() {
-	RUN_TEST(compila);
+/*	RUN_TEST(compila);
 	RUN_TEST(AgregaJugador);
 	RUN_TEST(conectar);
 	RUN_TEST(desconectar);
@@ -1102,11 +1102,11 @@ int main() {
 	RUN_TEST(Entro);
 	RUN_TEST(Expulsion_del_Eden);
 	RUN_TEST(salgo_y_entro);
-	RUN_TEST(se_desconecta_real);
+	RUN_TEST(se_desconecta_real);*/
 	RUN_TEST(me_muevo_esperando);
-	RUN_TEST(indiceDeRareza);
-	RUN_TEST(cuatro_capturas);
-	RUN_TEST(lonely_soldier_boy);
+	//RUN_TEST(indiceDeRareza);
+	//RUN_TEST(cuatro_capturas);
+	//RUN_TEST(lonely_soldier_boy);
 	return 0;
 }
 
