@@ -11,6 +11,7 @@
 #include <ostream>
 #include "Lista.h"
 
+
 namespace aed2
 {
 
@@ -33,6 +34,8 @@ class Dicc
     Iterador Definir(const K& clave, const S& significado);
     Iterador DefinirRapido(const K& clave, const S& significado);
 
+
+
     bool Definido(const K& clave) const;
     const S& Significado(const K& clave) const;
     S& Significado(const K& clave);
@@ -40,6 +43,7 @@ class Dicc
     Nat CantClaves() const;
     Iterador CrearIt();
     const_Iterador CrearIt() const;
+
 
     //Estas funciones son utiles para saber si algo esta definido
     //y ver cual es su signficado, sin recorrer dos veces.
@@ -588,6 +592,12 @@ bool operator == (const Dicc<K,S>& d1, const Dicc<K,S>& d2)
   }
   return retval;
 }
+
+
+
+
+
+
 
 }
 
