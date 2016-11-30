@@ -82,10 +82,10 @@ Juego::Juego(Mapa m)
 		}		
 	}
 
-void Juego::moverse(Nat e, Coordenada c){	
+void Juego::moverse(Nat e, Coordenada c){		
 		Coordenada antiguaPos =  vectJug_[e].posicion; 
 		//cout << "antiguaPos" <<  vectJug_[e].posicion.latitud()<< vectJug_[e].posicion.longitud() << endl;
-	if (not( antiguaPos.distEuclidea(c) > 100 or not mundo_.hayCamino(antiguaPos,c))){	
+	if (not( antiguaPos.distEuclidea(c) > 100 or not mundo_.hayCamino(antiguaPos,c))){			
 		vectJug_[e].posicion = c ;
 		if(estaParaCaptura(antiguaPos)){		
 			Coordenada AntiguoHeap = BuscarHeap(antiguaPos);
@@ -162,19 +162,18 @@ void Juego::moverse(Nat e, Coordenada c){
 	}
 		if( antiguaPos.distEuclidea(c) > 100 or not mundo_.hayCamino(antiguaPos,c)){								
 			vectJug_[e].sanciones = vectJug_[e].sanciones+1;
-			if(vectJug_[e].sanciones==5){
-				if(HayPokemonCercano(antiguaPos)){//decia c en vez de antiguaPos
+			if(vectJug_[e].sanciones==5){						
+				if(HayPokemonCercano(antiguaPos)){//decia c en vez de antiguaPos					
 					Coordenada VoyACapturarEste = BuscarHeap(antiguaPos);					
 					if(mundo_.hayCamino(VoyACapturarEste,antiguaPos)){ 
 						//Coladeprioridad<typename Juego::capturadosyID>	heap = matrizPokemon_[VoyACapturarEste.latitud()][VoyACapturarEste.longitud()].heap_;
-					//(heap, vectJug_[e].posenColaDeCaptura.SiguienteSignificado()).borrarSiguiente();
-						 (vectJug_[e].posenColaDeCaptura.SiguienteSignificado()).borrarSiguiente();
+					//(heap, vectJug_[e].posenColaDeCaptura.SiguienteSignificado()).borrarSiguiente();						 
+						 (vectJug_[e].posenColaDeCaptura.SiguienteSignificado()).borrarSiguiente();						 
 					}
-				}	
-												
-				cantPokemon_ = cantPokemon_ - vectJug_[e].pokTotalAtrapados; 				
+				}											
+				cantPokemon_ = cantPokemon_ - vectJug_[e].pokTotalAtrapados; 
 				vectJug_[e].conexion = false; 					
-				vectJug_[e].posicion = Coordenada(0,0);									
+				vectJug_[e].posicion = Coordenada(0,0);													
 				DiccString<Nat>::Iterador itapokecap((vectJug_[e].pokemonescapturados.Siguiente()).CrearIt());															
 				while(vectJug_[e].pokemonescapturados.Siguiente().CantClaves() > 0 ){ //itapokecap.HaySiguiente()						
 					dataPokemon& pok = pokemones_.Obtener(itapokecap.SiguienteClave());	
@@ -191,7 +190,7 @@ void Juego::moverse(Nat e, Coordenada c){
 		}
 		}	
 		//cout << "llega" << endl;	
-		//cout << "contador" << matrizPokemon_[10][1].contador_<<endl;
+		//cout << "contador" << matrizPokemon_[1][1].contador_<<endl;
 	} 
 
 Nat Juego::MostrarTope(Nat a, Nat b){
