@@ -732,6 +732,96 @@ void Juego::Iterador::Avanzar(){
  posicion_++;
 }
 
+
+//ITERADOR CONSTANTE
+/////////////////////////////////////////
+
+Juego::const_Iterador::const_Iterador(const typename Juego::Iterador& otro)
+  : elementos_(otro.elementos_), posicion_(otro.posicion_)
+{}
+
+Juego::const_Iterador::const_Iterador(const typename Juego::const_Iterador& otro)
+  : elementos_(otro.elementos_), posicion_(otro.posicion_)
+{}
+
+
+
+typename Juego::const_Iterador& Juego::const_Iterador::operator= (const typename Juego::const_Iterador& otro)
+{
+  elementos_ = otro.elementos_;
+  posicion_ = otro.posicion_;
+  return *this;
+}
+
+
+bool Juego::const_Iterador::HaySiguiente() const{
+	Nat i = posicion_;
+	bool hayAlguno = false;
+	while(i < ((*elementos_).Longitud()) && (hayAlguno == false)){
+		typename Juego::dataJugador  jugActual = (*elementos_)[i];
+		if(jugActual.sanciones < 5){
+			hayAlguno = true;
+		}
+		i++;
+	}
+	return hayAlguno;
+}// const;
+     
+
+void Juego::const_Iterador::Avanzar(){
+
+	if ((posicion_+1) < (*elementos_).Longitud()){
+	Nat i = posicion_ + 1;	
+	bool tengoQueParar = false;
+	while(i < ((*elementos_).Longitud()) && (tengoQueParar == false)){
+		if((*elementos_)[i].sanciones < 5){
+			tengoQueParar = true;
+		}
+	  i++;	
+	}
+	posicion_ = i-1;	
+}else
+ posicion_++;
+}
+
+
+
+
+/*
+
+
+
+
+
+
+
+Nat Juego::const_Iterador::Siguiente() const{
+	Nat i = posicion_;
+	Nat resAux;
+	if(i != 0){
+		resAux = i;
+	}else{
+		if((*elementos_)[i].sanciones < 5){
+			resAux = i;
+		}else{
+		(*this).Avanzar();
+		resAux = posicion_;
+		}		
+	}
+	return resAux;
+}
+
+
+
+*/
+
+
+//STRUCTS
+//////////////////////////////////////////
+
+
+
+
 /*
 bool Juego::EstaParaCaptura(Coordenada c){
 	if(HayPokemonCercano(c)){

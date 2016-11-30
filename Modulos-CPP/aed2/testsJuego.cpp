@@ -1086,7 +1086,7 @@ void lonely_soldier_boy(){
 
 
 int main() {
-	/*RUN_TEST(compila);
+	RUN_TEST(compila);
 	RUN_TEST(AgregaJugador);
 	RUN_TEST(conectar);
 	RUN_TEST(desconectar);
@@ -1103,9 +1103,9 @@ int main() {
 	RUN_TEST(Expulsion_del_Eden);
 	RUN_TEST(salgo_y_entro);
 	RUN_TEST(se_desconecta_real);
-	RUN_TEST(me_muevo_esperando);*/
-	//RUN_TEST(indiceDeRareza);
-	//RUN_TEST(cuatro_capturas);
+	RUN_TEST(me_muevo_esperando);
+	RUN_TEST(indiceDeRareza);
+	RUN_TEST(cuatro_capturas);
 	RUN_TEST(lonely_soldier_boy);
 	return 0;
 }

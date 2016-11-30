@@ -21,6 +21,7 @@ namespace aed2
 	class Juego{
 	public:
 		class Iterador;
+		class const_Iterador;
 		Juego();
 		Juego(Mapa m);
 		//Juego(const Juego& otra); 
@@ -72,6 +73,7 @@ namespace aed2
        Coordenada PosDePokemonCercano(Coordenada c);            
 
        Iterador CrearIt(); 
+       const_Iterador CrearIt() const; 
 
         Nat matrizJUGADORESLongitud();//(pokcapturados, ID)
 		Nat matrizPOKEMONLongtitud();
@@ -209,9 +211,56 @@ namespace aed2
       	}
       
 
-      friend typename Juego::Iterador Juego::CrearIt(); 
+      friend typename Juego::Iterador Juego::CrearIt();
+      friend class Juego::const_Iterador; 
        
   };
+
+    class const_Iterador
+  		{
+    	    public:     
+
+      	const_Iterador(const typename Juego::const_Iterador& otro);
+      	const_Iterador(const typename Juego::Iterador& otro);
+
+     	const_Iterador& operator = (const typename Juego::const_Iterador& otro);
+
+      	bool HaySiguiente() const;// const;
+     
+      	//Nat Siguiente() const;
+
+     	void Avanzar();
+
+      	//Iterador borrarSiguiente();//toma un iterador, lo inicializa con la cola que lo llamo, y agrega.
+
+       	//void Agregar(const T& elem);
+   
+
+
+  	private:
+
+    
+    	//typename Juego::dataJugador
+      	Vector<dataJugador>* elementos_;
+      	Nat posicion_;
+
+
+      	const_Iterador(){
+        elementos_= NULL;
+        posicion_ = 0;        
+      }
+
+      	const_Iterador(Vector<dataJugador>* jug){
+      	elementos_ = jug;
+      	posicion_ =  0;		
+      	}
+      
+
+      friend typename Juego::const_Iterador Juego::CrearIt() const; 
+      friend typename Juego::const_Iterador Juego::CrearIt() const; 
+       
+  };
+
 
 
 
