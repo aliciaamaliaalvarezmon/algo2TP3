@@ -905,7 +905,7 @@ void cuatro_capturas(){
 	hola.moverse(siete, sexta);
 	hola.moverse(siete, sexta);
 	hola.moverse(siete, sexta);
-	/*hola.AgregarPokemon("torchit", primera);
+	hola.AgregarPokemon("torchit", primera);
 	hola.AgregarPokemon("jericho", tercera);
 	hola.AgregarPokemon("new", decima);
 	ASSERT(hola.pokemonEnPos(primera) == "torchit");
@@ -918,6 +918,8 @@ void cuatro_capturas(){
 	cout << it.Siguiente().latitud() << it.Siguiente().longitud() << endl;
 	it.Avanzar();
 	cout << it.Siguiente().latitud() << it.Siguiente().longitud() << endl;
+	it.Avanzar();
+	ASSERT(!it.HaySiguiente());
 	hola.moverse(siete, sexta);
 	hola.moverse(siete, sexta);
 	hola.moverse(siete, sexta);
@@ -950,19 +952,128 @@ void cuatro_capturas(){
 	ASSERT(hola.sanciones(siete) == 0);
 	Conj<Coordenada> dummy2;	
 	ASSERT(!(hola.posConPokemons(dummy2).HaySiguiente()));
-	ASSERT(hola.CantPokemonTotales()== 6);*/
-	cout << "pokemons de tres " << hola.Pokemons(2).SiguienteClave() << ", " <<hola.Pokemons(2).SiguienteSignificado() << endl;
+	ASSERT(hola.CantPokemonTotales()== 6);
+	cout << "pokemons de dos " << hola.Pokemons(2).SiguienteClave() << ", " <<hola.Pokemons(2).SiguienteSignificado() << endl;
 	cout << "pokemons de cinco " << hola.Pokemons(5).SiguienteClave() <<", " <<hola.Pokemons(5).SiguienteSignificado() << endl;
+	cout << "pokemons de uno " << hola.Pokemons(1).SiguienteClave() << ", " <<hola.Pokemons(1).SiguienteSignificado() << endl;
+	cout << "pokemons de cuatro " << hola.Pokemons(4).SiguienteClave() <<", " <<hola.Pokemons(4).SiguienteSignificado() << endl;
 	cout << "pokemons de seis " << hola.Pokemons(6).SiguienteClave() <<", " <<hola.Pokemons(6).SiguienteSignificado() << endl;
-	hola.moverse(tres, tercera);
-	hola.moverse(tres, tercera);
-	hola.moverse(tres, tercera);
-	hola.moverse(tres, tercera);
-	hola.moverse(tres, tercera);
+	hola.moverse(dos, tercera);
+	hola.moverse(dos, tercera);
+	hola.moverse(dos, tercera);
+	hola.moverse(dos, tercera);
+	hola.moverse(dos, tercera);
+	Conj<Nat> dummy3;
+	hola.Expulsados(dummy3);
+	ASSERT(dummy3.Pertenece(dos));	
+	ASSERT(hola.CantPokemonTotales()== 5);
 
 
 }
 
+void lonely_soldier_boy(){
+	Mapa m;
+	Coordenada primera(1,1);
+	Coordenada segunda(1,2);
+	Coordenada tercera(5, 5);
+	Coordenada cuarta(1,3);
+	Coordenada quinta(1, 4);
+	Coordenada sexta(1, 5);
+	Coordenada septima(1, 6);
+	Coordenada octava(1,7);
+	Coordenada novena(1,8);
+	Coordenada decima(1,9);
+	Coordenada onceava(5,6);	
+	ASSERT(onceava.distEuclidea(primera)> 25);
+	ASSERT(onceava.distEuclidea(primera) <100);
+	ASSERT(tercera.distEuclidea(primera)> 25);
+	ASSERT(tercera.distEuclidea(primera) <100);
+	m.agregarCoord(primera);
+	m.agregarCoord(segunda);//aca
+	m.agregarCoord(tercera);
+	m.agregarCoord(cuarta);
+	m.agregarCoord(quinta);
+	m.agregarCoord(sexta);
+	m.agregarCoord(septima);
+	m.agregarCoord(octava);
+	m.agregarCoord(novena);
+	m.agregarCoord(decima);
+	m.agregarCoord(onceava);	
+	Juego hola(m);
+	Nat cero = hola.AgregarJugador();
+	Nat uno = hola.AgregarJugador();
+	Nat dos = hola.AgregarJugador();
+	Nat tres = hola.AgregarJugador();
+	Nat cuatro = hola.AgregarJugador();
+	Nat cinco = hola.AgregarJugador();
+	Nat seis = hola.AgregarJugador();
+	Nat siete = hola.AgregarJugador();
+	hola.conectarse(dos, primera);
+	hola.conectarse(cero,tercera);
+	hola.AgregarPokemon("torchit", cuarta);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.AgregarPokemon("torchit", cuarta);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.AgregarPokemon("jericho", cuarta);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.AgregarPokemon("gabumon", cuarta);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.AgregarPokemon("gabumon", sexta);
+	hola.moverse(dos, septima);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(cero, tercera);
+	hola.moverse(dos, tercera);
+	hola.moverse(dos, tercera);
+	hola.moverse(dos, tercera);
+	hola.moverse(dos, tercera);
+	hola.moverse(dos, tercera);
+	ASSERT(hola.CantPokemonTotales() == 0);
+
+}
 //poner jugador
 //poner pokemon
 //capturar
@@ -994,7 +1105,8 @@ int main() {
 	RUN_TEST(se_desconecta_real);
 	RUN_TEST(me_muevo_esperando);*/
 	//RUN_TEST(indiceDeRareza);
-	RUN_TEST(cuatro_capturas);
+	//RUN_TEST(cuatro_capturas);
+	RUN_TEST(lonely_soldier_boy);
 	return 0;
 }
 
