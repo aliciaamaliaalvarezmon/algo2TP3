@@ -15,14 +15,14 @@ class Driver {
 	/* Inicializa un juego con un mapa fijo. */
 	Driver(const Conj< Coordenada > & cs);
 	
-	/* Destruye el contenido del juego, liberando la memoria dinÃ¡mica alocada. */
+	/* Destruye el contenido del juego, liberando la memoria dinÃƒÂ¡mica alocada. */
 	~Driver();
 
 	/* Agrega el pokemon pasado por parametro en su coordenada al juego. */
 	void agregarPokemon(const Pokemon & p, const Coordenada & c);
 
 	/* Agrega un nuevo jugador, asignandole el id correspondiente. 
-	 * Esta funciÃ³n deberÃ¡ cambiar su aridad respecto del TAD devolviendo: 
+	 * Esta funciÃƒÂ³n deberÃƒÂ¡ cambiar su aridad respecto del TAD devolviendo: 
 	 * el id del jugador agregado. */	
 	Jugador agregarJugador();
 
@@ -117,7 +117,7 @@ class Driver {
 
 	/************************************************************************
 	 * TODO: Va a ser necesario instanciar privadamente el Modulo principal *
-	 * con el cuÃ¡l interactuar. AdemÃ¡s, pueden declarar todas las		   *
+	 * con el cuÃƒÂ¡l interactuar. AdemÃƒÂ¡s, pueden declarar todas las		   *
 	 * funciones auxiliares que les hagan falta.							*
 	 ************************************************************************/  
 	Juego game;
