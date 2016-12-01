@@ -126,15 +126,6 @@ void Mapa::agregarCoord(Coordenada c){
 	for (int k = 0; k < latdecoor; k++) {	
 		(*elem).Definir(k, Arreglo<bool>(londecoor));
 	}		
-	/*Vector<bool>* oj
-	ala = new Vector<bool>;
-	ojala->AgregarAtras(false);
-	elem->AgregarAtras((*ojala));
-	fila->AgregarAtras((*elem));
-	//Nat i = 0;
-	delete(ojala);
-	delete(elem);
-	delete(fila);*/		
 	if(c.latitud() >= latitudmaxima and c.longitud() >= longitudmaxima){
 		while(fila->Longitud() <= c.longitud()){
 			fila->AgregarAtras(*elem);
@@ -182,23 +173,13 @@ void Mapa::agregarCoord(Coordenada c){
 		while(longi < longitudmaxima){
 			Coordenada ver(lati, longi);
 			if(coordenadas.Pertenece(ver) == false){								
-			matriz[lati][longi] =  MatrizDeFalse(latitudmaxima+1, longitudmaxima +1);
+			matriz[lati][longi] =  Noesta();//MatrizDeFalse(latitudmaxima+1, longitudmaxima +1);
 		}
 		longi++;
 		}
 		lati++;
 	}
 
-	//Nat i=0;
-	//cout << "longitudmaxima:" << longitudmaxima<<endl;
-	//cout << "latitudmaxima:" << latitudmaxima<<endl;
-	//cout << "latitud de la Matriz:" << matriz.Longitud()<<endl;
-	//while(i<matriz.Longitud()){
-//		cout << "La Longitud de la matriz es : " << matriz[i].Longitud() <<endl;
-//		i++;
-//	}
-//	cout <<"Latitud: " << latitudmaxima <<endl;
-//	cout << "Longitud: " << longitudmaxima <<endl;
 	Conj<Coordenada> coords = coordenadas;
 	Conj<Coordenada>::Iterador it = coords.CrearIt();
 	while(it.HaySiguiente()){
@@ -206,21 +187,12 @@ void Mapa::agregarCoord(Coordenada c){
 		Conj<Coordenada> vacio;
 		vacio.Agregar(paraLasRelaciones);
 		Conj<Coordenada> res;
-		res.Agregar(paraLasRelaciones);
-		//		cout << "YoloA" <<endl;
-		res = Lindantes(vacio,coords,res);
-		//		cout << "YoloB1" <<endl;
-		Arreglo <Arreglo <bool> > matrizF = MatrizDeFalse(latitudmaxima+1,longitudmaxima+1);
-		//		cout << "Latitud de la matriz de caminos: " << matriz.Longitud() <<endl;
-		//		int i=0;
-		//		while(i<matriz.Longitud()){
-		//		cout <<"Longitud de la matriz de caminos: " << matriz[i].Longitud() <<endl;
-		//		i++;
-		//		}
-		Rellenar(matrizF,res);
-		//		cout << "YoloD3" <<endl;
+		res.Agregar(paraLasRelaciones);		
+		res = Lindantes(vacio,coords,res);	
+		Arreglo <Arreglo <bool> > matrizF = MatrizDeFalse(latitudmaxima,longitudmaxima); // +1 +1
+		Rellenar(matrizF,res);		
 		(matriz[it.Siguiente().latitud()][it.Siguiente().longitud()]) = matrizF;
-		//		cout << "YoloE4" <<endl;
+		;
 		
 		it.Avanzar();
 	}	
@@ -308,6 +280,28 @@ Arreglo <Arreglo < bool> > Mapa::MatrizDeFalse(Nat i, Nat j){
 	return resi;
 }
 
+
+Arreglo <Arreglo < bool> > Mapa::Noesta(){
+	Arreglo <Arreglo < bool> >* res = new Arreglo <Arreglo < bool> >(0);
+	Arreglo <Arreglo < bool> > resi = (*res);
+	delete(res);
+	return resi;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 void Mapa::Rellenar(Arreglo <Arreglo < bool> >& matriz,Conj<Coordenada> linda){
 	Conj<Coordenada>::Iterador it = linda.CrearIt();
 	while(it.HaySiguiente()){
@@ -319,7 +313,9 @@ void Mapa::Rellenar(Arreglo <Arreglo < bool> >& matriz,Conj<Coordenada> linda){
 
 bool Mapa::hayCamino(Coordenada c, Coordenada c2) const{
 	if ((c.latitud() < latitudmaxima) && (c.longitud() < longitudmaxima) and (c2.latitud() < latitudmaxima) && (c2.longitud() < longitudmaxima)){
+		if(matriz[c.latitud()][c.longitud()].Tamanho() > 0){
 	return (matriz[c.latitud()][c.longitud()])[c2.latitud()][c2.longitud()];
+}
 }else{
 	return false;
 }
@@ -328,8 +324,11 @@ bool Mapa::hayCamino(Coordenada c, Coordenada c2) const{
 
 
 bool Mapa::posEnMapa(Coordenada c) const{
-	return (matriz[c.latitud()][c.longitud()])[c.latitud()][c.longitud()];
+	return ((matriz[c.latitud()][c.longitud()]).Tamanho() > 0);
 	//return   (matriz[0][0])[0][0];
 	
 }
 
+bool Mapa::posExiste(Coordenada& c) const{
+	return coordenadas.Pertenece(c);
+}

@@ -167,7 +167,7 @@ void AgregoPokemon(){
 	//ASSERT(iter.Siguiente() == primera);
 	//iter.Avanzar();
 	//ASSERT(iter.Siguiente() == quinta);
-	//cout << hola.PosDePokemonCercano(quinta).latitud() <<"," << hola.PosDePokemonCercano(quinta).longitud() << endl;
+	//cout << hola.PosDePokemonCercano(quinta).latitud() <<"," << hola.PosDePokemonCercano(quinta).longitud() << endl;*/
 
 
 

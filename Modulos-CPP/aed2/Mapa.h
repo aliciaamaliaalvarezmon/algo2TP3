@@ -69,6 +69,7 @@ public:
 	bool existeCaminoPorIzquierda(Coordenada& c, Conj<Coordenada>& cs) const;
 
 	bool posEnMapa(Coordenada c) const;
+
 	
 	// Crea una matriz con las coordenadas del mapa.
 	//Arreglo<Arreglo<bool> > crearMatrizMapa(Coordenada& c) const;
@@ -76,6 +77,8 @@ public:
 	Conj<Coordenada> Lindantes(Conj<Coordenada> c,Conj<Coordenada> coordenadas,Conj<Coordenada> res) const;
 	
 	Arreglo <Arreglo < bool> > MatrizDeFalse(Nat k, Nat j);
+
+	Arreglo <Arreglo < bool> > Noesta();
 	
 	void Rellenar(Arreglo <Arreglo < bool> >& matriz,Conj<Coordenada> linda);
 private:

@@ -47,8 +47,8 @@ Juego::~Juego(){
 	}
 
 	void Juego::AgregarPokemon(string p, Coordenada c){		
-		(posdePokemon_).DefinirRapido(c,p);		
-		Conj<typename Juego::capturadosyID> entrenadores = cercanos(c);// jajajajaja, podemos romper todo.			
+		(posdePokemon_).DefinirRapido(c,p);				
+		Conj<typename Juego::capturadosyID> entrenadores = cercanos(c);// jajajajaja, podemos romper todo.
 		if(!pokemones_.Definido(p)) {
 			pokemones_.Definir(p, dataPokemon(1,0));			
 		}else{			
@@ -608,7 +608,7 @@ return	matrizPokemon_[a][b].heap_.tope().ID;
 
 
 	Conj< typename Juego::capturadosyID> Juego::cercanos(Coordenada c) const{
-		Conj<typename Juego::capturadosyID> nuevo;
+		Conj<typename Juego::capturadosyID> nuevo;		
 		Nat i;
 		if (c.longitud() < 2){
 			i = 0;
@@ -621,16 +621,16 @@ return	matrizPokemon_[a][b].heap_.tope().ID;
 				j = 0;
 			}else{
 				j = c.latitud() -2;
-			}
+			}			
 			while(j <= c.latitud() + 2){
 				Coordenada ver(j,i);
-				if(ver.longitud() < mundo_.longitudMaxima() and ver.latitud() < mundo_.latitudMaxima()){
-				bool a = (mundo_.posEnMapa(ver)); //puede fallar				
-				bool b = (c.distEuclidea(ver) <= 4);
-				Conj<Nat> dummy; // Claves requiere un conjunto vacio pasado como parametro de entrada.
-				Claves(matrizJugadores_[ver.longitud()][ver.latitud()], dummy);				
-				bool d = (!(dummy.EsVacio()));
-				bool e = mundo_.hayCamino(ver, c);
+				if(ver.longitud() < mundo_.longitudMaxima() and ver.latitud() < mundo_.latitudMaxima()){					
+				bool a = (mundo_.posEnMapa(ver)); //puede fallar								
+				bool b = (c.distEuclidea(ver) <= 4);				
+				Conj<Nat> dummy; // Claves requiere un conjunto vacio pasado como parametro de entrada.				
+				Claves(matrizJugadores_[ver.longitud()][ver.latitud()], dummy);								
+				bool d = (!(dummy.EsVacio()));							
+				bool e = mundo_.hayCamino(ver, c);									
 				if(a and b and d and e){				
 					Conj<Nat>::const_Iterador it = dummy.CrearIt();
 					while (it.HaySiguiente()){
