@@ -2,12 +2,13 @@
 
 Mapa::Mapa() :  matriz() , longitudmaxima(0), latitudmaxima(0), coordenadas() {}
 
-Mapa::Mapa(const Conj<Coordenada> cs) : matriz() , longitudmaxima(0), latitudmaxima(0), coordenadas() {
+Mapa::Mapa(const Conj<Coordenada> cs) : matriz() , longitudmaxima(0), latitudmaxima(0), coordenadas(){
 	Conj<Coordenada>::const_Iterador it = cs.CrearIt();
 	while(it.HaySiguiente()){
 		agregarCoord(it.Siguiente());
 		it.Avanzar();
 	}
+
 }
 
 Mapa::~Mapa(){/*
@@ -121,6 +122,8 @@ void Mapa::agregarCoord(Coordenada c){
 	coordenadas.AgregarRapido(c);
 	const Nat londecoor = c.longitud() +1;
 	const Nat latdecoor = c.latitud() + 1;
+	Nat longitudanterior = longitudmaxima;
+	Nat latitudanterior = latitudmaxima;
 	Vector< Arreglo <Arreglo<bool> > >* fila = new Vector< Arreglo<Arreglo<bool> > >;	 	
 	Arreglo<Arreglo<bool> >* elem = new Arreglo<Arreglo<bool> >(latdecoor);	
 	for (int k = 0; k < latdecoor; k++) {	
@@ -189,10 +192,9 @@ void Mapa::agregarCoord(Coordenada c){
 		Conj<Coordenada> res;
 		res.Agregar(paraLasRelaciones);		
 		res = Lindantes(vacio,coords,res);	
-		Arreglo <Arreglo <bool> > matrizF = MatrizDeFalse(latitudmaxima,longitudmaxima); // +1 +1
+		Arreglo <Arreglo <bool> > matrizF = MatrizDeFalse(latitudmaxima,longitudmaxima); ;
 		Rellenar(matrizF,res);		
-		(matriz[it.Siguiente().latitud()][it.Siguiente().longitud()]) = matrizF;
-		;
+		(matriz[it.Siguiente().latitud()][it.Siguiente().longitud()]) = matrizF;	
 		
 		it.Avanzar();
 	}	
@@ -262,20 +264,22 @@ Arreglo <Arreglo < bool> > Mapa::MatrizDeFalse(Nat i, Nat j){
 	bool f;
 	f= false;
 	Nat a = 0;
-	while(a < i){		
 	Arreglo <bool>* nuevo = new Arreglo < bool>(j);
+	while(a < i){		
+	//Arreglo <bool>* nuevo = new Arreglo < bool>(j);
+	//Arreglo <bool> nuevo;
 		Nat b = 0; 
 		while(b < j){
 			(*nuevo).Definir(b, false);			
 			b++;
 		}		
 		res->Definir(a, (*nuevo));
-		delete(nuevo);		
+		//delete(nuevo);		
 		a++;
 	}	
 	Arreglo <Arreglo < bool> > resi = (*res);
 	delete(res);
-	//delete(nuevo);
+	delete(nuevo);
 	//	cout << res->Longitud() <<"     " << nuevo->Longitud() <<endl;
 	return resi;
 }

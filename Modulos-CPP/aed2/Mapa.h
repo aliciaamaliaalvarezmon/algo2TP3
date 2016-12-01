@@ -86,8 +86,7 @@ private:
 	Vector<Vector<Arreglo<Arreglo<bool> > > > matriz;
 	Nat longitudmaxima;
 	Nat latitudmaxima;
-	Conj<Coordenada> coordenadas;
-	
+	Conj<Coordenada> coordenadas;	
 };
 
 #endif
