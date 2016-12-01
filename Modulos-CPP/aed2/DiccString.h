@@ -1,7 +1,6 @@
 #ifndef DICCSTRING_H
 #define DICCSTRING_H
-#ifndef DICC_STRING_H_
-#define DICC_STRING_H_
+
 
 #include "Conj.h" //#include "Conj.hpp" para Luis
 #include <string>
@@ -78,7 +77,7 @@ public:
 	
 	class Iterador;
 	//	
-	Iterador CrearIt();
+	typename DiccString<T>::Iterador CrearIt();
 	typename DiccString<T>::const_Iterador CrearIt() const;
 	
 	class Iterador{
@@ -93,7 +92,7 @@ public:
 		///////////////////////////
 		T& SiguienteSignificado();
 		///////////////////////////
-		const pair<string, T>  Siguiente();
+		 pair<string, T>  Siguiente();
 		///////////////////////////
 		void BorrarSiguiente();
 		//////////////////////////
@@ -120,24 +119,24 @@ public:
 	public:
 		const_Iterador();
 		///////////////////////////
-		const_Iterador(const typename DiccString<T>::Iterador& otra);
+		const_Iterador(const typename DiccString<T>::Iterador& otra) ;
 		///////////////////////////
-		const_Iterador(const typename DiccString<T>::const_Iterador& otra);
+		const_Iterador(const typename DiccString<T>::const_Iterador& otra) ;
 		///////////////////////////
 		bool HaySiguiente() const;
 		///////////////////////////
 		string  SiguienteClave() const;
 		///////////////////////////
-		T& SiguienteSignificado() const;
+		const T& SiguienteSignificado() const;
 		///////////////////////////
-		const pair<string, T>  Siguiente() const;
+		 pair<string, T>  Siguiente() const;
 		///////////////////////////
 		//void BorrarSiguiente();
 		//////////////////////////
 		void Avanzar();
 	private:
 		//borrar las claves del iterador y las de vos mismo.
-		const_Iterador(DiccString<T>* d): dic(d){
+		const_Iterador(const DiccString<T>* d): dic(d){
 			claves = (*d).claves.CrearIt();
 			//typename Conj<string>::Iterador it = claves.CrearIt();
 			if(claves.HaySiguiente()){
@@ -146,9 +145,9 @@ public:
 		}
 		friend typename DiccString<T>::const_Iterador DiccString<T>::CrearIt() const;
 		
-		Conj<string>::Iterador claves;
+		Conj<string>::const_Iterador claves;
 		pair<string, T> siguiente;		
-		DiccString<T>* dic;
+		const DiccString<T>* dic;
 	};	
 
 
@@ -553,7 +552,7 @@ void DiccString<T>::Iterador::Avanzar(){
 ///////////////////////////////////////////////////////////
 //template<typename T>
 template<typename T>
-const pair<string, T>  DiccString<T>::Iterador::Siguiente(){
+ pair<string, T>  DiccString<T>::Iterador::Siguiente(){
 	return siguiente;
 }
 
@@ -600,7 +599,7 @@ DiccString<T>::const_Iterador::const_Iterador(const typename DiccString<T>::Iter
 ///////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////
 template<typename T>
-DiccString<T>::const_Iterador::const_Iterador(const typename DiccString<T>::const_Iterador& otro)
+DiccString<T>::const_Iterador::const_Iterador(const typename DiccString<T>::const_Iterador& otro) 
 	: claves(otro.claves),   siguiente(otro.siguiente), dic(otro.dic)
 {}  
 ///////////////////////////////////////////////////////////
@@ -618,7 +617,7 @@ string  DiccString<T>::const_Iterador::SiguienteClave() const{
 ///////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////
 template<typename T>
-T& DiccString<T>::const_Iterador::SiguienteSignificado() const{
+const T& DiccString<T>::const_Iterador::SiguienteSignificado() const{
 	return (siguiente.second);
 }
 ///////////////////////////////////////////////////////////
@@ -637,14 +636,14 @@ void DiccString<T>::const_Iterador::Avanzar(){
 ///////////////////////////////////////////////////////////
 
 template<typename T>
-const pair<string, T>  DiccString<T>::const_Iterador::Siguiente() const{
+pair<string, T>  DiccString<T>::const_Iterador::Siguiente() const{
 	return siguiente;
 }
 
 
 template<typename T>
-typename DiccString<T>::const_Iterador DiccString<T>::CrearIt() const{
-	return Iterador(this);
+typename DiccString<T>::const_Iterador  DiccString<T>::CrearIt() const{
+	return const_Iterador(this);
 }
 
 
@@ -687,4 +686,4 @@ typename DiccString<T>::const_Iterador DiccString<T>::CrearIt() const{
 
 #endif
 
-#endif
+

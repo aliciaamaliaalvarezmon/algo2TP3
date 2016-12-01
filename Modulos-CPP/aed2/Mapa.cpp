@@ -2,6 +2,14 @@
 
 Mapa::Mapa() :  matriz() , longitudmaxima(0), latitudmaxima(0), coordenadas() {}
 
+Mapa::Mapa(const Conj<Coordenada> cs) : matriz() , longitudmaxima(0), latitudmaxima(0), coordenadas() {
+	Conj<Coordenada>::const_Iterador it = cs.CrearIt();
+	while(it.HaySiguiente()){
+		agregarCoord(it.Siguiente());
+		it.Avanzar();
+	}
+}
+
 Mapa::~Mapa(){/*
 	Nat i = 0;
 	Nat j = 0;
@@ -109,11 +117,17 @@ void Mapa::agregarCoord(Coordenada& c){
 	
 }
 */
-void Mapa::agregarCoord(Coordenada& c){
+void Mapa::agregarCoord(Coordenada c){
 	coordenadas.AgregarRapido(c);
-	Vector< Vector<Vector<bool> > >* fila = new Vector< Vector<Vector<bool> > >; 
-	Vector<Vector<bool> >* elem = new Vector<Vector<bool> >;
-	/*Vector<bool>* ojala = new Vector<bool>;
+	const Nat londecoor = c.longitud() +1;
+	const Nat latdecoor = c.latitud() + 1;
+	Vector< Arreglo <Arreglo<bool> > >* fila = new Vector< Arreglo<Arreglo<bool> > >;	 	
+	Arreglo<Arreglo<bool> >* elem = new Arreglo<Arreglo<bool> >(latdecoor);	
+	for (int k = 0; k < latdecoor; k++) {	
+		(*elem).Definir(k, Arreglo<bool>(londecoor));
+	}		
+	/*Vector<bool>* oj
+	ala = new Vector<bool>;
 	ojala->AgregarAtras(false);
 	elem->AgregarAtras((*ojala));
 	fila->AgregarAtras((*elem));
@@ -167,8 +181,8 @@ void Mapa::agregarCoord(Coordenada& c){
 		Nat longi = 0;
 		while(longi < longitudmaxima){
 			Coordenada ver(lati, longi);
-			if(coordenadas.Pertenece(ver) == false){					
-			matriz[lati][longi] =  MatrizDeFalse(latitudmaxima+1, longitudmaxima +1);									
+			if(coordenadas.Pertenece(ver) == false){								
+			matriz[lati][longi] =  MatrizDeFalse(latitudmaxima+1, longitudmaxima +1);
 		}
 		longi++;
 		}
@@ -196,7 +210,7 @@ void Mapa::agregarCoord(Coordenada& c){
 		//		cout << "YoloA" <<endl;
 		res = Lindantes(vacio,coords,res);
 		//		cout << "YoloB1" <<endl;
-		Vector <Vector <bool> > matrizF = MatrizDeFalse(latitudmaxima+1,longitudmaxima+1);
+		Arreglo <Arreglo <bool> > matrizF = MatrizDeFalse(latitudmaxima+1,longitudmaxima+1);
 		//		cout << "Latitud de la matriz de caminos: " << matriz.Longitud() <<endl;
 		//		int i=0;
 		//		while(i<matriz.Longitud()){
@@ -264,34 +278,37 @@ Conj<Coordenada> 	Mapa::Lindantes(Conj<Coordenada> c,Conj<Coordenada> coordenada
 }
 
 
-Vector <Vector < bool> > Mapa::MatrizDeFalse(Nat i, Nat j){
-	Vector <Vector < bool> >* res = new Vector <Vector < bool> >;
-	//Vector <bool>* nuevo  = new Vector < bool>;
-	//	int k=0;
-	//	int r=0;
+Arreglo <Arreglo < bool> > Mapa::MatrizDeFalse(Nat i, Nat j){
+	const Nat longi = j;
+	const Nat lati = i;
+	Arreglo <Arreglo < bool> >* res = new Arreglo <Arreglo < bool> >(lati);
+	for (int k = 0; k < lati; k++) {		
+		(*res).Definir(k, Arreglo<bool>(longi));		
+	}	
+	//Vector <bool>* nuevo  = new Vector < bool>;11
+	
 	bool f;
 	f= false;
-	//			cout<< i <<endl;
-	//			cout<< j <<endl;
-	while(res->Longitud() <= i){
-	Vector <bool>* nuevo = new Vector < bool>;
-		while(nuevo->Longitud()< j){
-			nuevo->AgregarAtras(f);			
-			//			r++;
-		}
-		//		cout<< nuevo->Longitud() <<endl;
-		res->AgregarAtras(*nuevo);
-		delete(nuevo);	
-		//		cout<< nuevo->Longitud() <<endl;
-	}
-	Vector <Vector < bool> > resi = (*res);
+	Nat a = 0;
+	while(a < i){		
+	Arreglo <bool>* nuevo = new Arreglo < bool>(j);
+		Nat b = 0; 
+		while(b < j){
+			(*nuevo).Definir(b, false);			
+			b++;
+		}		
+		res->Definir(a, (*nuevo));
+		delete(nuevo);		
+		a++;
+	}	
+	Arreglo <Arreglo < bool> > resi = (*res);
 	delete(res);
 	//delete(nuevo);
 	//	cout << res->Longitud() <<"     " << nuevo->Longitud() <<endl;
 	return resi;
 }
 
-void Mapa::Rellenar(Vector <Vector < bool> >& matriz,Conj<Coordenada> linda){
+void Mapa::Rellenar(Arreglo <Arreglo < bool> >& matriz,Conj<Coordenada> linda){
 	Conj<Coordenada>::Iterador it = linda.CrearIt();
 	while(it.HaySiguiente()){
 		(matriz)[it.Siguiente().latitud()][it.Siguiente().longitud()]=true;
@@ -301,7 +318,12 @@ void Mapa::Rellenar(Vector <Vector < bool> >& matriz,Conj<Coordenada> linda){
 }
 
 bool Mapa::hayCamino(Coordenada c, Coordenada c2) const{
+	if ((c.latitud() < latitudmaxima) && (c.longitud() < longitudmaxima) and (c2.latitud() < latitudmaxima) && (c2.longitud() < longitudmaxima)){
 	return (matriz[c.latitud()][c.longitud()])[c2.latitud()][c2.longitud()];
+}else{
+	return false;
+}
+
 }
 
 
@@ -310,3 +332,4 @@ bool Mapa::posEnMapa(Coordenada c) const{
 	//return   (matriz[0][0])[0][0];
 	
 }
+

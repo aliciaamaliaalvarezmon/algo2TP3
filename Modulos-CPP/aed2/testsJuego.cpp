@@ -2,6 +2,8 @@
 #include "mini_test.h"
 
 #include "Juego.h"
+#include "Mapa.h"
+//#include "TiposJuego.h"
 #include "Conj.h"
 
 using namespace aed2;
@@ -26,10 +28,7 @@ void AgregaJugador(){
 	ASSERT(nuevo.estaConectado(cero) == false);
 	ASSERT(nuevo.sanciones(cero) == 0);
 	//typename DiccString< Nat>::Iterador pok nuevo.Pokemons(cero);
-	ASSERT(nuevo.Pokemons(cero).HaySiguiente() == false);
-	Conj<Nat> ex;
-	nuevo.Expulsados(ex);
-	ASSERT(ex.EsVacio());
+	ASSERT(nuevo.Pokemons(cero).HaySiguiente() == false);	
 	ASSERT(nuevo.ProxID() == 1);
 	ASSERT(nuevo.JugadoresConectados().EsVacio());
 	ASSERT(nuevo.CantPokemonTotales() == 0);
@@ -62,9 +61,6 @@ void conectar(){
 	ASSERT(hola.sanciones(cero) == 0);
 	ASSERT(hola.posicion(cero) == primera);
 	ASSERT(hola.Pokemons(cero).HaySiguiente() == false);
-	Conj<Nat> ex;
-	hola.Expulsados(ex);
-	ASSERT(ex.EsVacio());
 	ASSERT(hola.ProxID() == 1);
 	ASSERT(!hola.JugadoresConectados().EsVacio());
 	ASSERT(hola.JugadoresConectados().Pertenece(cero));
@@ -98,10 +94,8 @@ void desconectar(){
 	ASSERT(hola.estaConectado(cero) == true);
 	ASSERT(hola.sanciones(cero) == 0);
 	ASSERT(hola.posicion(cero) == primera);
-	ASSERT(hola.Pokemons(cero).HaySiguiente() == false);
-	Conj<Nat> ex;
-	hola.Expulsados(ex);
-	ASSERT(ex.EsVacio());
+	ASSERT(hola.Pokemons(cero).HaySiguiente() == false);	
+	ASSERT(hola.Expulsados().EsVacio());	
 	ASSERT(hola.ProxID() == 1);
 	ASSERT(!hola.JugadoresConectados().EsVacio());
 	ASSERT(hola.JugadoresConectados().Pertenece(cero));
@@ -112,9 +106,7 @@ void desconectar(){
 	ASSERT(hola.estaConectado(cero) == false);
 	ASSERT(hola.sanciones(cero) == 0);
 	ASSERT(hola.Pokemons(cero).HaySiguiente() == false);
-	Conj<Nat> exi;
-	hola.Expulsados(exi);
-	ASSERT(ex.EsVacio());
+	ASSERT(hola.Expulsados().EsVacio());
 	ASSERT(hola.ProxID() == 1);
 	ASSERT(hola.JugadoresConectados().EsVacio());
 	ASSERT(!hola.JugadoresConectados().Pertenece(cero));
@@ -152,7 +144,7 @@ void AgregoPokemon(){
 	ASSERT(hola.matrizPOKEMONLongtitud() == 5);
 	ASSERT(hola.matrizPOKEMONLatitud() == 6);
 	hola.AgregarPokemon("torchit", primera);		
-	ASSERT(hola.CantMovimientosParaCaptura(primera) == 0);
+	ASSERT(hola.CantMovimientosParaCaptura(primera) == 10);
 	ASSERT(hola.CantPokemonTotales() == 1);
 	ASSERT(hola.indiceDeRareza("torchit") == 0);
 	//ASSERT(hola.pokemonEnPos(primera) == "torchit");
@@ -163,7 +155,7 @@ void AgregoPokemon(){
 	//ASSERT(hola.HayPokemonCercano(primera));
 	//agregamos otros pokemons
 	hola.AgregarPokemon("jericho", quinta);		
-	ASSERT(hola.CantMovimientosParaCaptura(quinta) == 0);
+	ASSERT(hola.CantMovimientosParaCaptura(quinta) == 10);
 	cout << "llega"<<endl;	
 	ASSERT(hola.CantPokemonTotales() == 2);
 	cout << hola.indiceDeRareza("jericho") << endl;
@@ -171,10 +163,10 @@ void AgregoPokemon(){
 	//ASSERT(hola.indiceDeRareza("torchit") == 50);
 	ASSERT(hola.pokemonEnPos(quinta) == "jericho");
 	ASSERT(hola.HayPokemonCercano(quinta));
-	Conj<Coordenada>::Iterador iter = hola.posConPokemons(vacio);
-	ASSERT(iter.Siguiente() == primera);
-	iter.Avanzar();
-	ASSERT(iter.Siguiente() == quinta);
+	//Conj<Coordenada>::Iterador iter = hola.posConPokemons(vacio);
+	//ASSERT(iter.Siguiente() == primera);
+	//iter.Avanzar();
+	//ASSERT(iter.Siguiente() == quinta);
 	//cout << hola.PosDePokemonCercano(quinta).latitud() <<"," << hola.PosDePokemonCercano(quinta).longitud() << endl;
 
 
@@ -489,11 +481,11 @@ void Entro(){
 	hola.moverse(1, quinta);	
 	hola.moverse(1,quinta);
 	hola.moverse(1, quinta);
-	//hola.moverse(1, quinta);	
-	//hola.moverse(1,quinta);
-	//hola.moverse(1, quinta);
-	//hola.moverse(1,quinta);
-	//hola.moverse(1,quinta);
+	hola.moverse(1, quinta);	
+	hola.moverse(1,quinta);
+	hola.moverse(1, quinta);
+	hola.moverse(1,quinta);
+	hola.moverse(1,quinta);
 	//hola.moverse(1,quinta);
 	//hola.moverse(1,quinta);
 	//hola.AgregarPokemon("jerachi", primera);
@@ -563,10 +555,9 @@ void Expulsion_del_Eden(){
 	//hola.desconectarse(dos);
 	ASSERT(hola.sanciones(uno) == 5);
 	//cout << hola.MostrarTope(1, 1) << endl;
-	hola.moverse(uno, quinta);
-	Conj<Nat> hol;
-	hola.Expulsados(hol);
-	ASSERT(hol.Pertenece(1));//hola.moverse(1, quinta);
+	hola.moverse(uno, quinta);	
+	ASSERT(hola.Expulsados().Pertenece(1));
+	//hola.moverse(1, quinta);
 	//typename Juego::Iterador adieu = hola.Jugadores();
 	//Nat i = 10;
 	//while(adieu.HaySiguiente()){
@@ -629,7 +620,7 @@ void dos_capturas(){
 //	ASSERT(hola.Pokemons(cero).SiguienteClave() == "gabumon");
 
 
-	//ASSERT(hola.HayUnJugadorCercano(cuarta));*/
+	//ASSERT(hola.HayUnJugadorCercano(cuarta));
 }
 
 
@@ -802,6 +793,7 @@ void indiceDeRareza(){
 	Nat siete = hola.AgregarJugador();
 	hola.AgregarPokemon("jerachi", quinta);
 	hola.AgregarPokemon("torchit", primera);
+	/*hola.AgregarPokemon("torchit", primera);
 	hola.AgregarPokemon("torchit", primera);
 	hola.AgregarPokemon("torchit", primera);
 	hola.AgregarPokemon("torchit", primera);
@@ -813,10 +805,10 @@ void indiceDeRareza(){
 	hola.AgregarPokemon("torchit", primera);
 	hola.AgregarPokemon("torchit", primera);
 	hola.AgregarPokemon("torchit", primera);
-	hola.AgregarPokemon("torchit", primera);
-	hola.AgregarPokemon("torchit", primera);
+	hola.AgregarPokemon("torchit", primera);*/
 	hola.conectarse(tres, sexta);
 	hola.conectarse(uno, primera);
+	hola.conectarse(dos, primera);
 	hola.moverse(dos, primera);
 	hola.moverse(dos, primera);
 	hola.moverse(dos, primera);
@@ -827,8 +819,10 @@ void indiceDeRareza(){
 	hola.moverse(dos, primera);
 	hola.moverse(dos, primera);
 	hola.moverse(dos, primera);
+	//DiccString<Nat> pokesJugador = 
+	cout<< "atrapo un jerachi" << hola.Pokemons(tres).SiguienteClave() << endl;
 	ASSERT(!hola.HayPokemonCercano(sexta));
-	cout<< "atrapo un jerachi" << hola.Pokemons(tres).SiguienteClave() << endl;	
+		
 	hola.moverse(tres, segunda);
 	hola.moverse(tres, segunda);
 	hola.moverse(tres, segunda);
@@ -912,14 +906,17 @@ void cuatro_capturas(){
 	ASSERT(hola.pokemonEnPos(tercera) == "jericho");
 	ASSERT(hola.pokemonEnPos(decima) == "new");
 	Conj<Coordenada> dummy;	
-	typename Conj<Coordenada>::Iterador it = hola.posConPokemons(dummy);
+	ASSERT(hola.posConPokemons().Pertenece(primera) );
+	ASSERT(hola.posConPokemons().Pertenece(tercera) );
+	ASSERT(hola.posConPokemons().Pertenece(decima) );
+	/*Conj<Coordenada>::Iterador it = hola.posConPokemons(dummy);
 	cout << it.Siguiente().latitud() << it.Siguiente().longitud() << endl;
 	it.Avanzar();
 	cout << it.Siguiente().latitud() << it.Siguiente().longitud() << endl;
 	it.Avanzar();
 	cout << it.Siguiente().latitud() << it.Siguiente().longitud() << endl;
 	it.Avanzar();
-	ASSERT(!it.HaySiguiente());
+	ASSERT(!it.HaySiguiente());*/
 	hola.moverse(siete, sexta);
 	hola.moverse(siete, sexta);
 	hola.moverse(siete, sexta);
@@ -929,9 +926,9 @@ void cuatro_capturas(){
 	hola.moverse(siete, sexta);
 	hola.moverse(siete, sexta);
 	hola.moverse(siete, sexta);
-	ASSERT(hola.CantMovimientosParaCaptura(primera)== 9);
-	ASSERT(hola.CantMovimientosParaCaptura(tercera)== 9);
-	ASSERT(hola.CantMovimientosParaCaptura(decima)== 9);
+	ASSERT(hola.CantMovimientosParaCaptura(primera)== 1);
+	ASSERT(hola.CantMovimientosParaCaptura(tercera)== 1);
+	ASSERT(hola.CantMovimientosParaCaptura(decima)== 1);
 	hola.moverse(siete, sexta);
 	hola.desconectarse(cinco);
 	ASSERT(hola.estaConectado(cero));
@@ -950,8 +947,9 @@ void cuatro_capturas(){
 	ASSERT(hola.sanciones(cinco) == 0);
 	ASSERT(hola.sanciones(seis) == 0);
 	ASSERT(hola.sanciones(siete) == 0);
-	Conj<Coordenada> dummy2;	
-	ASSERT(!(hola.posConPokemons(dummy2).HaySiguiente()));
+	//Conj<Coordenada> dummy2;	
+//	ASSERT(!(hola.posConPokemons(dummy2).HaySiguiente()));
+	ASSERT((hola.posConPokemons().EsVacio()));
 	ASSERT(hola.CantPokemonTotales()== 6);
 	cout << "pokemons de dos " << hola.Pokemons(2).SiguienteClave() << ", " <<hola.Pokemons(2).SiguienteSignificado() << endl;
 	cout << "pokemons de cinco " << hola.Pokemons(5).SiguienteClave() <<", " <<hola.Pokemons(5).SiguienteSignificado() << endl;
@@ -963,9 +961,9 @@ void cuatro_capturas(){
 	hola.moverse(dos, tercera);
 	hola.moverse(dos, tercera);
 	hola.moverse(dos, tercera);
-	Conj<Nat> dummy3;
-	hola.Expulsados(dummy3);
-	ASSERT(dummy3.Pertenece(dos));	
+	//Conj<Nat> dummy3;
+	//hola.Expulsados(dummy3);
+	ASSERT(hola.Expulsados().Pertenece(dos));	
 	ASSERT(hola.CantPokemonTotales()== 5);
 
 
@@ -1074,6 +1072,8 @@ void lonely_soldier_boy(){
 	ASSERT(hola.CantPokemonTotales() == 0);
 
 }
+
+
 //poner jugador
 //poner pokemon
 //capturar
@@ -1086,7 +1086,7 @@ void lonely_soldier_boy(){
 
 
 int main() {
-/*	RUN_TEST(compila);
+	RUN_TEST(compila);
 	RUN_TEST(AgregaJugador);
 	RUN_TEST(conectar);
 	RUN_TEST(desconectar);
@@ -1102,11 +1102,11 @@ int main() {
 	RUN_TEST(Entro);
 	RUN_TEST(Expulsion_del_Eden);
 	RUN_TEST(salgo_y_entro);
-	RUN_TEST(se_desconecta_real);*/
+	RUN_TEST(se_desconecta_real);
 	RUN_TEST(me_muevo_esperando);
-	//RUN_TEST(indiceDeRareza);
-	//RUN_TEST(cuatro_capturas);
-	//RUN_TEST(lonely_soldier_boy);
+	RUN_TEST(indiceDeRareza);
+	RUN_TEST(cuatro_capturas);
+	RUN_TEST(lonely_soldier_boy);
 	return 0;
 }
 

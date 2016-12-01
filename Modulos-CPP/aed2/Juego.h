@@ -3,9 +3,6 @@
 
 #include <ostream>
 #include "TiposBasicos.h"
-
-#include <ostream>
-#include "TiposBasicos.h"
 #include <string>
 #include "DiccString.h"
 #include "ColadeprioridadH.h"
@@ -24,10 +21,14 @@ namespace aed2
 		class const_Iterador;
 		Juego();
 		Juego(Mapa m);
+		Juego(const Conj<Coordenada> cs);
+		
 		//Juego(const Juego& otra); 
         //~Juego();
 	 //bool EstaParaCaptura(Coordenada c);
 	  Nat AgregarJugador();
+
+	  bool puedoAgregarPokemon(Coordenada c) const;
 
        void AgregarPokemon(string p, Coordenada c);
 
@@ -37,26 +38,28 @@ namespace aed2
 
        void moverse(Nat e, Coordenada c);
 
-       Mapa VerMapa();
+       Mapa VerMapa() const;
 
-       Juego::Iterador Jugadores();
+       Juego::const_Iterador Jugadores();
 
-       bool estaConectado(Nat e);
+       bool estaConectado(Nat e) const;
 
-       Nat sanciones(Nat e);
+       Nat sanciones(Nat e) const;
 
-       Coordenada posicion(Nat e);
+       Coordenada posicion(Nat e) const;
 
-      DiccString< Nat >::Iterador  Pokemons(Nat e);
+      DiccString< Nat >::const_Iterador  Pokemons(Nat e) const;
 
-      // Conj<Nat>& Expulsados();
-       void Expulsados(Conj<Nat>& nuevo) const;
+      Conj<Nat> Expulsados() const;
+      //void Expulsados(Conj<Nat>& nuevo) const;
 
-      Conj<Coordenada>::Iterador posConPokemons(Conj<Coordenada>& dummy); 
+      //Conj<Coordenada>::Iterador posConPokemons(Conj<Coordenada>& dummy); 
+      //La aridad no es la misma del tp
+      Conj<Coordenada> posConPokemons() const; 
 
-       String pokemonEnPos(Coordenada c);
+       String pokemonEnPos(Coordenada c) const;
 
-      Nat CantMovimientosParaCaptura(Coordenada c);
+      Nat CantMovimientosParaCaptura(Coordenada c) const;
 
        Nat ProxID();
 
@@ -64,13 +67,15 @@ namespace aed2
 	
        Conj<Nat> JugadoresConectados();
       
-       Nat indiceDeRareza(string p);
+       Nat indiceDeRareza(string p) const;
 
-       Nat CantPokemonTotales();
+       Nat CantPokemonTotales() const;
 
-       bool HayPokemonCercano(Coordenada c);
+       bool HayPokemonCercano(Coordenada c) const;
 
-       Coordenada PosDePokemonCercano(Coordenada c);            
+       Coordenada PosDePokemonCercano(Coordenada c);   
+
+       Nat cantMismaEspecie(const Pokemon & p) const;         
 
        Iterador CrearIt(); 
        const_Iterador CrearIt() const; 
@@ -89,7 +94,7 @@ namespace aed2
 			Nat ID;
 
 			capturadosyID(): numero(0), ID(0){}; 
-			capturadosyID(Nat num, Nat i ): numero(num), ID(i){};			
+			capturadosyID(const Nat num,const Nat i ): numero(num), ID(i){};			
 
 			bool operator < (const typename Juego::capturadosyID& otra) const;
 			bool operator == (const typename Juego::capturadosyID& otra) const;
@@ -147,6 +152,7 @@ namespace aed2
 		Dicc<Coordenada, String> posdePokemon_;//(coordenada,pokemon)
 		Lista<DiccString<Nat> > pokemonsXjug_;//puede estar dentro de data jugador
 		Nat cantPokemon_;
+		
 
 
 		
@@ -154,24 +160,27 @@ namespace aed2
 
 		Vector<Vector< typename Juego::infoHeap> > crearMatrizPok(Nat n, Nat m);
 		
-		Conj<typename Juego::capturadosyID> cercanos(Coordenada c);
+		
 
 	//	bool HayUnJugadorCercano(Coordenada c);
 
 		bool estaParaCaptura(Coordenada posDelJug);
 
-		Coordenada BuscarHeap(Coordenada c);
+		
 
 		void AuxCapturarPokemon(Dicc<Coordenada, string>::Iterador& it);
 
 		//Conj<Coordenada> Claves(Dicc<Coordenada, string> dicc); //Deberia estar en diccLineal.
-		void Claves(Dicc<Coordenada, string> dicc, Conj<Coordenada>& vacio);
-		void Claves(Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID>::Iterador > dicc, Conj<Nat>& vacio);
+		void Claves(Dicc<Coordenada, string> dicc, Conj<Coordenada>& vacio) const;
+		void Claves(Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID>::Iterador > dicc, Conj<Nat>& vacio) const;
 		//Conj<Nat> Claves(Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID>::Iterador > dicc); //Deberia estar en diccLineal.
 
 		
 
 	public:
+		Coordenada BuscarHeap(Coordenada c) const;
+		Conj<typename Juego::capturadosyID> cercanos(Coordenada c) const;
+		Conj<Nat> cercanosEntrenadores(Coordenada c) const;
    class Iterador
   		{
     	    public:     
@@ -227,7 +236,7 @@ namespace aed2
 
       	bool HaySiguiente() const;// const;
      
-      	//Nat Siguiente() const;
+      	Nat Siguiente();
 
      	void Avanzar();
 
@@ -256,10 +265,16 @@ namespace aed2
       	}
       
 
-      friend typename Juego::const_Iterador Juego::CrearIt() const; 
+      
       friend typename Juego::const_Iterador Juego::CrearIt() const; 
        
   };
+
+
+
+ 
+
+  
 
 
 

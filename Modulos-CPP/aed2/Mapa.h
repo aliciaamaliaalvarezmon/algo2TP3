@@ -11,13 +11,15 @@
  * ========================================================================================
  */
 
-#ifndef AED2_MAPA_H_
-#define AED2_MAPA_H_
+#ifndef MAPA_H_
+#define MAPA_H_
 
 #include <string>
 #include <ostream>
 #include <iostream>
-#include "Coordenada.h"
+//#include "Coordenada.h"
+ #include "TiposBasicos.h"
+#include "TiposJuego.h"
 #include "Conj.h"
 #include "Vector.h"
 using namespace std;
@@ -29,10 +31,12 @@ public:
 	Mapa();
 
 	Mapa(const Mapa& otro);
+
+	Mapa(const Conj<Coordenada> cs);
 	~Mapa();
 	
 	// Agrega la coordenada al mapa.
-	void agregarCoord(Coordenada& c);
+	void agregarCoord(Coordenada c);
 	
 	// Devuelve ancho de mapa.
 	const Nat& longitudMaxima() const;
@@ -67,15 +71,16 @@ public:
 	bool posEnMapa(Coordenada c) const;
 	
 	// Crea una matriz con las coordenadas del mapa.
-	Vector<Vector<bool> > crearMatrizMapa(Coordenada& c) const;
+	//Arreglo<Arreglo<bool> > crearMatrizMapa(Coordenada& c) const;
 	
 	Conj<Coordenada> Lindantes(Conj<Coordenada> c,Conj<Coordenada> coordenadas,Conj<Coordenada> res) const;
 	
-	Vector <Vector < bool> > MatrizDeFalse(Nat k, Nat j);
+	Arreglo <Arreglo < bool> > MatrizDeFalse(Nat k, Nat j);
 	
-	void Rellenar(Vector <Vector < bool> >& matriz,Conj<Coordenada> linda);
+	void Rellenar(Arreglo <Arreglo < bool> >& matriz,Conj<Coordenada> linda);
 private:
-	Vector<Vector<Vector<Vector<bool> > > > matriz;
+	// CAMBIO de Vector<Vector<Vector<Vector<bool> >* > >
+	Vector<Vector<Arreglo<Arreglo<bool> > > > matriz;
 	Nat longitudmaxima;
 	Nat latitudmaxima;
 	Conj<Coordenada> coordenadas;

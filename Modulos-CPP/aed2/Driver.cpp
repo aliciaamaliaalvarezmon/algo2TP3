@@ -1,17 +1,28 @@
 #include "Driver.h"
 #include "Juego.h"
+#include "TiposJuego.h"
 // Instanciar un mapa y un juego 
 
-Driver::Driver(const Conj< Coordenada > & cs)
-{
+Mapa coorsAMapa(const Conj< Coordenada > & cs) {
 	Conj< Coordenada >::const_Iterador it = cs.CrearIt();
 	Mapa m;
 	while(it.HaySiguiente()){
 		m.agregarCoord(it.Siguiente());
 		it.Avanzar();
 	}
-	Juego game(m);
+	return m;
 }
+
+Driver::Driver(const Conj< Coordenada > & cs) : game(coorsAMapa(cs)) {}
+/*{
+	Conj< Coordenada >::const_Iterador it = cs.CrearIt();
+	Mapa m;
+	while(it.HaySiguiente()){
+		m.agregarCoord(it.Siguiente());
+		it.Avanzar();
+	}
+	game(m);
+}*/
 
 Driver::~Driver()
 {
@@ -21,6 +32,10 @@ Driver::~Driver()
 void Driver::agregarPokemon(const Pokemon & p, const Coordenada & c)
 {
   game.AgregarPokemon(p,c);
+}
+
+Jugador Driver::agregarJugador(){
+	return game.AgregarJugador();
 }
 
 void Driver::conectarse(const Jugador & j, const Coordenada & c){
@@ -66,10 +81,10 @@ Coordenada Driver::posicion(const Jugador & j) const{
 }
 
 Dicc< Pokemon , Nat > Driver::pokemons(const Jugador & j) const{
-	DiccString< Nat >::Iterador it(game.Pokemons(j));
+	DiccString< Nat >::const_Iterador it(game.Pokemons(j));
 	Dicc< Pokemon , Nat > res;
 	while(it.HaySiguiente()){
-		res.DefinirRapido(it.SiguienteClave(),it.SiguienteSignificado());
+		res.DefinirRapido(it.SiguienteClave(), it.SiguienteSignificado());
 		it.Avanzar();
 	}
 	return res;
@@ -86,9 +101,10 @@ Pokemon Driver::pokemonEnPos(const Coordenada & c) const{
 	return game.pokemonEnPos(c);
 }
 Nat Driver::cantMovimientosParaCaptura(const Coordenada & c) const{
-	return game.cantMovimientosParaCaptura(c);
+	return game.CantMovimientosParaCaptura(c);
 }
 bool Driver::puedoAgregarPokemon(const Coordenada & c) const{
+	return game.puedoAgregarPokemon(c);
 	
 }
 bool Driver::hayPokemonCercano(const Coordenada & c) const{
@@ -98,7 +114,15 @@ Coordenada Driver::posPokemonCercano(const Coordenada & c) const{
 	return game.BuscarHeap(c);
 }
 Conj<Jugador> Driver::entrenadoresPosibles(const Coordenada & c) const{
-	return game.cercanos();
+	/*Conj<typename Juego::capturadosyID>  entrenadores = game.cercanos(c);
+	Conj<typename Juego::capturadosyID>::const_Iterador it = entrenadores.CrearIt();
+	Conj<Jugador> res;
+	while(it.HaySiguiente()){
+		res.AgregarRapido(it.Siguiente().ID);
+		it.Avanzar();
+	}
+	return res;*/
+	return game.cercanosEntrenadores(c);
 }
 Nat Driver::indiceRareza(const Pokemon & p) const{
 	return game.indiceDeRareza(p);
@@ -107,6 +131,6 @@ Nat Driver::cantPokemonsTotales() const{
 	return game.CantPokemonTotales();
 }
 Nat Driver::cantMismaEspecie(const Pokemon & p) const{
-//	return game.
+	return game.cantMismaEspecie(p);
 }
 // TODO: Completar con el resto de las implementaciones
