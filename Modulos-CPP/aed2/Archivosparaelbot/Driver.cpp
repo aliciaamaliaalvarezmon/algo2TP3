@@ -62,13 +62,13 @@ bool Driver::posExistente(const Coordenada & c) const{
 	return (game.VerMapa()).posEnMapa(c);
 }
 Conj< Jugador > Driver::jugadores() const{
-	Juego::const_Iterador it = game.CrearIt();
-	Conj< Jugador > res;
+//	Juego::const_Iterador it(game.CrearIt());	
+	/*Conj< Jugador > res;
 	while(it.HaySiguiente()){
-		res.AgregarRapido(it.Siguiente());
+		res.AgregarRapido((it.Siguiente()));		
 		it.Avanzar();
-	}
-	return res;
+	}*/
+	return game.losjugadores();//it.Siguientes();//game.losjugadores();//game.JugadoresConj(it);
 }
 bool Driver::estaConectado(const Jugador & j) const{
 	return (game.estaConectado(j));
@@ -108,10 +108,10 @@ bool Driver::puedoAgregarPokemon(const Coordenada & c) const{
 	
 }
 bool Driver::hayPokemonCercano(const Coordenada & c) const{
-	return game.HayPokemonCercano(c);
+	return game.HayPokemonCercanoDriver(c);
 }
 Coordenada Driver::posPokemonCercano(const Coordenada & c) const{
-	return game.BuscarHeap(c);
+	return game.BuscarHeapDriver(c);
 }
 Conj<Jugador> Driver::entrenadoresPosibles(const Coordenada & c) const{
 	/*Conj<typename Juego::capturadosyID>  entrenadores = game.cercanos(c);

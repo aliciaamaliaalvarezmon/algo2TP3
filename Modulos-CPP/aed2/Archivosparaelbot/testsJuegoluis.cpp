@@ -144,7 +144,7 @@ void AgregoPokemon(){
 	ASSERT(hola.matrizPOKEMONLongtitud() == 5);
 	ASSERT(hola.matrizPOKEMONLatitud() == 6);
 	hola.AgregarPokemon("torchit", primera);		
-	ASSERT(hola.CantMovimientosParaCaptura(primera) == 0);
+	ASSERT(hola.CantMovimientosParaCaptura(primera) == 10);
 	ASSERT(hola.CantPokemonTotales() == 1);
 	ASSERT(hola.indiceDeRareza("torchit") == 0);
 	//ASSERT(hola.pokemonEnPos(primera) == "torchit");
@@ -155,7 +155,7 @@ void AgregoPokemon(){
 	//ASSERT(hola.HayPokemonCercano(primera));
 	//agregamos otros pokemons
 	hola.AgregarPokemon("jericho", quinta);		
-	ASSERT(hola.CantMovimientosParaCaptura(quinta) == 0);
+	ASSERT(hola.CantMovimientosParaCaptura(quinta) == 10);
 	cout << "llega"<<endl;	
 	ASSERT(hola.CantPokemonTotales() == 2);
 	cout << hola.indiceDeRareza("jericho") << endl;
@@ -926,9 +926,9 @@ void cuatro_capturas(){
 	hola.moverse(siete, sexta);
 	hola.moverse(siete, sexta);
 	hola.moverse(siete, sexta);
-	ASSERT(hola.CantMovimientosParaCaptura(primera)== 9);
-	ASSERT(hola.CantMovimientosParaCaptura(tercera)== 9);
-	ASSERT(hola.CantMovimientosParaCaptura(decima)== 9);
+	ASSERT(hola.CantMovimientosParaCaptura(primera)== 1);
+	ASSERT(hola.CantMovimientosParaCaptura(tercera)== 1);
+	ASSERT(hola.CantMovimientosParaCaptura(decima)== 1);
 	hola.moverse(siete, sexta);
 	hola.desconectarse(cinco);
 	ASSERT(hola.estaConectado(cero));
@@ -1087,7 +1087,7 @@ void lonely_soldier_boy(){
 
 void posPokemonCercano(){
 	Mapa m;
-	Coordenada existe(0,0);
+	Coordenada existe(2,3);
 	Coordenada primera(1,1);
 	Coordenada segunda(1,2);
 	Coordenada tercera(5, 5);
@@ -1095,33 +1095,34 @@ void posPokemonCercano(){
 	Coordenada quinta(1, 4);
 	Coordenada sexta(1, 5);
 	Coordenada septima(1, 6);
-	Coordenada octava(1,7);
-	Coordenada novena(1,8);
+	Coordenada octava(1,8);
+	Coordenada novena(1,7);
 	Coordenada decima(1,9);
 	Coordenada onceava(5,6);
-	Conj<Coordenada> cs;
-	cs.Agregar(existe);	
-	cs.Agregar(primera);
-	cs.Agregar(segunda);//aca
-	cs.Agregar(tercera);
-	cs.Agregar(cuarta);
-	cs.Agregar(quinta);
-	cs.Agregar(sexta);
-	cs.Agregar(septima);
-	cs.Agregar(octava);
-	cs.Agregar(novena);
-	cs.Agregar(decima);
-	cs.Agregar(onceava);	
-	Driver hola(cs);//Juego hola(m);
-	Nat cero = hola.agregarJugador();
-	Nat uno = hola.agregarJugador();
-	Nat dos = hola.agregarJugador();
-	Nat tres = hola.agregarJugador();
-	Nat cuatro = hola.agregarJugador();
-	Nat cinco = hola.agregarJugador();
-	Nat seis = hola.agregarJugador();
-	Nat siete = hola.agregarJugador();
-	/*ASSERT(hola.puedoAgregarPokemon(primera));
+	m.agregarCoord(existe);	
+	m.agregarCoord(primera);
+	m.agregarCoord(segunda);//aca
+	m.agregarCoord(tercera);
+	m.agregarCoord(cuarta);
+	m.agregarCoord(quinta);
+	m.agregarCoord(sexta);
+	m.agregarCoord(septima);
+	m.agregarCoord(octava);
+	m.agregarCoord(novena);
+	m.agregarCoord(decima);
+	m.agregarCoord(onceava);
+	cout << "termino" <<endl;
+	Juego hola(m);
+	Nat cero = hola.AgregarJugador();
+	Nat uno = hola.AgregarJugador();
+	Nat dos = hola.AgregarJugador();
+	Nat tres = hola.AgregarJugador();
+	Nat cuatro = hola.AgregarJugador();
+	Nat cinco = hola.AgregarJugador();
+	Nat seis = hola.AgregarJugador();
+	Nat siete = hola.AgregarJugador();
+	
+	ASSERT(hola.puedoAgregarPokemon(primera));
 	ASSERT(hola.puedoAgregarPokemon(segunda));
 	ASSERT(hola.puedoAgregarPokemon(tercera));
 	ASSERT(hola.puedoAgregarPokemon(cuarta));
@@ -1132,370 +1133,66 @@ void posPokemonCercano(){
 	ASSERT(hola.puedoAgregarPokemon(novena));
 	ASSERT(hola.puedoAgregarPokemon(decima));
 	ASSERT(hola.puedoAgregarPokemon(onceava));
-	ASSERT(hola.puedoAgregarPokemon(existe));*/
-	hola.agregarPokemon("torchit", primera);
-	/*ASSERT(!hola.puedoAgregarPokemon(existe));
+	ASSERT(hola.puedoAgregarPokemon(existe));
+	cout << hola.VerMapa().hayCamino(primera,segunda) <<endl;
+	hola.AgregarPokemon("torchit", primera);
+	
+	ASSERT(!hola.puedoAgregarPokemon(existe));
 	ASSERT(!hola.puedoAgregarPokemon(segunda));
 	ASSERT(!hola.puedoAgregarPokemon(cuarta));
 	ASSERT(!hola.puedoAgregarPokemon(quinta));
 	ASSERT(!hola.puedoAgregarPokemon(sexta));
 	ASSERT(!hola.puedoAgregarPokemon(septima));
 	ASSERT(hola.puedoAgregarPokemon(octava));
-	ASSERT(hola.puedoAgregarPokemon(novena));*/
-	hola.agregarPokemon("mew", novena);
-	//ASSERT(hola.pokemonEnPos(novena) == "mew");
-	//ASSERT(hola.pokemonEnPos(primera) == "torchit");
+	ASSERT(hola.puedoAgregarPokemon(novena));
+	hola.AgregarPokemon("mew", novena);
+	ASSERT(hola.pokemonEnPos(novena) == "mew");
+	ASSERT(hola.pokemonEnPos(primera) == "torchit");
 	hola.conectarse(cero, existe);
-	//ASSERT(existe.distEuclidea(primera)<= 4);
-	//ASSERT(!hola.HayPokemonCercano(hola.posicion(cero)));
+	ASSERT(existe.distEuclidea(primera)<= 4);
+	ASSERT(!hola.HayPokemonCercano(hola.posicion(cero)));
 	//ASSERT(hola.BuscarHeap(hola.posicion(cero)) == primera);
 	hola.conectarse(uno, cuarta);
-	//ASSERT(hola.HayPokemonCercano(hola.posicion(uno)));
-	//ASSERT(hola.BuscarHeap(hola.posicion(uno)) == primera);
+	ASSERT(hola.HayPokemonCercano(hola.posicion(uno)));
+	ASSERT(hola.BuscarHeap(hola.posicion(uno)) == primera);
 	hola.conectarse(dos, cuarta);
 	hola.conectarse(tres, cuarta);
 	hola.conectarse(cuatro, cuarta);
-	hola.conectarse(cinco, octava );	
-	//cout << hola.CantMovimientosParaCaptura(primera)<<endl;
-	//ASSERT(hola.BuscarHeap(hola.posicion(dos)) == primera);
-	//ASSERT(hola.BuscarHeap(hola.posicion(tres)) == primera);
-	//ASSERT(hola.BuscarHeap(hola.posicion(cuatro)) == primera);
+	hola.conectarse(cinco, octava );
+	ASSERT(hola.BuscarHeap(hola.posicion(dos)) == primera);
+	ASSERT(hola.BuscarHeap(hola.posicion(tres)) == primera);
+	ASSERT(hola.BuscarHeap(hola.posicion(cuatro)) == primera);
 	//ASSERT(!hola.BuscarHeap(hola.posicion(cinco)) == novena);
-	//ASSERT(octava.distEuclidea(primera) > 25);
-	//cout << hola.CantMovimientosParaCaptura(primera)<<endl;
 	hola.moverse(cinco, octava);
-	hola.moverse(cinco, octava);
-	hola.moverse(cinco, octava);
-	hola.moverse(cinco, octava);
-	hola.moverse(cinco, octava);
-	hola.moverse(cinco, octava);
-	//cout << hola.CantMovimientosParaCaptura(primera)<<endl;
-	hola.moverse(cinco, octava);
-	hola.moverse(cinco, octava);
-	
-	//cout << hola.CantMovimientosParaCaptura(primera)<<endl;
-	hola.moverse(cinco, octava);
-	hola.moverse(cinco, octava);
-	ASSERT(primera.distEuclidea(cuarta)<= 4);
-	ASSERT(hola.pokemons(cuatro).Definido("torchit"));
-//	ASSERT(!hola.pokemons(tres).HaySiguiente());
-//	ASSERT(!hola.pokemons(dos).HaySiguiente());
-//	ASSERT(!hola.pokemons(uno).HaySiguiente());
-/*	ASSERT(!hola.HayPokemonCercano(hola.posicion(uno)));
-	ASSERT(hola.puedoAgregarPokemon(existe));
-	ASSERT(hola.puedoAgregarPokemon(primera));*/
-	hola.agregarPokemon("snorlax", primera);		
-	//ASSERT(!hola.puedoAgregarPokemon(hola.posicion(cero)));
-	hola.moverse(cinco, octava);
-	hola.moverse(cinco, octava);
-	hola.moverse(cinco, octava);
-	hola.moverse(cinco, octava);
-	hola.moverse(cinco, octava);
-	hola.moverse(cinco, octava);
-	//cout << hola.CantMovimientosParaCaptura(primera)<<endl;
-	hola.moverse(cinco, octava);
-	hola.moverse(cinco, octava);
-	//cout << hola.CantMovimientosParaCaptura(primera)<<endl;
-	hola.moverse(cinco, octava);	
-	hola.moverse(cinco, octava);
-	ASSERT(hola.pokemons(cuatro).Definido("torchit"));
-	ASSERT(hola.pokemons(tres).Definido("snorlax"));	
-	//ASSERT(!hola.pokemons(dos).HaySiguiente());
-	//ASSERT(!hola.pokemons(uno).HaySiguiente());
-	ASSERT(hola.puedoAgregarPokemon(existe));
-	ASSERT(hola.puedoAgregarPokemon(primera));
-	hola.agregarPokemon("gabumon", primera);
-	ASSERT(!hola.puedoAgregarPokemon(hola.posicion(cero)));
-	hola.moverse(cinco, octava);
-	hola.moverse(cinco, octava);
-	hola.moverse(cinco, octava);
-	hola.moverse(cinco, octava);
-	hola.moverse(cinco, octava);
-	hola.moverse(cinco, octava);
-	//cout << hola.CantMovimientosParaCaptura(primera)<<endl;
-	hola.moverse(cinco, octava);
-	hola.moverse(cinco, octava);
-	//cout << hola.CantMovimientosParaCaptura(primera)<<endl;
-	hola.moverse(cinco, octava);
-	hola.moverse(cinco, octava);
-	ASSERT(hola.pokemons(cuatro).Definido("torchit"));	
-	ASSERT(hola.pokemons(tres).Definido("snorlax"));
-	ASSERT(hola.pokemons(dos).Definido("gabumon"));
-	//ASSERT(!hola.pokemons(uno).HaySiguiente());
-	ASSERT(hola.puedoAgregarPokemon(existe));
-	ASSERT(hola.puedoAgregarPokemon(primera));
-	hola.agregarPokemon("mew", primera);
-	ASSERT(!hola.puedoAgregarPokemon(hola.posicion(cero)));
-	hola.moverse(cinco, octava);
-	hola.moverse(cinco, octava);
-	hola.moverse(cinco, octava);
-	hola.moverse(cinco, octava);
-	hola.moverse(cinco, octava);
-	hola.moverse(cinco, octava);
-	//cout << hola.CantMovimientosParaCaptura(primera)<<endl;
-	hola.moverse(cinco, octava);
-	hola.moverse(cinco, octava);
-	//cout << hola.CantMovimientosParaCaptura(primera)<<endl;
-	hola.moverse(cinco, octava);
-	hola.moverse(cinco, octava);
-	ASSERT(hola.pokemons(cuatro).Definido("torchit"));
-	ASSERT(hola.pokemons(tres).Definido("snorlax"));
-	ASSERT(hola.pokemons(dos).Definido("gabumon"));
-	ASSERT(hola.pokemons(uno).Definido("mew"));
-	ASSERT(hola.puedoAgregarPokemon(existe));
-	ASSERT(hola.puedoAgregarPokemon(primera));
-	
-	
+//	cout << hola.CantMovimientosParaCaptura(primera)<<endl;
+//	hola.moverse(cinco, octava);
+////	cout << hola.CantMovimientosParaCaptura(primera)<<endl;
+//	hola.moverse(cinco, octava);
+////	cout << hola.CantMovimientosParaCaptura(primera)<<endl;
+//	hola.moverse(cinco, octava);
+////	cout << hola.CantMovimientosParaCaptura(primera)<<endl;
+//	hola.moverse(cinco, octava);
+////	cout << hola.CantMovimientosParaCaptura(primera)<<endl;
+//	hola.moverse(cinco, octava);
+////	cout << hola.CantMovimientosParaCaptura(primera)<<endl;
+//	hola.moverse(cinco, octava);
+////	cout << hola.CantMovimientosParaCaptura(primera)<<endl;
+//	hola.moverse(cinco, octava);
+////	cout << hola.CantMovimientosParaCaptura(primera)<<endl;
+//	hola.moverse(cinco, octava);
+////	cout << hola.CantMovimientosParaCaptura(primera)<<endl;
+//	hola.moverse(cinco, octava);
+//	cout << hola.CantMovimientosParaCaptura(primera)<<endl;
+//	ASSERT(primera.distEuclidea(cuarta)<= 4);
+//	ASSERT(hola.Pokemons(cuatro).SiguienteClave() == "torchit");
+//	ASSERT(!hola.HayPokemonCercano(hola.posicion(uno)));
+//	ASSERT(hola.puedoAgregarPokemon(existe));
 	
 	
 	
 	
 	
 }
-
-void generarCaptura(Driver& d,Nat e,Coordenada c){
-	d.moverse(e,c);
-	d.moverse(e,c);
-	d.moverse(e,c);
-	d.moverse(e,c);
-	d.moverse(e,c);
-	d.moverse(e,c);
-	d.moverse(e,c);
-	d.moverse(e,c);
-	d.moverse(e,c);
-	d.moverse(e,c);
-}
-
-void luis(){
-	Mapa m;
-	Coordenada existe(0,0);
-	Coordenada primera(1,1);
-	Coordenada segunda(1,2);
-	Coordenada tercera(5, 5);
-	Coordenada cuarta(1,3);
-	Coordenada quinta(1, 4);
-	Coordenada sexta(1, 5);
-	Coordenada septima(1, 6);
-	Coordenada octava(1,7);
-	Coordenada novena(1,8);
-	Coordenada decima(1,9);
-//	Coordenada onceava(5,6);
-	Conj<Coordenada> cs;
-	cs.Agregar(existe);
-	cs.Agregar(primera);
-	cs.Agregar(segunda);
-	cs.Agregar(tercera);
-	cs.Agregar(cuarta);
-	cs.Agregar(quinta);
-	cs.Agregar(sexta);
-	cs.Agregar(septima);
-	cs.Agregar(octava);
-	cs.Agregar(novena);
-	cs.Agregar(decima);
-	Driver juego(cs);
-	cout <<"empieza el juego" <<endl;
-	Nat ash= juego.agregarJugador();
-	Nat gary= juego.agregarJugador();
-	Nat alan= juego.agregarJugador();
-	Nat korina= juego.agregarJugador();
-	Nat shota = juego.agregarJugador();
-	juego.conectarse(ash,primera);
-	juego.conectarse(gary,primera);
-	juego.conectarse(alan,tercera);
-	juego.conectarse(korina,sexta);
-	juego.conectarse(shota,decima);
-	juego.agregarPokemon("umbreon",primera);
-	cout <<"empieza el juego1" <<endl;
-	juego.agregarPokemon("charizard",tercera);
-	cout <<"empieza el juego2" <<endl;
-	juego.agregarPokemon("lucario",sexta);
-	cout <<"empieza el juego3" <<endl;
-	juego.agregarPokemon("sceptile",decima);
-	cout <<"empieza el juego4" <<endl;
-	generarCaptura(juego,ash,primera);
-	/*juego.moverse(ash, primera);
-	juego.moverse(ash,primera);
-	juego.moverse(ash,primera);
-	juego.moverse(ash,primera);
-	juego.moverse(ash, primera);
-	juego.moverse(ash, primera);
-	juego.moverse(ash, primera);
-	juego.moverse(ash, primera);
-	juego.moverse(ash, primera);
-	juego.moverse(ash, primera);*/
-
-	cout <<"empieza el juego5" <<endl;
-	
-}
-
-
-
-void habra_camino(){
-	Mapa m;
-	Coordenada existe(0,0);
-	Coordenada primera(1,1);
-	Coordenada segunda(1,2);
-	Coordenada tercera(5, 5);
-	Coordenada cuarta(1,3);
-	Coordenada quinta(1, 4);
-	Coordenada sexta(1, 5);
-	Coordenada septima(1, 6);
-	Coordenada octava(1,7);
-	Coordenada novena(1,8);
-	Coordenada decima(1,9);
-//	Coordenada onceava(5,6);
-	Conj<Coordenada> cs;
-	cs.Agregar(existe);
-	cs.Agregar(primera);
-	cs.Agregar(segunda);
-	cs.Agregar(tercera);
-	cs.Agregar(cuarta);
-	cs.Agregar(quinta);
-	cs.Agregar(sexta);
-	cs.Agregar(septima);
-	cs.Agregar(octava);
-	cs.Agregar(novena);
-	cs.Agregar(decima);
-	Driver juego(cs);
-ASSERT(juego.hayCamino(primera, segunda));
-ASSERT	(juego.hayCamino(primera, cuarta));
-ASSERT	(juego.hayCamino(segunda,cuarta));
-ASSERT(juego.hayCamino(primera, sexta));
-ASSERT(juego.hayCamino(segunda,sexta));
-ASSERT(	juego.hayCamino(cuarta,sexta));
-ASSERT(juego.hayCamino(quinta, primera));
-ASSERT(	juego.hayCamino(primera, decima));
-ASSERT(juego.hayCamino(octava, segunda));
-ASSERT(juego.hayCamino(tercera, primera)==false);
-	/*cout <<"empieza el juego" <<endl;
-	Nat ash= juego.agregarJugador();
-	Nat gary= juego.agregarJugador();
-	Nat alan= juego.agregarJugador();
-	Nat korina= juego.agregarJugador();
-	Nat shota = juego.agregarJugador();
-	juego.conectarse(ash,primera);
-	juego.conectarse(gary,primera);
-	juego.conectarse(alan,tercera);
-	juego.conectarse(korina,sexta);
-	juego.conectarse(shota,decima);
-	juego.agregarPokemon("umbreon",primera);
-	cout <<"empieza el juego1" <<endl;
-	juego.agregarPokemon("charizard",tercera);
-	cout <<"empieza el juego2" <<endl;
-	juego.agregarPokemon("lucario",sexta);
-	cout <<"empieza el juego3" <<endl;
-	juego.agregarPokemon("sceptile",decima);
-	cout <<"empieza el juego4" <<endl;
-	generarCaptura(juego,ash,primera);
-	/*juego.moverse(ash, primera);
-	juego.moverse(ash,primera);
-	juego.moverse(ash,primera);
-	juego.moverse(ash,primera);
-	juego.moverse(ash, primera);
-	juego.moverse(ash, primera);
-	juego.moverse(ash, primera);
-	juego.moverse(ash, primera);
-	juego.moverse(ash, primera);
-	juego.moverse(ash, primera);*/
-
-	cout <<"empieza el juego5" <<endl;
-	
-}
-
-
-
-void Jugadores_Son(){
-	Mapa m;
-	Coordenada existe(0,0);
-	Coordenada primera(1,1);
-	Coordenada segunda(1,2);
-	Coordenada tercera(5, 5);
-	Coordenada cuarta(1,3);
-	Coordenada quinta(1, 4);
-	Coordenada sexta(1, 5);
-	Coordenada septima(1, 6);
-	Coordenada octava(1,7);
-	Coordenada novena(1,8);
-	Coordenada decima(1,9);
-//	Coordenada onceava(5,6);
-	Conj<Coordenada> cs;
-	cs.Agregar(existe);
-	cs.Agregar(primera);
-	cs.Agregar(segunda);
-	cs.Agregar(tercera);
-	cs.Agregar(cuarta);
-	cs.Agregar(quinta);
-	cs.Agregar(sexta);
-	cs.Agregar(septima);
-	cs.Agregar(octava);
-	cs.Agregar(novena);
-	cs.Agregar(decima);
-	Driver juego(cs);
-	cout <<"empieza el juego" <<endl;
-	/*Nat ash= juego.agregarJugador();
-	Nat gary= juego.agregarJugador();
-	Nat alan= juego.agregarJugador();
-	Nat korina= juego.agregarJugador();
-	Nat shota = juego.agregarJugador();
-	ASSERT(juego.jugadores().Pertenece(ash));
-	ASSERT(juego.jugadores().Pertenece(alan));
-	ASSERT(juego.jugadores().Pertenece(gary));
-	ASSERT(juego.jugadores().Pertenece(korina));
-	ASSERT(juego.jugadores().Pertenece(shota));
-	juego.conectarse(ash,primera);*/
-	int i=0;
-	while(i<100){
-		juego.agregarJugador();
-		i++;
-	}
-	Conj<Nat> jug = juego.jugadores();
-	Conj<Nat>::Iterador it = jug.CrearIt();
-	while(it.HaySiguiente()){
-		cout << it.Siguiente() <<endl;
-		it.Avanzar();
-	}
-	juego.conectarse(1,tercera);
-	juego.conectarse(0,primera);
-	juego.agregarPokemon("snorlax", primera);	
-	cout << juego.posPokemonCercano(segunda).latitud() << "  " <<juego.posPokemonCercano(segunda).longitud() <<endl;
-	cout << juego.posPokemonCercano(primera).latitud() << "  " <<juego.posPokemonCercano(primera).longitud() <<endl;
-	cout << juego.posPokemonCercano(cuarta).latitud() << "  " <<juego.posPokemonCercano(cuarta).longitud() <<endl;
-	generarCaptura(juego,1,tercera);
-
-	juego.agregarPokemon("greninja", segunda);
-	cout << juego.posPokemonCercano(segunda).latitud() << "  " <<juego.posPokemonCercano(segunda).longitud() <<endl;
-	cout << juego.posPokemonCercano(primera).latitud() << "  " <<juego.posPokemonCercano(primera).longitud() <<endl;
-	cout << juego.posPokemonCercano(cuarta).latitud() << "  " <<juego.posPokemonCercano(cuarta).longitud() <<endl;
-	/*juego.conectarse(gary,primera);
-	juego.conectarse(alan,tercera);
-	juego.conectarse(korina,sexta);
-	juego.conectarse(shota,decima);*/
-	//typename Juego::const_Iterador it = juego.CrearIt();
-
-	//ASSERT(juego.jugadores().EsVacio() == false);
-	//ASSERT(juego.Jugadores().Siguiente()== ash);
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1510,10 +1207,7 @@ void Jugadores_Son(){
 
 
 int main() {
-	RUN_TEST(Jugadores_Son);
-	/*RUN_TEST(luis);
-	RUN_TEST(habra_camino);
-	RUN_TEST(compila);
+	/*RUN_TEST(compila);
 	RUN_TEST(AgregaJugador);
 	RUN_TEST(conectar);
 	RUN_TEST(desconectar);
@@ -1533,8 +1227,8 @@ int main() {
 	RUN_TEST(me_muevo_esperando);
 	RUN_TEST(indiceDeRareza);
 	RUN_TEST(cuatro_capturas);
-	RUN_TEST(lonely_soldier_boy);
-	RUN_TEST(posPokemonCercano);*/
+	RUN_TEST(lonely_soldier_boy);*/
+	RUN_TEST(posPokemonCercano);
 	return 0;
 }
 

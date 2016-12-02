@@ -583,7 +583,8 @@ bool Coladeprioridad<T>::Iterador::HaySiguiente(){
   //aca va el sifht up de agregar
   ultpadre = ultimo->padre;
   if(ultimo -> padre != NULL){          
-    while((ultimo -> dato < ( ultpadre -> dato)) and (ultimo->padre != NULL)){          
+    //while((ultimo -> dato < ( ultpadre -> dato)) and (ultimo->padre != NULL)){ 
+    while( (ultimo->padre != NULL)   and (ultimo -> dato < ((ultimo->padre) -> dato))  ){         
       (*ultimo).swap(ultimo->padre);
     }      
   } 

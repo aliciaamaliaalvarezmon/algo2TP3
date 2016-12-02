@@ -27,6 +27,9 @@ namespace aed2
         //~Juego();
 	 //bool EstaParaCaptura(Coordenada c);
 	  Nat AgregarJugador();
+	  Coordenada BuscarHeapDriver(Coordenada c) const;
+
+		bool HayPokemonCercanoDriver(Coordenada c) const;
 
 	  bool puedoAgregarPokemon(Coordenada c) const;
 
@@ -41,6 +44,10 @@ namespace aed2
        Mapa VerMapa() const;
 
        Juego::const_Iterador Jugadores();
+
+       Conj<Nat> losjugadores()const;
+
+       //Conj<Nat> JugadoresConj(typename Juego::const_Iterador& it) const;
 
        bool estaConectado(Nat e) const;
 
@@ -239,6 +246,8 @@ namespace aed2
       	Nat Siguiente();
 
      	void Avanzar();
+
+     	Conj<Nat> Siguientes() const ;
 
       	//Iterador borrarSiguiente();//toma un iterador, lo inicializa con la cola que lo llamo, y agrega.
 
